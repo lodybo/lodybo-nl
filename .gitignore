@@ -1,0 +1,14 @@
+node_modules
+
+/.cache
+/build
+/public/build
+.env
+
+# Test data
+ghost/
+
+# CSS
+/app/styles/tailwind.css
+
+.idea
