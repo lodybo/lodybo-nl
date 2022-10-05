@@ -3,7 +3,7 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "docker": "docker run -d --name lodybo-ghost -p 3001:2368 -v /Users/lodyborgers/dev/other/blog/ghost/content:/var/lib/ghost/content ghost:alpine",
+    "docker": "docker run -d --name lodybo-ghost -e NODE_ENV=development -p 3001:2368 -v /Users/lodyborgers/dev/other/blog/ghost/content:/var/lib/ghost/content ghost:alpine",
     "dev": "run-p dev:*",
     "dev:remix": "remix dev",
     "dev:css": "npm run generate:css -- --watch",
