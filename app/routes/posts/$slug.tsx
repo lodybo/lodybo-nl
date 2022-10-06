@@ -2,14 +2,16 @@ import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { getPost } from '~/api/posts';
-import invariant from 'tiny-invariant';
+import { notFound } from 'remix-utils';
 
 export const loader = async ({ params }: LoaderArgs) => {
   const { slug } = params;
-  invariant(!!slug, 'Slug is required');
 
-  const post = await getPost(slug);
-  invariant(!!post, `No post found with slug ${slug}`);
+  const post = await getPost(slug!);
+
+  if (!post) {
+    throw notFound({});
+  }
 
   return json({ post, });
 };
@@ -31,5 +33,11 @@ export default function Post() {
 
       <div dangerouslySetInnerHTML={{ __html: post.html || '' }} />
     </div>
+  );
+}
+
+export function CatchBoundary() {
+  return (
+    <h1>Post not found</h1>
   );
 }
