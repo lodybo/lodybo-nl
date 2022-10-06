@@ -1,7 +1,7 @@
 import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { getPost } from '~/api/posts';
+import { getPost } from '~/models/posts.server';
 import { notFound } from 'remix-utils';
 
 export const loader = async ({ params }: LoaderArgs) => {

@@ -1,7 +1,7 @@
-import { api } from './client';
+import { ghost } from '~/ghost.server';
 
-export async function getPosts() {
-  return await api.posts
+export async function getPages() {
+  return await ghost.pages
     .browse({
       limit: "all"
     })
@@ -10,8 +10,8 @@ export async function getPosts() {
     });
 }
 
-export async function getPost(slug: string) {
-  return await api.posts
+export async function getPage(slug: string) {
+  return await ghost.pages
     .read({
       slug,
     })
