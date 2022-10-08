@@ -19,16 +19,12 @@ export const loader = async ({ params }: LoaderArgs) => {
 export default function Post() {
   const { post } = useLoaderData<typeof loader>();
 
-  if (post === undefined) {
-    return (
-      <div className="prose">
-        <h1>No post found.</h1>
-      </div>
-    );
-  }
-
   return (
-    <div className="prose">
+    <div className="prose mx-auto">
+      { post.feature_image && (
+        <img src={post.feature_image} alt={post.feature_image_alt || post.title} />
+      )}
+
       <h1>{post.title}</h1>
 
       <div dangerouslySetInnerHTML={{ __html: post.html || '' }} />
