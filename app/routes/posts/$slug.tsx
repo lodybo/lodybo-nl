@@ -20,7 +20,7 @@ export default function Post() {
   const { post } = useLoaderData<typeof loader>();
 
   return (
-    <div className="prose mx-auto">
+    <div className="prose max-w-3xl mx-auto">
       { post.feature_image && (
         <img src={post.feature_image} alt={post.feature_image_alt || post.title} />
       )}

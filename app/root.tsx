@@ -35,9 +35,9 @@ export default function App() {
     <html lang="en">
       <head>
         <Meta />
-        <Links />
         <link rel="stylesheet" href={cardsCssUrl} />
         <script defer src={cardsScriptUrl} />
+        <Links />
       </head>
       <body>
         <Outlet />

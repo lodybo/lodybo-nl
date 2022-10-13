@@ -35,3 +35,17 @@
   margin-left: -50vw;
   margin-right: -50vw;
 }
+
+.kg-bookmark-title {
+  font-size: 1rem;
+}
+
+.kg-bookmark-description,
+.kg-bookmark-metadata {
+  font-size: 0.8rem;
+}
+
+.kg-bookmark-container img {
+  margin-top: 0;
+  margin-bottom: 0;
+}
