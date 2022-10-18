@@ -2,7 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --ghost-accent-color: theme(colors.primary.400);
+}
+
+@layer base {
+  code, kbd, pre, samp {
+    font-variation-settings: "MONO" 1;
+  }
+
+  .prose p {
+    font-variation-settings: "wght" 345;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    font-variation-settings: "MONO" 0.5, "wght" 760;
+  }
+}
+
 @layer utilities {
+  .prose-2xl :where(code):not(:where([class~=not-prose] *)) {
+    font-size: 1.3rem;
+  }
+
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -48,4 +75,8 @@
 .kg-bookmark-container img {
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.kg-callout-card div.kg-callout-text {
+  font-variation-settings: "slnt" -5.9, "CRSV" 1, "CASL" 1;
 }

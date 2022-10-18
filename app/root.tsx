@@ -7,9 +7,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData
+  useLoaderData,
 } from '@remix-run/react';
 import tailwindStylesheetUrl from './styles/tailwind.css';
+import { recursiveFontDeclaration, recursiveFontURL } from '~/assets/fonts';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -18,6 +19,16 @@ export const meta: MetaFunction = () => ({
 });
 
 export const links: LinksFunction = () => ([
+  {
+    rel: 'preload',
+    href: recursiveFontURL,
+    as: 'font',
+    type: 'font/woff2',
+    crossOrigin: 'anonymous',
+  },
+  {
+    rel: 'stylesheet', href: '/prism/prism-1.29.0.css',
+  },
   { rel: 'stylesheet', href: tailwindStylesheetUrl },
 ]);
 
@@ -35,14 +46,16 @@ export default function App() {
     <html lang="en">
       <head>
         <Meta />
+        <style dangerouslySetInnerHTML={{ __html: `${recursiveFontDeclaration}`}} />
         <link rel="stylesheet" href={cardsCssUrl} />
-        <script defer src={cardsScriptUrl} />
         <Links />
       </head>
       <body>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
+        <script src="/prism/prism-1.29.0.js" data-manual />
+        <script src={cardsScriptUrl} />
         <LiveReload />
       </body>
     </html>

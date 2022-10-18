@@ -3,6 +3,9 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
+    "setup": "run-p docker link-fonts",
+    "link-fonts": "run-p link-fonts:*",
+    "link-fonts:normal": "ln node_modules/@fontsource/recursive/files/recursive-latin-variable-full-normal.woff2 app/assets/fonts/recursive",
     "docker": "docker run -d --name lodybo-ghost -e NODE_ENV=development -e url=http://localhost:3001 -p 3001:2368 -v /Users/lodyborgers/dev/other/blog/ghost/content:/var/lib/ghost/content ghost:alpine",
     "dev": "run-p dev:*",
     "dev:remix": "remix dev",
@@ -12,6 +15,7 @@
     "generate:css": "tailwindcss -m -i ./app/styles/app.css -o ./app/styles/tailwind.css"
   },
   "dependencies": {
+    "@fontsource/recursive": "^4.5.11",
     "@remix-run/node": "^1.6.8",
     "@remix-run/react": "^1.6.8",
     "@remix-run/serve": "^1.6.8",
