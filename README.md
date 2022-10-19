@@ -22,3 +22,7 @@ To update the Ghost version in the Docker image, you need to
 - Empty the `./ghost/content` folder.
 - Run `npm run docker`, which will pull the latest version from Docker Hub.
 - Import the exported database dump.
+
+## Themes
+Ideas for themes:
+- bg: `skyblue`, text: `#092a40`

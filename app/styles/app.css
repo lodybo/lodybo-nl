@@ -9,18 +9,20 @@
 @layer base {
   code, kbd, pre, samp {
     font-variation-settings: "MONO" 1;
+    font-variant-ligatures: common-ligatures;
   }
 
-  .prose p {
+  html {
     font-variation-settings: "wght" 345;
+    font-variant-ligatures: common-ligatures;
   }
 
-  .prose h1,
-  .prose h2,
-  .prose h3,
-  .prose h4,
-  .prose h5,
-  .prose h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-variation-settings: "MONO" 0.5, "wght" 760;
   }
 }

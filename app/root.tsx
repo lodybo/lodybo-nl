@@ -43,7 +43,7 @@ export default function App() {
   const { cardsScriptUrl, cardsCssUrl } = useLoaderData<typeof loader>();
 
   return (
-    <html lang="en">
+    <html lang="en" className="font-recursive">
       <head>
         <Meta />
         <style dangerouslySetInnerHTML={{ __html: `${recursiveFontDeclaration}`}} />
