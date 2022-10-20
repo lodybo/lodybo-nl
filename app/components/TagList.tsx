@@ -2,7 +2,7 @@ import type { Tag } from '@tryghost/content-api';
 import AnchorLink from '~/components/AnchorLink';
 
 type Props = {
-  tags: Tag[] | undefined,
+  tags: Tag[] | undefined;
 };
 
 const TagList = ({ tags }: Props) => {
@@ -13,13 +13,13 @@ const TagList = ({ tags }: Props) => {
   return (
     <ul className="flex flex-row gap-2">
       <li>Filed under:</li>
-      { tags.map(({ id, slug, name}) => (
+      {tags.map(({ id, slug, name }) => (
         <li key={id}>
-          <AnchorLink to={`/tags/${slug}`}>{ name }</AnchorLink>
+          <AnchorLink to={`/topics/${slug}`}>{name}</AnchorLink>
         </li>
-      )) }
+      ))}
     </ul>
   );
-}
+};
 
 export default TagList;

@@ -18,7 +18,7 @@ export const meta: MetaFunction = () => ({
   viewport: 'width=device-width,initial-scale=1',
 });
 
-export const links: LinksFunction = () => ([
+export const links: LinksFunction = () => [
   {
     rel: 'preload',
     href: recursiveFontURL,
@@ -27,17 +27,18 @@ export const links: LinksFunction = () => ([
     crossOrigin: 'anonymous',
   },
   {
-    rel: 'stylesheet', href: '/prism/prism-1.29.0.css',
+    rel: 'stylesheet',
+    href: '/prism/prism-1.29.0.css',
   },
   { rel: 'stylesheet', href: tailwindStylesheetUrl },
-]);
+];
 
 export const loader = async () => {
   return json({
-    cardsScriptUrl: `${ process.env.GHOST_URL }/public/cards.min.js`,
-    cardsCssUrl: `${ process.env.GHOST_URL }/public/cards.min.css`,
-  })
-}
+    cardsScriptUrl: `${process.env.GHOST_URL}/public/cards.min.js`,
+    cardsCssUrl: `${process.env.GHOST_URL}/public/cards.min.css`,
+  });
+};
 
 export default function App() {
   const { cardsScriptUrl, cardsCssUrl } = useLoaderData<typeof loader>();
@@ -46,7 +47,9 @@ export default function App() {
     <html lang="en" className="font-recursive">
       <head>
         <Meta />
-        <style dangerouslySetInnerHTML={{ __html: `${recursiveFontDeclaration}`}} />
+        <style
+          dangerouslySetInnerHTML={{ __html: `${recursiveFontDeclaration}` }}
+        />
         <link rel="stylesheet" href={cardsCssUrl} />
         <Links />
       </head>

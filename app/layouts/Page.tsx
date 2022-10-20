@@ -9,9 +9,7 @@ const PageLayout = ({ children }: Props) => (
   <div>
     <Header />
 
-    <div className="">
-      { children }
-    </div>
+    <div>{children}</div>
   </div>
 );
 

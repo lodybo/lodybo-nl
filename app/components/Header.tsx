@@ -5,9 +5,12 @@ const Header = () => {
     <div className="border-b mb-10 py-5 px-10 flex flex-row justify-between">
       <h1>Lodybo</h1>
 
-      <ul>
+      <ul className="flex flex-row gap-5">
         <li>
           <Link to="/posts">Posts</Link>
+        </li>
+        <li>
+          <Link to="/topics">Topics</Link>
         </li>
       </ul>
     </div>
