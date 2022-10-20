@@ -4,6 +4,7 @@ import { notFound } from 'remix-utils';
 import PostList from '~/components/PostList';
 import { getPosts } from '~/models/posts.server';
 import ListPageLayout from '~/layouts/ListPage';
+import ErrorBoundaryComponent from '~/components/ErrorBoundary';
 
 export const loader = async () => {
   const posts = await getPosts();
@@ -43,3 +44,5 @@ export function CatchBoundary() {
     </ListPageLayout>
   );
 }
+
+export const ErrorBoundary = ErrorBoundaryComponent;

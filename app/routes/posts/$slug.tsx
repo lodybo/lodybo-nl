@@ -5,6 +5,9 @@ import { useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
 import PageLayout from '~/layouts/Page';
 import { getPost } from '~/models/posts.server';
+import PostMeta from '~/components/PostMeta';
+import { formatDate, formatReadingTime } from '~/utils/formats';
+import ErrorBoundaryComponent from '~/components/ErrorBoundary';
 
 export const loader = async ({ params }: LoaderArgs) => {
   const { slug } = params;
@@ -15,11 +18,13 @@ export const loader = async ({ params }: LoaderArgs) => {
     throw notFound({});
   }
 
-  return json({ post, });
+  return json({ post });
 };
 
 export default function Post() {
   const { post } = useLoaderData<typeof loader>();
+  const publishedAt = formatDate(post.published_at);
+  const readingTime = formatReadingTime(post.reading_time);
 
   useEffect(() => {
     (window as any).Prism.highlightAll();
@@ -27,7 +32,8 @@ export default function Post() {
 
   return (
     <PageLayout>
-      <div className="
+      <div
+        className="
         prose
         prose-2xl
         max-w-5xl
@@ -38,12 +44,26 @@ export default function Post() {
         prose-a:transition-all
         hover:prose-a:border-b-primary-700
         mx-auto
-      ">
-        { post.feature_image && (
-          <img src={post.feature_image} alt={post.feature_image_alt || post.title} />
+      "
+      >
+        {post.feature_image && (
+          <div className="not-prose kg-width-full">
+            <img
+              className="w-full"
+              src={post.feature_image}
+              alt={post.feature_image_alt || post.title}
+            />
+          </div>
         )}
 
-        <h1>{post.title}</h1>
+        <h1 className="mt-16">{post.title}</h1>
+        <PostMeta
+          mode="full"
+          readingTime={readingTime}
+          publishedAt={publishedAt}
+          updatedAt={post.updated_at}
+          tags={post.tags}
+        />
 
         <div dangerouslySetInnerHTML={{ __html: post.html || '' }} />
       </div>
@@ -51,12 +71,8 @@ export default function Post() {
   );
 }
 
-export function CatchBoundary() {
-  return (
-    <h1>Post not found</h1>
-  );
-}
+export const ErrorBoundary = ErrorBoundaryComponent;
 
-export const handle = {
-  loadPrismJS: true,
-};
+export function CatchBoundary() {
+  return <h1>Post not found</h1>;
+}

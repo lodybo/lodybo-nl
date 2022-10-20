@@ -12,10 +12,13 @@ export function formatDate(input: Nullable<Date> | string | undefined) {
   }
 
   const options: Intl.DateTimeFormatOptions = {
-    year: 'numeric', month: 'long', day: 'numeric',
-    hour: 'numeric', minute: 'numeric',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
     hour12: false,
-    timeZone: 'Europe/Amsterdam'
+    timeZone: 'Europe/Amsterdam',
   };
 
   return new Intl.DateTimeFormat('en', options).format(date);
@@ -24,7 +27,7 @@ export function formatDate(input: Nullable<Date> | string | undefined) {
 export function formatReadingTime(readingTime: number | undefined) {
   if (!readingTime) return;
 
-  if (readingTime > 2) {
+  if (readingTime < 2) {
     return 'Only a minute';
   }
 

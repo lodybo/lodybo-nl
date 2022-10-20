@@ -1,9 +1,8 @@
-import { Link } from '@remix-run/react';
 import type { PostOrPage } from '@tryghost/content-api';
-import classNames from 'classnames';
 import { formatDate, formatReadingTime } from '~/utils/formats';
 import TagList from '~/components/TagList';
 import ListItem from '~/components/ListItem';
+import PostMeta from '~/components/PostMeta';
 
 type Props = {
   post: Pick<
@@ -41,10 +40,7 @@ const PostPreview = ({
 
       <TagList tags={tags} />
 
-      <div className="flex flex-row justify-between">
-        {publishedAt && <small>{publishedAt}</small>}
-        <small>{readingTime}</small>
-      </div>
+      <PostMeta readingTime={readingTime} publishedAt={publishedAt} />
     </ListItem>
   );
 };

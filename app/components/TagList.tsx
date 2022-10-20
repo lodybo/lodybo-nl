@@ -1,17 +1,23 @@
 import type { Tag } from '@tryghost/content-api';
+import classnames from 'classnames';
 import AnchorLink from '~/components/AnchorLink';
 
 type Props = {
   tags: Tag[] | undefined;
+  small?: boolean;
 };
 
-const TagList = ({ tags }: Props) => {
+const TagList = ({ small = false, tags }: Props) => {
   if (!tags || tags.length === 0) {
     return null;
   }
 
   return (
-    <ul className="flex flex-row gap-2">
+    <ul
+      className={classnames('flex flex-row gap-2', {
+        'text-small': small,
+      })}
+    >
       <li>Filed under:</li>
       {tags.map(({ id, slug, name }) => (
         <li key={id}>

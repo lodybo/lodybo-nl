@@ -24,9 +24,14 @@ export function getPostsForTag(tag: string) {
 
 export async function getPost(slug: string) {
   return ghost.posts
-    .read({
-      slug,
-    })
+    .read(
+      {
+        slug,
+      },
+      {
+        include: ['tags'],
+      },
+    )
     .catch((err) => {
       throw new Error(err);
     });
