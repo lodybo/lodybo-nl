@@ -1,16 +1,10 @@
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-  useLoaderData,
-} from '@remix-run/react';
+import { Outlet, useLoaderData } from '@remix-run/react';
 import tailwindStylesheetUrl from './styles/tailwind.css';
-import { recursiveFontDeclaration, recursiveFontURL } from '~/assets/fonts';
+import { recursiveFontURL } from '~/assets/fonts';
+import ListPageLayout from '~/layouts/ListPage';
+import Document from '~/components/Document';
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
@@ -44,23 +38,30 @@ export default function App() {
   const { cardsScriptUrl, cardsCssUrl } = useLoaderData<typeof loader>();
 
   return (
-    <html lang="en" className="font-recursive">
-      <head>
-        <Meta />
-        <style
-          dangerouslySetInnerHTML={{ __html: `${recursiveFontDeclaration}` }}
-        />
-        <link rel="stylesheet" href={cardsCssUrl} />
-        <Links />
-      </head>
-      <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <script src="/prism/prism-1.29.0.js" data-manual />
-        <script src={cardsScriptUrl} />
-        <LiveReload />
-      </body>
-    </html>
+    <Document cardsScriptUrl={cardsScriptUrl} cardsCssUrl={cardsCssUrl}>
+      <Outlet />
+    </Document>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <Document>
+      <ListPageLayout>
+        <div className="prose prose-xl max-w-none">
+          <h1>Oops.. Something went wrong!</h1>
+
+          <p>
+            It's not you, it's us. We encountered an error and reported it.
+            <br />
+            If you're curious, this is what it said:
+          </p>
+
+          <pre className="language-jsstacktrace">
+            <code className="language-jsstacktrace">{error.message}</code>
+          </pre>
+        </div>
+      </ListPageLayout>
+    </Document>
   );
 }

@@ -7,7 +7,6 @@ import PageLayout from '~/layouts/Page';
 import { getPost } from '~/models/posts.server';
 import PostMeta from '~/components/PostMeta';
 import { formatDate, formatReadingTime } from '~/utils/formats';
-import ErrorBoundaryComponent from '~/components/ErrorBoundary';
 
 export const loader = async ({ params }: LoaderArgs) => {
   const { slug } = params;
@@ -70,8 +69,6 @@ export default function Post() {
     </PageLayout>
   );
 }
-
-export const ErrorBoundary = ErrorBoundaryComponent;
 
 export function CatchBoundary() {
   return <h1>Post not found</h1>;
