@@ -1,10 +1,18 @@
 import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Outlet, useLoaderData } from '@remix-run/react';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+  faCalendarDay,
+  faSquarePen,
+  faStopwatch,
+} from '@fortawesome/free-solid-svg-icons';
 import tailwindStylesheetUrl from './styles/tailwind.css';
 import { recursiveFontURL } from '~/assets/fonts';
 import ListPageLayout from '~/layouts/ListPage';
 import Document from '~/components/Document';
+
+library.add(faCalendarDay, faSquarePen, faStopwatch);
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',

@@ -1,6 +1,7 @@
 import type { Nullable, Tag } from '@tryghost/content-api';
 import { formatDate } from '~/utils/formats';
 import TagList from '~/components/TagList';
+import IconLabel from '~/components/IconLabel';
 
 type GenericProps = {
   mode?: 'small' | 'full';
@@ -30,9 +31,30 @@ const PostMeta = (props: Props) => {
     return (
       <div className="not-prose flex flex-col gap-2 border-b border-b-slate-300 pb-2.5">
         <div className="flex flex-row justify-between">
-          <small>{publishedAt}</small>
-          <small>{formattedUpdatedDate}</small>
-          <small>{readingTime}</small>
+          <small>
+            <IconLabel
+              title={`Published on ${publishedAt}`}
+              name="calendar-day"
+            >
+              {publishedAt}
+            </IconLabel>
+          </small>
+          <small className="flex flex-row gap-2.5 items-baseline">
+            <IconLabel
+              title={`Updated on ${formattedUpdatedDate}`}
+              name="square-pen"
+            >
+              {formattedUpdatedDate}
+            </IconLabel>
+          </small>
+          <small>
+            <IconLabel
+              title={`Estimated reading time ${readingTime}`}
+              name="stopwatch"
+            >
+              {readingTime}
+            </IconLabel>
+          </small>
         </div>
 
         <div className="flex flex-row justify-between">
@@ -44,8 +66,19 @@ const PostMeta = (props: Props) => {
 
   return (
     <div className="not-prose flex flex-row justify-between">
-      <small>{publishedAt}</small>
-      <small>{readingTime}</small>
+      <small>
+        <IconLabel title={`Published on ${publishedAt}`} name="calendar-day">
+          {publishedAt}
+        </IconLabel>
+      </small>
+      <small>
+        <IconLabel
+          title={`Estimated reading time ${readingTime}`}
+          name="stopwatch"
+        >
+          {readingTime}
+        </IconLabel>
+      </small>
     </div>
   );
 };
