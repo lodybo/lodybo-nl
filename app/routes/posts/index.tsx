@@ -19,6 +19,8 @@ export const loader = async () => {
       published_at: post.published_at,
       excerpt: post.excerpt,
       featured: post.featured,
+      feature_image: post.feature_image,
+      feature_image_alt: post.feature_image_alt,
       reading_time: post.reading_time,
       slug: post.slug,
       title: post.title,

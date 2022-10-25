@@ -1,9 +1,21 @@
 import { ghost } from '~/ghost.server';
 
-export async function getPosts() {
+export function getPosts() {
   return ghost.posts
     .browse({
       limit: 'all',
+      include: ['tags'],
+    })
+    .catch((err) => {
+      throw new Error(err);
+    });
+}
+
+export function getRecentPosts(count: number = 5) {
+  return ghost.posts
+    .browse({
+      limit: 5,
+      order: 'published_at DESC',
       include: ['tags'],
     })
     .catch((err) => {

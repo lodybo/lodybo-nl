@@ -7,12 +7,13 @@ type Props = {
   description?: Nullable<string>;
   image?: Nullable<string>;
   posts: PostOrPage[];
+  grid?: boolean;
 };
 
-const PostList = ({ title, description, image, posts }: Props) => (
-  <List title={title} description={description} image={image}>
+const PostList = ({ title, description, image, posts, grid }: Props) => (
+  <List title={title} description={description} image={image} grid={grid}>
     {posts.map((post) => (
-      <PostPreview key={post.id} post={post} />
+      <PostPreview key={post.id} post={post} grid={grid} />
     ))}
   </List>
 );

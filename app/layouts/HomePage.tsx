@@ -6,14 +6,14 @@ type Props = {
   children: ReactNode;
 };
 
-const PageLayout = ({ children }: Props) => (
+const HomePageLayout = ({ children }: Props) => (
   <div className="flex flex-col min-h-screen">
     <Header />
 
-    <div className="flex-1 mb-10">{children}</div>
+    <div className="my-10 px-40 mx-auto flex-1">{children}</div>
 
     <Footer />
   </div>
 );
 
-export default PageLayout;
+export default HomePageLayout;

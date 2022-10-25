@@ -5,16 +5,17 @@ import AnchorLink from '~/components/AnchorLink';
 type Props = {
   tags: Tag[] | undefined;
   small?: boolean;
+  className?: string;
 };
 
-const TagList = ({ small = false, tags }: Props) => {
+const TagList = ({ tags, small = false, className = '' }: Props) => {
   if (!tags || tags.length === 0) {
     return null;
   }
 
   return (
     <ul
-      className={classnames('flex flex-row gap-2', {
+      className={classnames('flex flex-row gap-2', className, {
         'text-small': small,
       })}
     >

@@ -1,12 +1,27 @@
-import Page from '~/layouts/Page';
+import { json } from '@remix-run/node';
+import { useLoaderData } from '@remix-run/react';
 
 import lody from '~/assets/images/lody.svg';
+
 import AnchorLink from '~/components/AnchorLink';
+import PostList from '~/components/PostList';
+import Icon from '~/components/Icon';
+import HomePageLayout from '~/layouts/HomePage';
+
+import { getRecentPosts } from '~/models/posts.server';
+
+export const loader = async () => {
+  const posts = await getRecentPosts();
+
+  return json({ posts });
+};
 
 export default function Index() {
+  const { posts } = useLoaderData<typeof loader>();
+
   return (
-    <Page>
-      <div className="w-3/4 mx-auto mt-16 flex flex-row gap-5 h-80">
+    <HomePageLayout>
+      <div className="my-32 flex flex-row gap-5 h-80">
         <img src={lody} alt="Me" />
 
         <div className="h-full flex flex-col gap-4 justify-center">
@@ -21,6 +36,16 @@ export default function Index() {
           </p>
         </div>
       </div>
-    </Page>
+
+      <PostList title="Some recent posts" posts={posts} grid />
+
+      <div className="mt-10 px-5 flex justify-end">
+        <AnchorLink to="/posts">
+          <span className="flex flex-row items-center gap-2 hover:gap-3 transition-all">
+            Read more here <Icon name="arrow-right" />
+          </span>
+        </AnchorLink>
+      </div>
+    </HomePageLayout>
   );
 }

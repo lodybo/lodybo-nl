@@ -2,11 +2,13 @@ import type { Nullable, Tag } from '@tryghost/content-api';
 import { formatDate } from '~/utils/formats';
 import TagList from '~/components/TagList';
 import IconLabel from '~/components/IconLabel';
+import classnames from 'classnames';
 
 type GenericProps = {
   mode?: 'small' | 'full';
   publishedAt?: string;
   readingTime?: string;
+  className?: string;
 };
 
 type SmallMode = GenericProps & {
@@ -29,7 +31,12 @@ const PostMeta = (props: Props) => {
     const formattedUpdatedDate = formatDate(updatedAt);
 
     return (
-      <div className="not-prose flex flex-col gap-2 border-b border-b-slate-300 pb-2.5">
+      <div
+        className={classnames(
+          props.className,
+          'not-prose flex flex-col gap-2 border-b border-b-slate-300 pb-2.5',
+        )}
+      >
         <div className="flex flex-row justify-between">
           <small>
             <IconLabel
@@ -65,7 +72,12 @@ const PostMeta = (props: Props) => {
   }
 
   return (
-    <div className="not-prose flex flex-row justify-between">
+    <div
+      className={classnames(
+        props.className,
+        'not-prose flex flex-row justify-between',
+      )}
+    >
       <small>
         <IconLabel title={`Published on ${publishedAt}`} name="calendar-day">
           {publishedAt}
