@@ -7,6 +7,7 @@ module.exports = {
     fontFamily: {
       mono: 'Recursive, JetBrains Mono, monospace',
     },
+    fontWeight: {},
     extend: {
       colors: {
         primary: colors.teal,
