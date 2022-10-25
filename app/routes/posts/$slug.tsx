@@ -35,6 +35,7 @@ export default function Post() {
         className="
         prose
         prose-2xl
+        leading-loose
         max-w-5xl
         prose-a:no-underline
         prose-a:border-b-2
