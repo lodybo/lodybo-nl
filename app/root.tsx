@@ -7,12 +7,13 @@ import {
   faSquarePen,
   faStopwatch,
 } from '@fortawesome/free-solid-svg-icons';
+import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 import tailwindStylesheetUrl from './styles/tailwind.css';
 import { recursiveFontURL } from '~/assets/fonts';
 import ListPageLayout from '~/layouts/ListPage';
 import Document from '~/components/Document';
 
-library.add(faCalendarDay, faSquarePen, faStopwatch);
+library.add(faCalendarDay, faSquarePen, faStopwatch, faTwitter, faGithub);
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
