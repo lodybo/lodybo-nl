@@ -98,7 +98,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 export function CatchBoundary() {
   const caught = useCatch();
   const data: ErrorRequest = JSON.parse(caught.data);
-  console.log({ data });
+  console.error({ data });
 
   return (
     <ListPageLayout>

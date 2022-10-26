@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from '@remix-run/node';
+import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -7,12 +7,15 @@ import {
   faSquarePen,
   faStopwatch,
   faArrowRight,
+  faMoon,
 } from '@fortawesome/free-solid-svg-icons';
+import { faSun } from '@fortawesome/free-regular-svg-icons';
 import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 import tailwindStylesheetUrl from './styles/tailwind.css';
 import { recursiveFontURL } from '~/assets/fonts';
 import ListPageLayout from '~/layouts/ListPage';
 import Document from '~/components/Document';
+import { userPrefs } from '~/cookies';
 
 library.add(
   faCalendarDay,
@@ -21,6 +24,8 @@ library.add(
   faTwitter,
   faGithub,
   faArrowRight,
+  faSun,
+  faMoon,
 );
 
 export const meta: MetaFunction = () => ({
@@ -44,10 +49,14 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: tailwindStylesheetUrl },
 ];
 
-export const loader = async () => {
+export const loader = async ({ request }: LoaderArgs) => {
+  const cookieHeader = request.headers.get('Cookie');
+  const cookie = (await userPrefs.parse(cookieHeader)) || {};
+
   return json({
     cardsScriptUrl: `${process.env.GHOST_URL}/public/cards.min.js`,
     cardsCssUrl: `${process.env.GHOST_URL}/public/cards.min.css`,
+    darkModeEnabled: cookie.darkModeEnabled,
   });
 };
 
