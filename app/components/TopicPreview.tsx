@@ -17,7 +17,7 @@ const TopicPreview = ({
       />
     )}
 
-    <span className="w-full flex-1 flex flex-col gap-2.5">
+    <span className="w-full flex-1 flex flex-col gap-2.5 text-slate-700 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200">
       <h2 className="text-xl">{name}</h2>
       {description && <p>{description}</p>}
 

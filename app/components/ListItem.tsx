@@ -28,6 +28,8 @@ const ListItem = ({
       'border-l-4': !featured,
       'border-l-slate-200': !featured && !grid,
       'hover:border-l-slate-300': !featured && !grid,
+      'dark:border-l-slate-700': !featured && !grid,
+      'dark:hover:border-l-slate-600': !featured && !grid,
       'hover:border-l-8': !featured && !grid,
       'pl-5': !featured,
       'bg-transparent': !featured,
@@ -36,15 +38,16 @@ const ListItem = ({
       'scale-100': featured || grid,
       'hover:scale-[1.015]': featured || grid,
       'duration-300': featured,
-      'border-2': featured && !grid,
-      'border-slate-200': featured && !grid,
       'shadow-md': featured && !grid,
-      'bg-gradient-to-r from-cyan-200 to-blue-200': featured && !grid,
+      'dark:shadow-slate-700/50': featured && !grid,
+      'bg-gradient-to-r from-teal-50 to-cyan-100': featured && !grid,
+      'dark:bg-gradient-to-r dark:from-teal-800 dark:to-cyan-900': featured,
 
       'border-l-transparent': grid && !featured,
       'p-5': grid,
       'hover:bg-cyan-100': grid,
-      'bg-gradient-to-r from-cyan-100 to-blue-100': grid && featured,
+      'dark:hover:bg-cyan-900': grid,
+      'bg-gradient-to-r from-teal-50 to-cyan-200': grid && featured,
     })}
     key={id}
   >

@@ -56,30 +56,22 @@ const PostPreview = ({
         />
       )}
 
-      <span className="w-full flex-1 flex flex-col gap-2.5">
+      <span
+        className={classnames('w-full flex-1 flex flex-col gap-2.5', {
+          'text-slate-700 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200':
+            !featured,
+          'text-slate-600 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200':
+            featured,
+        })}
+      >
         <h2 className="text-xl">{title}</h2>
-        <p
-          className={classnames(
-            'text-sm text-slate-500 group-hover:text-slate-800',
-            {
-              'text-slate-500': grid,
-              'text-slate-700': !grid,
-            },
-          )}
-        >
-          {excerpt}
-        </p>
+        <p className="text-sm">{excerpt}</p>
 
-        <TagList
-          className="text-slate-500 group-hover:text-slate-600"
-          tags={tags}
-        />
+        <span className="mt-auto flex flex-col gap-2.5">
+          <TagList tags={tags} />
 
-        <PostMeta
-          className="text-slate-500 group-hover:text-slate-500"
-          readingTime={readingTime}
-          publishedAt={publishedAt}
-        />
+          <PostMeta readingTime={readingTime} publishedAt={publishedAt} />
+        </span>
       </span>
     </ListItem>
   );

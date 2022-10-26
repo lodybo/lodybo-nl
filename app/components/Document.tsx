@@ -30,7 +30,7 @@ const Document = ({ children, cardsCssUrl, cardsScriptUrl }: Props) => {
   return (
     <html
       lang="en"
-      className={classnames('font-recursive antialiased', {
+      className={classnames({
         dark,
       })}
     >
@@ -42,7 +42,7 @@ const Document = ({ children, cardsCssUrl, cardsScriptUrl }: Props) => {
         {cardsCssUrl && <link rel="stylesheet" href={cardsCssUrl} />}
         <Links />
       </head>
-      <body>
+      <body className="font-recursive antialiased bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300">
         {children}
         <ScrollRestoration />
         <Scripts />

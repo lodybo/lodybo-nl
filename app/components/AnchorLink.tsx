@@ -10,7 +10,7 @@ type Props = AnchorLinkProps | ExternalAnchorLinkProps;
 
 const AnchorLink = ({ children, ...props }: Props) => {
   const className =
-    'no-underline border-b-2 pb-1 border-b-primary-400 transition-all hover:border-b-primary-700';
+    'no-underline border-b-2 pb-1 transition-all border-b-primary-300 hover:border-b-primary-600 dark:border-b-primary-600 dark:hover:border-b-primary-300';
 
   if ((props as AnchorLinkProps).to) {
     return (
