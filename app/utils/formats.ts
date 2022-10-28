@@ -15,9 +15,6 @@ export function formatDate(input: Nullable<Date> | string | undefined) {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: false,
     timeZone: 'Europe/Amsterdam',
   };
 
