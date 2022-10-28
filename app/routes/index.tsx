@@ -21,12 +21,18 @@ export default function Index() {
 
   return (
     <HomePageLayout>
-      <div className="my-32 flex flex-row gap-5 h-80">
-        <img src={lody} alt="Me" />
+      <div className="mb-16 mt-0 sm:mb-32 md:mt-32 flex flex-col md:flex-row gap-10 md:gap-5 h-full md:h-80">
+        <img
+          className="w-2/3 max-w-[20rem] md:w-auto mx-auto"
+          src={lody}
+          alt="Me"
+        />
 
-        <div className="h-full flex flex-col gap-4 justify-center">
-          <h1 className="text-8xl font-black">Hello, I'm Lody</h1>
-          <p className="text-3xl leading-relaxed font-light">
+        <div className="h-full flex flex-col gap-4 justify-center text-center md:text-left">
+          <h1 className="text-4xl sm:text-6xl xl:text-8xl font-black">
+            Hello, I'm Lody
+          </h1>
+          <p className="text-xl sm:text-3xl leading-relaxed font-light">
             Born and raised in The Netherlands, currently work at{' '}
             <AnchorLink href="https://www.taf.nl">TAF</AnchorLink>, and I
             occasionally{' '}

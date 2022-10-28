@@ -10,7 +10,9 @@ const HomePageLayout = ({ children }: Props) => (
   <div className="flex flex-col min-h-screen">
     <Header />
 
-    <div className="my-10 px-40 mx-auto flex-1">{children}</div>
+    <div className="my-10 px-5 md:px-10 xl:px-40 mx-auto flex-1">
+      {children}
+    </div>
 
     <Footer />
   </div>

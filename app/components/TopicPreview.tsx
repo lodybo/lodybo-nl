@@ -11,7 +11,7 @@ const TopicPreview = ({
   <ListItem id={id} linkTo={`/topics/${slug}`} grid>
     {feature_image && (
       <img
-        className="w-1/3 flex-initial object-cover aspect-square"
+        className="w-full sm:w-1/3 h-20 sm:h-full flex-initial object-cover aspect-square"
         src={feature_image}
         alt={name}
       />

@@ -40,14 +40,14 @@ const Document = ({ children, cardsCssUrl, cardsScriptUrl }: Props) => {
           dangerouslySetInnerHTML={{ __html: `${recursiveFontDeclaration}` }}
         />
         {cardsCssUrl && <link rel="stylesheet" href={cardsCssUrl} />}
+        {cardsScriptUrl && <script defer src={cardsScriptUrl} />}
         <Links />
       </head>
       <body className="font-recursive antialiased bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300">
         {children}
         <ScrollRestoration />
         <Scripts />
-        <script src="/prism/prism-1.29.0.js" data-manual />
-        {cardsScriptUrl && <script src={cardsScriptUrl} />}
+        <script defer src="/prism/prism-1.29.0.js" data-manual />
         <LiveReload />
       </body>
     </html>

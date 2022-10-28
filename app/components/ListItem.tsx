@@ -22,7 +22,7 @@ const ListItem = ({
   <li
     className={classNames({
       'transition-all': true,
-      'last:col-span-2': forceLastItemSpan,
+      'md:last:col-span-2': forceLastItemSpan,
       group: true,
 
       'border-l-4': !featured,
@@ -51,7 +51,7 @@ const ListItem = ({
     })}
     key={id}
   >
-    <Link className="h-full flex flex-row gap-4" to={linkTo}>
+    <Link className="h-full flex flex-col sm:flex-row gap-4" to={linkTo}>
       {children}
     </Link>
   </li>

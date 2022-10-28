@@ -34,7 +34,10 @@ export default function Post() {
       <div
         className="
         prose
-        prose-2xl
+        prose-sm
+        sm:prose-base
+        md:prose-lg
+        xl:prose-2xl
         prose-slate
         dark:prose-invert
         leading-loose
@@ -46,6 +49,8 @@ export default function Post() {
         prose-a:transition-all
         hover:prose-a:border-b-primary-700
         mx-auto
+        px-4
+        sm:px-10
       "
       >
         {post.feature_image && (
@@ -58,7 +63,8 @@ export default function Post() {
           </div>
         )}
 
-        <h1 className="mt-16">{post.title}</h1>
+        <div className="h-8 sm:h-16 lg:h-32" />
+        <h1>{post.title}</h1>
         <PostMeta
           mode="full"
           readingTime={readingTime}

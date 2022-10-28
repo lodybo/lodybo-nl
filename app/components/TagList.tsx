@@ -15,9 +15,13 @@ const TagList = ({ tags, small = false, className = '' }: Props) => {
 
   return (
     <ul
-      className={classnames('flex flex-row gap-2', className, {
-        'text-small': small,
-      })}
+      className={classnames(
+        className,
+        'flex flex-col xs:flex-row md:flex-col lg:flex-row gap-2 mb-5 xs:mb-0 md:mb-5 lg:mb-0',
+        {
+          'text-small': small,
+        },
+      )}
     >
       <li>Filed under:</li>
       {tags.map(({ id, slug, name }) => (

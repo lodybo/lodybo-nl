@@ -37,7 +37,7 @@ const PostMeta = (props: Props) => {
           'not-prose flex flex-col gap-2 border-b border-b-slate-300 pb-2.5',
         )}
       >
-        <div className="flex flex-row justify-between">
+        <div className="flex flex-col sm:flex-row justify-between">
           <small>
             <IconLabel
               title={`Published on ${publishedAt}`}

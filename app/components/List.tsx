@@ -39,7 +39,8 @@ const List = ({ title, description, image, children, grid = false }: Props) => (
         'flex-col': !grid,
 
         grid: grid,
-        'grid-cols-2': grid,
+        'grid-cols-1': grid,
+        'md:grid-cols-2': grid,
         'auto-rows-min': grid,
       })}
     >
