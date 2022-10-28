@@ -22,9 +22,15 @@ const Document = ({ children, cardsCssUrl, cardsScriptUrl }: Props) => {
   const [dark, setDark] = useState(darkModeIsEnabled);
 
   useEffect(() => {
+    let isEnabled: boolean;
+
     if (darkModeIsEnabled !== undefined) {
-      setDark(darkModeIsEnabled);
+      isEnabled = darkModeIsEnabled;
+    } else {
+      isEnabled = window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
+
+    setDark(isEnabled);
   }, [darkModeIsEnabled]);
 
   return (
