@@ -47,6 +47,7 @@ const Document = ({ children, cardsCssUrl, cardsScriptUrl }: Props) => {
         />
         {cardsCssUrl && <link rel="stylesheet" href={cardsCssUrl} />}
         {cardsScriptUrl && <script defer src={cardsScriptUrl} />}
+        <script defer data-domain="lodybo.nl" src="/js/script.js"></script>
         <Links />
       </head>
       <body className="font-recursive antialiased bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300">
