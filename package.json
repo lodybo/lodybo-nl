@@ -10,6 +10,7 @@
     "dev": "run-p dev:*",
     "dev:remix": "remix dev",
     "dev:css": "npm run generate:css -- --watch",
+    "prebuild": "npm run generate:css",
     "build": "remix build",
     "start": "remix-serve build",
     "generate:css": "tailwindcss -m -i ./app/styles/app.css -o ./app/styles/tailwind.css"
