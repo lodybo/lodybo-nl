@@ -13,7 +13,10 @@
     "prebuild": "npm run generate:css",
     "build": "remix build",
     "start": "remix-serve build",
-    "generate:css": "tailwindcss -m -i ./app/styles/app.css -o ./app/styles/tailwind.css"
+    "generate:css": "tailwindcss -m -i ./app/styles/app.css -o ./app/styles/tailwind.css",
+    "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
+    "typecheck": "tsc -b --noEmit",
+    "validate": "run-p lint typecheck"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
