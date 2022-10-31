@@ -9,9 +9,8 @@ import {
 } from '@remix-run/react';
 import { recursiveFontDeclaration } from '~/assets/fonts';
 import classnames from 'classnames';
-import { useDarkMode } from '~/utils/matches';
-import { useEffect, useState } from 'react';
 import { DynamicLinks } from 'remix-utils';
+import { useDarkMode } from '~/hooks/useDarkMode';
 
 type Props = {
   children: ReactNode;
@@ -29,26 +28,13 @@ const Document = ({
   siteUrl,
 }: Props) => {
   const location = useLocation();
-  const darkModeIsEnabled = useDarkMode();
-  const [dark, setDark] = useState(darkModeIsEnabled);
-
-  useEffect(() => {
-    let isEnabled: boolean;
-
-    if (darkModeIsEnabled !== undefined) {
-      isEnabled = darkModeIsEnabled;
-    } else {
-      isEnabled = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-
-    setDark(isEnabled);
-  }, [darkModeIsEnabled]);
+  const [darkModeIsEnabled] = useDarkMode();
 
   return (
     <html
       lang="en"
       className={classnames({
-        dark,
+        dark: darkModeIsEnabled,
       })}
     >
       <head>
@@ -70,8 +56,10 @@ const Document = ({
             href={`${siteUrl}${location.pathname.substring(1)}`}
           />
         )}
+        <script src="/checkCookie.js"></script>
       </head>
       <body className="font-recursive antialiased bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+        <script src="/noFlash.js" />
         {children}
         <ScrollRestoration />
         <Scripts />

@@ -2,7 +2,7 @@ import Icon from '~/components/Icon';
 import { useFetcher, useLocation } from '@remix-run/react';
 
 type Props = {
-  enabled: boolean;
+  enabled: boolean | undefined;
 };
 
 const DarkModeToggle = ({ enabled }: Props) => {

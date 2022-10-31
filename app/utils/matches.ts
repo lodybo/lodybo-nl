@@ -17,13 +17,3 @@ export function useMatchesData(
   );
   return route?.data;
 }
-
-export function useDarkMode(): boolean | undefined {
-  const data = useMatchesData('root');
-
-  if (!data || data.darkModeEnabled === undefined) {
-    return undefined;
-  }
-
-  return data.darkModeEnabled as boolean;
-}

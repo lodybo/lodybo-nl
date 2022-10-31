@@ -1,19 +1,9 @@
 import { Link } from '@remix-run/react';
 import DarkModeToggle from '~/components/DarkModeToggle';
-import { useDarkMode } from '~/utils/matches';
-import { useEffect, useState } from 'react';
+import { useDarkMode } from '~/hooks/useDarkMode';
 
 const Header = () => {
-  const darkModeIsEnabled = useDarkMode();
-  const [isEnabled, setIsEnabled] = useState(false);
-
-  useEffect(() => {
-    setIsEnabled(
-      darkModeIsEnabled === undefined
-        ? window.matchMedia('(prefers-color-scheme: dark)').matches
-        : darkModeIsEnabled,
-    );
-  }, [darkModeIsEnabled]);
+  const [darkModeIsEnabled] = useDarkMode();
 
   return (
     <header className="border-b py-5 px-5 sm:px-10 gap-5 flex flex-row items-center justify-between h-20">
@@ -23,7 +13,7 @@ const Header = () => {
 
       <ul className="flex flex-row gap-5 items-center text-lg md:text-xl">
         <li>
-          <DarkModeToggle enabled={isEnabled} />
+          <DarkModeToggle enabled={darkModeIsEnabled} />
         </li>
         <li>
           <Link to="/posts">Posts</Link>
