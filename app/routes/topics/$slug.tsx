@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node';
+import type { LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { useCatch, useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
@@ -55,6 +55,10 @@ export const loader = async ({ params }: LoaderArgs) => {
     })),
   });
 };
+
+export const meta: MetaFunction = ({ data }) => ({
+  title: `${data.tag ? `Topic "${data.tag.name}" | ` : ''} Lodybo`,
+});
 
 export default function TopicPage() {
   const { tag, posts } = useLoaderData<typeof loader>();

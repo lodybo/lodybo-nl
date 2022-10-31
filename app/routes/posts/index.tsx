@@ -1,4 +1,4 @@
-import { json } from '@remix-run/node';
+import { json, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
 import PostList from '~/components/PostList';
@@ -27,6 +27,10 @@ export const loader = async () => {
     })),
   });
 };
+
+export const meta: MetaFunction = () => ({
+  title: 'Posts | Lodybo',
+});
 
 export default function PostsPage() {
   const { posts } = useLoaderData<typeof loader>();

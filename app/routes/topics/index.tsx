@@ -1,4 +1,4 @@
-import { json } from '@remix-run/node';
+import { json, MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
 import ListPageLayout from '~/layouts/ListPage';
@@ -17,6 +17,10 @@ export const loader = async () => {
     topics,
   });
 };
+
+export const meta: MetaFunction = () => ({
+  title: 'Topics | Lodybo',
+});
 
 export default function PostsPage() {
   const { topics } = useLoaderData<typeof loader>();
