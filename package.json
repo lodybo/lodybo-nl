@@ -15,7 +15,7 @@
     "start": "remix-serve build",
     "generate:css": "tailwindcss -m -i ./app/styles/app.css -o ./app/styles/tailwind.css",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "typecheck": "tsc -b --noEmit",
+    "typecheck": "tsc --noEmit",
     "validate": "run-p lint typecheck"
   },
   "dependencies": {
@@ -51,5 +51,11 @@
   },
   "engines": {
     "node": ">=14"
-  }
+  },
+  "eslintIgnore": [
+    "/node_modules",
+    "/build",
+    "/public",
+    "/ghost"
+  ]
 }
