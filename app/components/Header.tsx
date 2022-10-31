@@ -23,13 +23,13 @@ const Header = () => {
 
       <ul className="flex flex-row gap-5 items-center text-lg md:text-xl">
         <li>
+          <DarkModeToggle enabled={isEnabled} />
+        </li>
+        <li>
           <Link to="/posts">Posts</Link>
         </li>
         <li>
           <Link to="/topics">Topics</Link>
-        </li>
-        <li>
-          <DarkModeToggle enabled={isEnabled} />
         </li>
       </ul>
     </header>

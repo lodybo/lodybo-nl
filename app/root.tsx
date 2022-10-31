@@ -8,8 +8,8 @@ import {
   faStopwatch,
   faArrowRight,
   faMoon,
+  faSun,
 } from '@fortawesome/free-solid-svg-icons';
-import { faSun } from '@fortawesome/free-regular-svg-icons';
 import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 import tailwindStylesheetUrl from './styles/tailwind.css';
 import { recursiveFontURL } from '~/assets/fonts';

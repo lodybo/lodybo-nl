@@ -10,7 +10,11 @@ const DarkModeToggle = ({ enabled }: Props) => {
   const location = useLocation();
 
   return (
-    <fetcher.Form action="/api/cookies" method="post">
+    <fetcher.Form
+      action="/api/cookies"
+      method="post"
+      className="flex items-center"
+    >
       <input
         type="hidden"
         name="action"
@@ -19,11 +23,7 @@ const DarkModeToggle = ({ enabled }: Props) => {
       <input type="hidden" name="referrer" value={location.pathname} />
 
       <button type="submit">
-        <Icon
-          className="text-xl"
-          prefix={enabled ? 'fas' : 'far'}
-          name={enabled ? 'moon' : 'sun'}
-        />
+        <Icon className="text-xl" name={enabled ? 'moon' : 'sun'} />
       </button>
     </fetcher.Form>
   );
