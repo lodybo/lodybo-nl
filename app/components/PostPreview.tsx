@@ -4,6 +4,7 @@ import TagList from '~/components/TagList';
 import ListItem from '~/components/ListItem';
 import PostMeta from '~/components/PostMeta';
 import classnames from 'classnames';
+import { Link } from '@remix-run/react';
 
 type Props = {
   post: Pick<
@@ -41,37 +42,36 @@ const PostPreview = ({
   const readingTime = formatReadingTime(reading_time);
 
   return (
-    <ListItem
-      id={id}
-      featured={featured}
-      linkTo={`/posts/${slug}`}
-      grid={grid}
-      forceLastItemSpan={grid}
-    >
-      {feature_image && (
-        <img
-          className="w-full sm:w-1/4 h-20 sm:h-full flex-initial object-cover aspect-square"
-          src={feature_image}
-          alt={feature_image_alt || `Featured image for ${title}`}
-        />
-      )}
-
-      <span
-        className={classnames('w-full flex-1 flex flex-col gap-2.5', {
-          'text-slate-700 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200':
-            !featured,
-          'text-slate-600 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200':
-            featured,
-        })}
+    <ListItem id={id} featured={featured} grid={grid} forceLastItemSpan={grid}>
+      <Link
+        className="h-full flex flex-col sm:flex-row gap-4"
+        to={`/posts/${slug}`}
       >
-        <h2 className="text-xl">{title}</h2>
-        <p className="text-sm">{excerpt}</p>
+        {feature_image && (
+          <img
+            className="w-full sm:w-1/4 h-20 sm:h-full flex-initial object-cover aspect-square"
+            src={feature_image}
+            alt={feature_image_alt || `Featured image for ${title}`}
+          />
+        )}
 
-        <span className="mt-auto flex flex-col gap-2.5">
-          <TagList tags={tags} />
-
-          <PostMeta readingTime={readingTime} publishedAt={publishedAt} />
+        <span
+          className={classnames('w-full flex-1 flex flex-col gap-2.5', {
+            'text-slate-700 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200':
+              !featured,
+            'text-slate-600 group-hover:text-slate-800 dark:text-slate-300 dark:group-hover:text-slate-200':
+              featured,
+          })}
+        >
+          <h2 className="text-xl">{title}</h2>
+          <p className="text-sm">{excerpt}</p>
         </span>
+      </Link>
+
+      <span className="mt-auto flex flex-1 flex-col gap-2.5">
+        <TagList tags={tags} />
+
+        <PostMeta readingTime={readingTime} publishedAt={publishedAt} />
       </span>
     </ListItem>
   );

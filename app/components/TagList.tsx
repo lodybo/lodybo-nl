@@ -17,7 +17,7 @@ const TagList = ({ tags, small = false, className = '' }: Props) => {
     <ul
       className={classnames(
         className,
-        'flex flex-col xs:flex-row md:flex-col lg:flex-row gap-2 mb-5 xs:mb-0 md:mb-5 lg:mb-0',
+        'flex flex-col xs:flex-row gap-2 mb-5 xs:mb-0',
         {
           'text-small': small,
         },

@@ -1,11 +1,9 @@
 import type { ReactNode } from 'react';
 import classNames from 'classnames';
-import { Link } from '@remix-run/react';
 
 type Props = {
   id: string;
   featured?: boolean;
-  linkTo: string;
   children: ReactNode;
   grid?: boolean;
   forceLastItemSpan?: boolean;
@@ -13,7 +11,6 @@ type Props = {
 
 const ListItem = ({
   id,
-  linkTo,
   children,
   featured = false,
   grid = false,
@@ -24,6 +21,7 @@ const ListItem = ({
       'transition-all': true,
       'md:last:col-span-2': forceLastItemSpan,
       group: true,
+      'h-full flex flex-col gap-4': true,
 
       'border-l-4': !featured,
       'border-l-slate-200': !featured && !grid,
@@ -51,9 +49,7 @@ const ListItem = ({
     })}
     key={id}
   >
-    <Link className="h-full flex flex-col sm:flex-row gap-4" to={linkTo}>
-      {children}
-    </Link>
+    {children}
   </li>
 );
 
