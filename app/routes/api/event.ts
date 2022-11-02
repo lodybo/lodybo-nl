@@ -1,11 +1,17 @@
 import type { ActionArgs } from '@remix-run/node';
 
 export const action = async ({ request }: ActionArgs) => {
-  const response = await fetch('https://plausible.io/api/event', request);
-  const body = await response.json();
+  const { method, body, headers } = request;
+
+  const response = await fetch('https://plausible.io/api/event', {
+    body,
+    method,
+    headers,
+  });
+  const responseBody = await response.json();
 
   if (!response.ok) {
-    return new Response(body, {
+    return new Response(responseBody, {
       status: response.status,
       headers: {
         'Content-Type': 'application/json',
@@ -13,7 +19,7 @@ export const action = async ({ request }: ActionArgs) => {
     });
   }
 
-  return new Response(body, {
+  return new Response(responseBody, {
     status: 200,
     headers: {
       'Content-Type': 'application/json',
