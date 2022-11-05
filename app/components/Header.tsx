@@ -6,7 +6,7 @@ const Header = () => {
   const [darkModeIsEnabled] = useDarkMode();
 
   return (
-    <header className="border-b py-5 px-5 sm:px-10 gap-5 flex flex-row items-center justify-between h-20">
+    <header className="border-b-2 border-b-nord-1 dark:border-b-nord-4 py-5 px-5 sm:px-10 gap-5 flex flex-row items-center justify-between h-20">
       <h1 className="text-xl sm:text-2xl md:text-3xl">
         <Link to="/">Lodybo</Link>
       </h1>

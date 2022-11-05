@@ -34,7 +34,7 @@ const PostMeta = (props: Props) => {
       <div
         className={classnames(
           props.className,
-          'not-prose flex flex-col gap-2 border-b border-b-slate-300 pb-2.5',
+          'not-prose flex flex-col gap-2 border-b-2 border-b-nord-2 pb-5 text-nord-polarnight-0-500 dark:text-nord-snowstorm-0-400',
         )}
       >
         <div className="flex flex-col sm:flex-row justify-between">

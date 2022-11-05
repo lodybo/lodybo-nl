@@ -58,7 +58,7 @@ const Document = ({
         )}
         <script src="/checkCookie.js"></script>
       </head>
-      <body className="font-recursive antialiased bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+      <body className="font-recursive antialiased bg-nord-6 dark:bg-nord-0 text-nord-0 dark:text-nord-6">
         <script src="/noFlash.js" />
         {children}
         <ScrollRestoration />

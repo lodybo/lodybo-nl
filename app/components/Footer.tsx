@@ -1,7 +1,7 @@
 import Icon from '~/components/Icon';
 
 const Footer = () => (
-  <footer className="border-t py-5 px-10 flex flex-row justify-between">
+  <footer className="border-t border-t-nord-1 dark:border-t-nord-4 py-5 px-10 flex flex-row justify-between">
     <p>© 2022</p>
 
     <ul className="flex flex-row gap-5">

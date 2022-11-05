@@ -24,10 +24,10 @@ const ListItem = ({
       'h-full flex flex-col gap-4': true,
 
       'border-l-4': !featured,
-      'border-l-slate-200': !featured && !grid,
-      'hover:border-l-slate-300': !featured && !grid,
-      'dark:border-l-slate-700': !featured && !grid,
-      'dark:hover:border-l-slate-600': !featured && !grid,
+      'border-l-nord-4': !featured && !grid,
+      'hover:border-l-nord-9': !featured && !grid,
+      'dark:border-l-nord-2': !featured && !grid,
+      'dark:hover:border-l-nord-9': !featured && !grid,
       'hover:border-l-8': !featured && !grid,
       'pl-5': !featured,
       'bg-transparent': !featured,
@@ -37,15 +37,15 @@ const ListItem = ({
       'hover:scale-[1.015]': featured || grid,
       'duration-300': featured,
       'shadow-md': featured && !grid,
-      'dark:shadow-slate-700/50': featured && !grid,
-      'bg-gradient-to-r from-teal-50 to-cyan-100': featured && !grid,
-      'dark:bg-gradient-to-r dark:from-teal-800 dark:to-cyan-900': featured,
+      'dark:shadow-nord-3/75': featured && !grid,
+      'bg-gradient-to-r from-nord-frost-1-200 to-nord-frost-3-300': featured,
+      'dark:bg-gradient-to-r dark:from-nord-frost-1-500 dark:to-nord-frost-3-600':
+        featured,
 
       'border-l-transparent': grid && !featured,
       'p-5': grid,
-      'hover:bg-cyan-100': grid,
-      'dark:hover:bg-cyan-900': grid,
-      'bg-gradient-to-r from-teal-50 to-cyan-200': grid && featured,
+      'hover:bg-nord-frost-1-200': grid,
+      'dark:hover:bg-nord-frost-1-800': grid,
     })}
     key={id}
   >

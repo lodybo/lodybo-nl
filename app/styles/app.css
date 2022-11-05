@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --ghost-accent-color: theme(colors.primary.400);
+  --ghost-accent-color: theme(colors.nord-frost-1.500);
 }
 
 @layer base {
@@ -73,6 +73,31 @@
   }
   .font-extrablack {
     font-variation-settings: "wght" 1000;
+  }
+
+  pre[class*="language-"],
+  code[class*="language-"] {
+    font-family: theme(fontFamily.mono);
+  }
+
+  pre[class*="language-"] {
+    scrollbar-color: theme(colors.nord-polarnight-2.700) theme(colors.nord-polarnight-2.200);
+  }
+  .dark pre[class*="language-"] {
+    background: rgb(0 0 0 / 0.25);
+  }
+  pre[class*="language-"] {
+    background: theme(colors.nord-polarnight-0.900);
+  }
+  pre[class*="language-"]::-webkit-scrollbar {
+    height: 0.5rem;
+    width: 0.5rem;
+  }
+  pre[class*="language-"]::-webkit-scrollbar-thumb { /* Foreground */
+    background: theme(colors.nord-polarnight-2.700);
+  }
+  pre[class*="language-"]::-webkit-scrollbar-track { /* Background */
+    background: theme(colors.nord-polarnight-2.900);
   }
 }
 
