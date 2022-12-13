@@ -2,9 +2,9 @@ import { useMatchesData } from '~/utils/matches';
 
 export function useSnowMode() {
   const data = useMatchesData('root');
-  let isEnabled: boolean | undefined = undefined;
+  let isEnabled: boolean = true;
 
-  if (data && data.snowModeEnabled !== 'undefined') {
+  if (data && typeof data.snowModeEnabled !== 'undefined') {
     isEnabled = data.snowModeEnabled as boolean;
   }
 
