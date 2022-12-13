@@ -15,9 +15,10 @@ const DarkModeToggle = ({ enabled }: Props) => {
       method="post"
       className="flex items-center"
     >
+      <input type="hidden" name="actionType" value="darkMode" />
       <input
         type="hidden"
-        name="action"
+        name="actionValue"
         value={enabled ? 'disable' : 'enable'}
       />
       <input type="hidden" name="referrer" value={location.pathname} />

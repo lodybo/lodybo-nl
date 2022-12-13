@@ -1,9 +1,12 @@
 import { Link } from '@remix-run/react';
 import DarkModeToggle from '~/components/DarkModeToggle';
+import SnowModeToggle from '~/components/SnowModeToggle';
 import { useDarkMode } from '~/hooks/useDarkMode';
+import { useSnowMode } from '~/hooks/useSnowMode';
 
 const Header = () => {
   const [darkModeIsEnabled] = useDarkMode();
+  const [snowModeIsEnabled] = useSnowMode();
 
   return (
     <header className="border-b-2 border-b-nord-1 dark:border-b-nord-4 py-5 px-5 sm:px-10 gap-5 flex flex-row items-center justify-between h-20">
@@ -12,6 +15,9 @@ const Header = () => {
       </h1>
 
       <ul className="flex flex-row gap-5 items-center text-lg md:text-xl">
+        <li>
+          <SnowModeToggle enabled={snowModeIsEnabled} />
+        </li>
         <li>
           <DarkModeToggle enabled={darkModeIsEnabled} />
         </li>

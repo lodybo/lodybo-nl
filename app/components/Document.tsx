@@ -11,6 +11,7 @@ import { recursiveFontDeclaration } from '~/assets/fonts';
 import classnames from 'classnames';
 import { DynamicLinks } from 'remix-utils';
 import { useDarkMode } from '~/hooks/useDarkMode';
+import { useSnowMode } from '~/hooks/useSnowMode';
 
 type Props = {
   children: ReactNode;
@@ -29,6 +30,7 @@ const Document = ({
 }: Props) => {
   const location = useLocation();
   const [darkModeIsEnabled] = useDarkMode();
+  const [snowModeIsEnabled] = useSnowMode();
 
   return (
     <html
@@ -64,6 +66,9 @@ const Document = ({
         <ScrollRestoration />
         <Scripts />
         <script defer src="/prism/prism-1.29.0.js" data-manual />
+        {snowModeIsEnabled && (
+          <script src="https://app.embed.im/snow.js" defer></script>
+        )}
         <LiveReload />
       </body>
     </html>

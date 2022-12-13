@@ -3,7 +3,8 @@ import type { ActionArgs } from '@remix-run/node';
 import { redirect } from '@remix-run/node';
 
 type ActionData = {
-  action: 'disable' | 'enable';
+  actionType: string;
+  actionValue: 'disable' | 'enable';
   referrer: string;
 };
 
@@ -13,15 +14,23 @@ export const action = async ({ request }: ActionArgs) => {
 
   const cookie = (await userPrefs.parse(cookieHeader)) || {};
 
-  const { action, referrer } = Object.fromEntries(
+  const { actionType, actionValue, referrer } = Object.fromEntries(
     formData,
   ) as unknown as ActionData;
 
-  if (action === undefined) {
+  if (actionType === undefined || actionValue === undefined) {
     throw new Error('An action is missing');
   }
 
-  cookie.darkModeEnabled = action == 'enable';
+  switch (actionType) {
+    case 'darkMode':
+      cookie.darkModeEnabled = actionValue == 'enable';
+      break;
+
+    case 'snowMode':
+      cookie.snowModeEnabled = actionValue == 'enable';
+      break;
+  }
 
   return redirect(referrer, {
     headers: {

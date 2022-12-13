@@ -10,6 +10,7 @@ import {
   faMoon,
   faSun,
 } from '@fortawesome/free-solid-svg-icons';
+import { faSnowflake } from '@fortawesome/free-regular-svg-icons';
 import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 import tailwindStylesheetUrl from './styles/tailwind.css';
 import { recursiveFontURL } from '~/assets/fonts';
@@ -27,6 +28,7 @@ library.add(
   faArrowRight,
   faSun,
   faMoon,
+  faSnowflake,
 );
 
 export const meta: MetaFunction = ({ data: { ghostSettings }, location }) => ({
@@ -87,6 +89,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     cardsCssUrl: `${process.env.GHOST_URL}/public/cards.min.css`,
     rssUrl: `${process.env.GHOST_URL}/rss/`,
     darkModeEnabled: cookie.darkModeEnabled,
+    snowModeEnabled: cookie.snowModeEnabled,
     ghostSettings,
   });
 };
