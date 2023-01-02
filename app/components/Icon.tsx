@@ -1,9 +1,28 @@
 import React from 'react';
 import type { IconName, IconPrefix } from '@fortawesome/fontawesome-svg-core';
+import { icon, library } from '@fortawesome/fontawesome-svg-core';
 import {
-  icon as fontAwesomeIcon,
-  toHtml,
-} from '@fortawesome/fontawesome-svg-core';
+  faCalendarDay,
+  faSquarePen,
+  faStopwatch,
+  faArrowRight,
+  faMoon,
+  faSun,
+} from '@fortawesome/free-solid-svg-icons';
+import { faSnowflake } from '@fortawesome/free-regular-svg-icons';
+import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
+
+library.add(
+  faCalendarDay,
+  faSquarePen,
+  faStopwatch,
+  faTwitter,
+  faGithub,
+  faArrowRight,
+  faSun,
+  faMoon,
+  faSnowflake,
+);
 
 export type Props = {
   className?: React.HTMLAttributes<HTMLSpanElement>['className'];
@@ -20,7 +39,7 @@ const Icon = ({
   iconClasses = '',
   title = '',
 }: Props) => {
-  const icon = fontAwesomeIcon(
+  const iconHTML = icon(
     {
       prefix,
       iconName: name,
@@ -31,13 +50,13 @@ const Icon = ({
         height: '1em',
       },
     },
-  ).abstract.shift();
+  ).html;
 
   return (
     <span
       title={title}
       className={className}
-      dangerouslySetInnerHTML={{ __html: toHtml(icon) }}
+      dangerouslySetInnerHTML={{ __html: iconHTML[0] }}
     />
   );
 };

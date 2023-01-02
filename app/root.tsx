@@ -1,35 +1,12 @@
 import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Outlet, useLoaderData } from '@remix-run/react';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faCalendarDay,
-  faSquarePen,
-  faStopwatch,
-  faArrowRight,
-  faMoon,
-  faSun,
-} from '@fortawesome/free-solid-svg-icons';
-import { faSnowflake } from '@fortawesome/free-regular-svg-icons';
-import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 import tailwindStylesheetUrl from './styles/tailwind.css';
 import { recursiveFontURL } from '~/assets/fonts';
 import ListPageLayout from '~/layouts/ListPage';
 import Document from '~/components/Document';
 import { userPrefs } from '~/cookies';
 import { getGhostSettings } from '~/models/settings.server';
-
-library.add(
-  faCalendarDay,
-  faSquarePen,
-  faStopwatch,
-  faTwitter,
-  faGithub,
-  faArrowRight,
-  faSun,
-  faMoon,
-  faSnowflake,
-);
 
 export const meta: MetaFunction = ({ data: { ghostSettings }, location }) => ({
   charset: 'utf-8',
