@@ -11,11 +11,10 @@ export const action = async ({ request }: ActionArgs) => {
     },
   });
   const responseBody = await response.text();
+  const { status, headers } = response;
 
   return new Response(responseBody, {
-    status: response.status,
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    status,
+    headers,
   });
 };
