@@ -12,17 +12,8 @@ export const action = async ({ request }: ActionArgs) => {
   });
   const responseBody = await response.text();
 
-  if (!response.ok) {
-    return new Response(responseBody, {
-      status: response.status,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-
   return new Response(responseBody, {
-    status: 200,
+    status: response.status,
     headers: {
       'Content-Type': 'application/json',
     },
