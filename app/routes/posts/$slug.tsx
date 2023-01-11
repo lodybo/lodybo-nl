@@ -8,7 +8,7 @@ import { getPost } from '~/models/posts.server';
 import PostMeta from '~/components/PostMeta';
 import { formatDate, formatReadingTime } from '~/utils/formats';
 import { getGhostSettings } from '~/models/settings.server';
-import type { PostOrPage, SettingsResponse } from '@tryghost/content-api';
+import ListPageLayout from '~/layouts/ListPage';
 
 export const loader = async ({ params }: LoaderArgs) => {
   const ghostSettings = await getGhostSettings();
@@ -23,17 +23,28 @@ export const loader = async ({ params }: LoaderArgs) => {
   return json({ post, ghostSettings });
 };
 
-export const meta: MetaFunction = ({ data, location }) => {
-  const {
-    post,
-    ghostSettings,
-  }: { post: PostOrPage; ghostSettings: SettingsResponse } = data;
+export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
+  if (!data) {
+    return {};
+  }
+
+  const { post, ghostSettings } = data;
+
   const post_description = post.excerpt || post.meta_description;
+
+  const baseMeta: MetaDescriptor = {
+    title: `${post.title} | Lodybo`,
+    description: post_description,
+  };
+
+  if (!ghostSettings) {
+    return baseMeta;
+  }
+
   const url = `${ghostSettings.url}${location.pathname.substring(1)}`;
 
   const meta: MetaDescriptor = {
-    title: `${post.title} | Lodybo`,
-    description: post_description,
+    ...baseMeta,
     'og:site_name': ghostSettings.meta_title,
     'og:type': 'article',
     'og:title': post.og_title || post.title,
@@ -73,25 +84,25 @@ export default function Post() {
     <PageLayout>
       <div
         className="
-        prose
-        prose-sm
-        sm:prose-base
-        md:prose-lg
-        xl:prose-2xl
-        prose-nord
-        dark:prose-invert
-        leading-loose
-        max-w-5xl
-        prose-a:no-underline
-        prose-a:border-b-2
-        prose-a:pb-1
-        prose-a:border-b-nord-frost-1-400
-        prose-a:transition-all
-        hover:prose-a:border-b-nord-frost-1-600
-        mx-auto
-        px-4
-        sm:px-10
-      "
+          prose
+          prose-sm
+          sm:prose-base
+          md:prose-lg
+          xl:prose-2xl
+          prose-nord
+          dark:prose-invert
+          leading-loose
+          max-w-5xl
+          prose-a:no-underline
+          prose-a:border-b-2
+          prose-a:pb-1
+          prose-a:border-b-nord-frost-1-400
+          prose-a:transition-all
+          hover:prose-a:border-b-nord-frost-1-600
+          mx-auto
+          px-4
+          sm:px-10
+        "
       >
         {post.feature_image && (
           <div className="not-prose kg-width-full">
@@ -120,5 +131,9 @@ export default function Post() {
 }
 
 export function CatchBoundary() {
-  return <h1>Post not found</h1>;
+  return (
+    <ListPageLayout>
+      <h1 className="text-4xl">Post not found</h1>
+    </ListPageLayout>
+  );
 }

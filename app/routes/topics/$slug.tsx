@@ -56,9 +56,20 @@ export const loader = async ({ params }: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = ({ data }) => ({
-  title: `${data.tag ? `Topic "${data.tag.name}" | ` : ''} Lodybo`,
-});
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  if (!data) {
+    return {
+      title: 'Lodybo',
+    };
+  }
+
+  const { tag } = data;
+
+  return {
+    title: `Topic ${tag.name} | Lodybo`,
+    description: tag.description,
+  };
+};
 
 export default function TopicPage() {
   const { tag, posts } = useLoaderData<typeof loader>();
@@ -75,33 +86,9 @@ export default function TopicPage() {
   );
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
-  useEffect(() => {
-    (window as any).Prism.highlightAll();
-  });
-
-  return (
-    <ListPageLayout>
-      <div className="prose prose-xl max-w-none">
-        <h1>Oops.. Something went wrong!</h1>
-
-        <p>
-          It's not you, it's us. We encountered an error and reported it.
-          <br />
-          If you're curious, this is what it said:
-        </p>
-
-        <pre className="language-jsstacktrace">
-          <code className="language-jsstacktrace">{error.stack}</code>
-        </pre>
-      </div>
-    </ListPageLayout>
-  );
-}
-
 export function CatchBoundary() {
   const caught = useCatch();
-  const data: ErrorRequest = JSON.parse(caught.data);
+  const { data }: { data: ErrorRequest } = caught;
   console.error({ data });
 
   return (

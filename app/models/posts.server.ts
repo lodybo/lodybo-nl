@@ -7,6 +7,10 @@ export function getPosts() {
       include: ['tags'],
     })
     .catch((err) => {
+      if (err.code === 'ECONNREFUSED') {
+        return undefined;
+      }
+
       throw new Error(err);
     });
 }
@@ -19,6 +23,10 @@ export function getRecentPosts(count: number = 5) {
       include: ['tags'],
     })
     .catch((err) => {
+      if (err.code === 'ECONNREFUSED') {
+        return undefined;
+      }
+
       throw new Error(err);
     });
 }
@@ -30,6 +38,10 @@ export function getPostsForTag(tag: string) {
       limit: 'all',
     })
     .catch((err) => {
+      if (err.code === 'ECONNREFUSED') {
+        return undefined;
+      }
+
       throw new Error(err);
     });
 }
@@ -45,6 +57,10 @@ export async function getPost(slug: string) {
       },
     )
     .catch((err) => {
+      if (err.code === 'ECONNREFUSED') {
+        return undefined;
+      }
+
       throw new Error(err);
     });
 }

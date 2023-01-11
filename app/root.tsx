@@ -81,7 +81,7 @@ export type LoaderData = {
   darkModeEnabled: any;
   snowModeEnabled: any;
   currentCopyrightYear: string;
-  ghostSettings?: SettingsResponse;
+  ghostSettings?: SettingsResponse | undefined;
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -111,7 +111,7 @@ export default function App() {
       cardsScriptUrl={cardsScriptUrl}
       cardsCssUrl={cardsCssUrl}
       rssUrl={rssUrl}
-      siteUrl={ghostSettings.url}
+      siteUrl={ghostSettings?.url || ''}
     >
       <Outlet />
     </Document>
@@ -122,7 +122,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Document>
       <ListPageLayout>
-        <div className="prose prose-xl max-w-none">
+        <div className="prose prose-nord dark:prose-invert prose-xl max-w-none">
           <h1>Oops.. Something went wrong!</h1>
 
           <p>

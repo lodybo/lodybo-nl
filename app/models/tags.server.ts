@@ -7,6 +7,10 @@ export function getTags() {
       include: 'count.posts',
     })
     .catch((err) => {
+      if (err.code === 'ECONNREFUSED') {
+        return undefined;
+      }
+
       throw new Error(err);
     });
 }
@@ -23,6 +27,10 @@ export function getTagInfo(slug: string) {
       },
     )
     .catch((err) => {
+      if (err.code === 'ECONNREFUSED') {
+        return undefined;
+      }
+
       console.error(err);
     });
 }

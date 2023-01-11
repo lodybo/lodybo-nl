@@ -1,10 +1,12 @@
 import { ghost } from '~/ghost.server';
 import { getErrorMessage } from '~/utils/errors';
 
-export async function getGhostSettings() {
-  try {
-    return await ghost.settings.browse();
-  } catch (e) {
-    throw new Error(getErrorMessage(e));
-  }
+export function getGhostSettings() {
+  return ghost.settings.browse().catch((err) => {
+    if (err.code === 'ECONNREFUSED') {
+      return undefined;
+    }
+
+    throw new Error(getErrorMessage(err));
+  });
 }

@@ -43,15 +43,19 @@ export default function Index() {
         </div>
       </div>
 
-      <PostList title="Some recent posts" posts={posts} grid />
+      {posts && (
+        <>
+          <PostList title="Some recent posts" posts={posts} grid />
 
-      <div className="mt-10 px-5 flex justify-end">
-        <AnchorLink to="/posts">
-          <span className="flex flex-row items-center gap-2 hover:gap-3 transition-all">
-            Read more here <Icon name="arrow-right" />
-          </span>
-        </AnchorLink>
-      </div>
+          <div className="mt-10 px-5 flex justify-end">
+            <AnchorLink to="/posts">
+              <span className="flex flex-row items-center gap-2 hover:gap-3 transition-all">
+                Read more here <Icon name="arrow-right" />
+              </span>
+            </AnchorLink>
+          </div>
+        </>
+      )}
     </HomePageLayout>
   );
 }
