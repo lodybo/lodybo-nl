@@ -1,6 +1,7 @@
 import type { LinksFunction, LoaderArgs, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Outlet, useLoaderData } from '@remix-run/react';
+import type { SettingsResponse } from '@tryghost/content-api';
 import tailwindStylesheetUrl from './styles/tailwind.css';
 import { recursiveFontURL } from '~/assets/fonts';
 import ListPageLayout from '~/layouts/ListPage';
@@ -56,19 +57,33 @@ export const links: LinksFunction = () => [
   { rel: 'manifest', href: '/site.webmanifest' },
 ];
 
+// TODO: Use a generated variant when moving to Remix's native useRouteData
+export type LoaderData = {
+  cardsScriptUrl: string;
+  cardsCssUrl: string;
+  rssUrl: string;
+  darkModeEnabled: any;
+  snowModeEnabled: any;
+  currentCopyrightYear: string;
+  ghostSettings: SettingsResponse;
+};
+
 export const loader = async ({ request }: LoaderArgs) => {
   const ghostSettings = await getGhostSettings();
   const cookieHeader = request.headers.get('Cookie');
   const cookie = (await userPrefs.parse(cookieHeader)) || {};
 
-  return json({
+  const data: LoaderData = {
     cardsScriptUrl: `${process.env.GHOST_URL}/public/cards.min.js`,
     cardsCssUrl: `${process.env.GHOST_URL}/public/cards.min.css`,
     rssUrl: `${process.env.GHOST_URL}/rss/`,
     darkModeEnabled: cookie.darkModeEnabled,
     snowModeEnabled: cookie.snowModeEnabled,
     ghostSettings,
-  });
+    currentCopyrightYear: new Date().getFullYear().toString(),
+  };
+
+  return json(data);
 };
 
 export default function App() {
