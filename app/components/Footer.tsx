@@ -1,5 +1,8 @@
 import { useRouteData } from 'remix-utils';
-import Icon from '~/components/Icon';
+import {
+  SocialMediaList,
+  SocialMediaListItem,
+} from '~/components/SocialMediaLinks';
 import type { LoaderData } from '~/root';
 
 const Footer = () => {
@@ -7,36 +10,29 @@ const Footer = () => {
   const data = useRouteData<LoaderData>('root');
 
   return (
-    <footer className="border-t border-t-nord-1 dark:border-t-nord-4 py-5 px-10 flex flex-row justify-between">
+    <footer className="border-t border-t-nord-1 dark:border-t-nord-4 py-5 px-10 flex flex-col sm:flex-row justify-between gap-5 sm:gap-0 text-center">
       {data?.currentCopyrightYear && (
         <p>© 2022 - {data?.currentCopyrightYear} | All Rights Reserved.</p>
       )}
 
-      <ul className="flex flex-row gap-5">
-        <li>
-          <a
-            className="flex flex-row gap-1.5 items-center"
-            href="https://www.twitter.com/lodybo"
-            target="_blank"
-            rel="noopener"
-          >
-            <Icon prefix="fab" name="twitter" />
-            <small>@lodybo</small>
-          </a>
-        </li>
-
-        <li>
-          <a
-            className="flex flex-row gap-1.5 items-center"
-            href="https://www.github.com/lodybo"
-            target="_blank"
-            rel="noopener"
-          >
-            <Icon prefix="fab" name="github" />
-            <small>@lodybo</small>
-          </a>
-        </li>
-      </ul>
+      <SocialMediaList>
+        <SocialMediaListItem
+          url="https://www.twitter.com/lodybo"
+          icon="twitter"
+        />
+        <SocialMediaListItem
+          url="https://mastodon.social/@lodybo"
+          icon="mastodon"
+        />
+        <SocialMediaListItem
+          url="https://www.github.com/lodybo"
+          icon="github"
+        />
+        <SocialMediaListItem
+          url="https://www.linkedin.com/in/lodybo"
+          icon="linkedin-in"
+        />
+      </SocialMediaList>
     </footer>
   );
 };

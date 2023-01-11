@@ -10,7 +10,12 @@ import {
   faSun,
 } from '@fortawesome/free-solid-svg-icons';
 import { faSnowflake } from '@fortawesome/free-regular-svg-icons';
-import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
+import {
+  faTwitter,
+  faGithub,
+  faMastodon,
+  faLinkedinIn,
+} from '@fortawesome/free-brands-svg-icons';
 
 library.add(
   faCalendarDay,
@@ -22,6 +27,8 @@ library.add(
   faSun,
   faMoon,
   faSnowflake,
+  faMastodon,
+  faLinkedinIn,
 );
 
 export type Props = {
