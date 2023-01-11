@@ -1,4 +1,4 @@
-import { useRouteData } from 'remix-utils';
+import { useRouteLoaderData } from '@remix-run/react';
 import {
   SocialMediaList,
   SocialMediaListItem,
@@ -6,8 +6,7 @@ import {
 import type { LoaderData } from '~/root';
 
 const Footer = () => {
-  // TODO: When moving to Remix's native useRouteData, remove the type assertion in root.tsx.
-  const data = useRouteData<LoaderData>('root');
+  const data = useRouteLoaderData('root') as LoaderData;
 
   return (
     <footer className="border-t border-t-nord-1 dark:border-t-nord-4 py-5 px-10 flex flex-col sm:flex-row justify-between gap-5 sm:gap-0 text-center">
