@@ -17,7 +17,6 @@ type Props = {
   children: ReactNode;
   cardsCssUrl?: string;
   cardsScriptUrl?: string;
-  rssUrl?: string;
   siteUrl?: string;
 };
 
@@ -25,7 +24,6 @@ const Document = ({
   children,
   cardsCssUrl,
   cardsScriptUrl,
-  rssUrl,
   siteUrl,
 }: Props) => {
   const location = useLocation();
@@ -49,9 +47,11 @@ const Document = ({
         <script defer data-domain="lodybo.nl" src="/js/script.js"></script>
         <DynamicLinks />
         <Links />
-        {rssUrl && (
-          <link rel="alternate" type="application/rss+xml" href={rssUrl} />
-        )}
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          href={`${siteUrl}rss.xml`}
+        />
         {siteUrl && (
           <link
             rel="canonical"

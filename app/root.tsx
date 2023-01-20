@@ -77,7 +77,6 @@ export const links: LinksFunction = () => [
 export type LoaderData = {
   cardsScriptUrl: string;
   cardsCssUrl: string;
-  rssUrl: string;
   darkModeEnabled: any;
   snowModeEnabled: any;
   currentCopyrightYear: string;
@@ -92,7 +91,6 @@ export const loader = async ({ request }: LoaderArgs) => {
   const data: LoaderData = {
     cardsScriptUrl: `${process.env.GHOST_URL}/public/cards.min.js`,
     cardsCssUrl: `${process.env.GHOST_URL}/public/cards.min.css`,
-    rssUrl: `${process.env.GHOST_URL}/rss/`,
     darkModeEnabled: cookie.darkModeEnabled,
     snowModeEnabled: cookie.snowModeEnabled,
     ghostSettings,
@@ -103,14 +101,13 @@ export const loader = async ({ request }: LoaderArgs) => {
 };
 
 export default function App() {
-  const { cardsScriptUrl, cardsCssUrl, rssUrl, ghostSettings } =
+  const { cardsScriptUrl, cardsCssUrl, ghostSettings } =
     useLoaderData<typeof loader>();
 
   return (
     <Document
       cardsScriptUrl={cardsScriptUrl}
       cardsCssUrl={cardsCssUrl}
-      rssUrl={rssUrl}
       siteUrl={ghostSettings?.url || ''}
     >
       <Outlet />
