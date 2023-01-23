@@ -7,7 +7,8 @@ export async function createSiteMap() {
   const tags = await getTags();
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>';
-  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
+  xml +=
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">';
 
   // Create an entry for the index page.
   xml += createEntry('/');
@@ -26,22 +27,37 @@ export async function createSiteMap() {
     });
   }
 
+  xml += '</urlset>';
+
   return xml;
 }
 
 function createEntryForPost(post: PostOrPage) {
+  // Strip <, /> and ` from the post caption or title. Also encode it since Unsplash captions contain urls.
+  let caption: string = '';
+  if (post.feature_image && post.feature_image_caption) {
+    caption = post.feature_image_caption.replace(/<|\/>|`/g, '');
+  } else if (post.title) {
+    caption = post.title.replace(/<|\/>|`/g, '');
+  }
+  caption = encodeURIComponent(caption);
+
+  // urlescape the featured image url
+  let feature_image: string = '';
+  if (post.feature_image) {
+    feature_image = encodeURIComponent(post.feature_image);
+  }
+
   return `
     <url>
       <loc>${post.slug}</loc>
       <lastmod>${post.updated_at || post.published_at}</lastmod>
       ${
-        post.feature_image
+        feature_image
           ? `
         <image:image>
-          <image:loc>${post.feature_image}</image:loc>
-          <image:caption>${
-            post.feature_image_caption || post.title
-          }</image:caption>
+          <image:loc>${feature_image}</image:loc>
+          <image:caption>${caption}</image:caption>
         </image:image>`.trim()
           : ''
       }
