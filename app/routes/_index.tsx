@@ -16,7 +16,7 @@ export const loader = async () => {
   return json({ posts });
 };
 
-export default function Index() {
+export default function _index() {
   const { posts } = useLoaderData<typeof loader>();
 
   return (
