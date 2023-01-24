@@ -6,7 +6,6 @@ import lody from '~/assets/images/lody.svg';
 import AnchorLink from '~/components/AnchorLink';
 import PostList from '~/components/PostList';
 import Icon from '~/components/Icon';
-import HomePageLayout from '~/layouts/HomePage';
 
 import { getRecentPosts } from '~/models/posts.server';
 
@@ -20,7 +19,7 @@ export default function _index() {
   const { posts } = useLoaderData<typeof loader>();
 
   return (
-    <HomePageLayout>
+    <>
       <div className="mb-16 mt-0 sm:mb-32 md:mt-32 flex flex-col md:flex-row gap-10 md:gap-5 h-full md:h-80">
         <img
           className="w-2/3 max-w-[20rem] md:w-auto mx-auto"
@@ -56,6 +55,6 @@ export default function _index() {
           </div>
         </>
       )}
-    </HomePageLayout>
+    </>
   );
 }

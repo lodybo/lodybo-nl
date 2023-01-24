@@ -3,12 +3,10 @@ import type { LoaderArgs, MetaDescriptor, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
-import PageLayout from '~/layouts/Page';
 import { getPost } from '~/models/posts.server';
 import PostMeta from '~/components/PostMeta';
 import { formatDate, formatReadingTime } from '~/utils/formats';
 import { getGhostSettings } from '~/models/settings.server';
-import ListPageLayout from '~/layouts/ListPage';
 
 export const loader = async ({ params }: LoaderArgs) => {
   const ghostSettings = await getGhostSettings();
@@ -81,59 +79,57 @@ export default function Post() {
   });
 
   return (
-    <PageLayout>
-      <div
-        className="
-          prose
-          prose-sm
-          sm:prose-base
-          md:prose-lg
-          xl:prose-2xl
-          prose-nord
-          dark:prose-invert
-          leading-loose
-          max-w-5xl
-          prose-a:no-underline
-          prose-a:border-b-2
-          prose-a:pb-1
-          prose-a:border-b-nord-frost-1-400
-          prose-a:transition-all
-          hover:prose-a:border-b-nord-frost-1-600
-          mx-auto
-          px-4
-          sm:px-10
-        "
-      >
-        {post.feature_image && (
-          <div className="not-prose kg-width-full">
-            <img
-              className="w-full"
-              src={post.feature_image}
-              alt={post.feature_image_alt || post.title}
-            />
-          </div>
-        )}
+    <div
+      className="
+        prose
+        prose-sm
+        sm:prose-base
+        md:prose-lg
+        xl:prose-2xl
+        prose-nord
+        dark:prose-invert
+        leading-loose
+        max-w-5xl
+        prose-a:no-underline
+        prose-a:border-b-2
+        prose-a:pb-1
+        prose-a:border-b-nord-frost-1-400
+        prose-a:transition-all
+        hover:prose-a:border-b-nord-frost-1-600
+        mx-auto
+        px-4
+        sm:px-10
+      "
+    >
+      {post.feature_image && (
+        <div className="not-prose kg-width-full">
+          <img
+            className="w-full"
+            src={post.feature_image}
+            alt={post.feature_image_alt || post.title}
+          />
+        </div>
+      )}
 
-        <div className="h-8 sm:h-16 lg:h-32" />
-        <h1>{post.title}</h1>
-        <PostMeta
-          mode="full"
-          readingTime={readingTime}
-          publishedAt={publishedAt}
-          updatedAt={post.updated_at}
-          tags={post.tags}
-        />
+      <div className="h-8 sm:h-16 lg:h-32" />
+      <h1>{post.title}</h1>
+      <PostMeta
+        mode="full"
+        readingTime={readingTime}
+        publishedAt={publishedAt}
+        updatedAt={post.updated_at}
+        tags={post.tags}
+      />
 
-        <div dangerouslySetInnerHTML={{ __html: post.html || '' }} />
-      </div>
-    </PageLayout>
+      <div dangerouslySetInnerHTML={{ __html: post.html || '' }} />
+    </div>
   );
 }
 
 export function CatchBoundary() {
   return (
-    <ListPageLayout>
+    <div className="mt-10">
       <h1 className="text-4xl">Post not found</h1>
-    </ListPageLayout>
+    </div>
   );
 }

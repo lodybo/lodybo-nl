@@ -4,7 +4,6 @@ import { useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
 import PostList from '~/components/PostList';
 import { getPosts } from '~/models/posts.server';
-import ListPageLayout from '~/layouts/ListPage';
 
 export const loader = async () => {
   const posts = await getPosts();
@@ -37,16 +36,16 @@ export default function PostsPage() {
   const { posts } = useLoaderData<typeof loader>();
 
   return (
-    <ListPageLayout>
+    <div className="mt-10">
       <PostList title="What I've written" posts={posts} />
-    </ListPageLayout>
+    </div>
   );
 }
 
 export function CatchBoundary() {
   return (
-    <ListPageLayout>
+    <div className="mt-10">
       <h1 className="text-4xl">No posts found.</h1>
-    </ListPageLayout>
+    </div>
   );
 }

@@ -9,7 +9,6 @@ import { Outlet, useLoaderData } from '@remix-run/react';
 import type { SettingsResponse } from '@tryghost/content-api';
 import tailwindStylesheetUrl from './styles/tailwind.css';
 import { recursiveFontURL } from '~/assets/fonts';
-import ListPageLayout from '~/layouts/ListPage';
 import Document from '~/components/Document';
 import { userPrefs } from '~/cookies';
 import { getGhostSettings } from '~/models/settings.server';
@@ -118,21 +117,19 @@ export default function App() {
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Document>
-      <ListPageLayout>
-        <div className="prose prose-nord dark:prose-invert prose-xl max-w-none">
-          <h1>Oops.. Something went wrong!</h1>
+      <div className="mt-10 prose prose-nord dark:prose-invert prose-xl max-w-none">
+        <h1>Oops.. Something went wrong!</h1>
 
-          <p>
-            It's not you, it's us. We encountered an error and reported it.
-            <br />
-            If you're curious, this is what it said:
-          </p>
+        <p>
+          It's not you, it's us. We encountered an error and reported it.
+          <br />
+          If you're curious, this is what it said:
+        </p>
 
-          <pre className="language-jsstacktrace">
-            <code className="language-jsstacktrace">{error.message}</code>
-          </pre>
-        </div>
-      </ListPageLayout>
+        <pre className="language-jsstacktrace">
+          <code className="language-jsstacktrace">{error.message}</code>
+        </pre>
+      </div>
     </Document>
   );
 }

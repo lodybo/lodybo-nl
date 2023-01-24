@@ -12,6 +12,8 @@ import classnames from 'classnames';
 import { DynamicLinks } from 'remix-utils';
 import { useDarkMode } from '~/hooks/useDarkMode';
 import { useSnowMode } from '~/hooks/useSnowMode';
+import Header from '~/components/Header';
+import Footer from '~/components/Footer';
 
 type Props = {
   children: ReactNode;
@@ -62,7 +64,15 @@ const Document = ({
       </head>
       <body className="font-recursive antialiased bg-nord-6 dark:bg-nord-0 text-nord-0 dark:text-nord-6">
         <script src="/noFlash.js" />
-        {children}
+        <div className="flex flex-col min-h-screen">
+          <Header />
+
+          <div className="mb-10 px-5 md:px-10 xl:px-40 mx-auto flex-1">
+            {children}
+          </div>
+
+          <Footer />
+        </div>
         <ScrollRestoration />
         <Scripts />
         <script defer src="/prism/prism-1.29.0.js" data-manual />

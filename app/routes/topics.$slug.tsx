@@ -5,8 +5,6 @@ import { notFound } from 'remix-utils';
 import PostList from '~/components/PostList';
 import { getTagInfo } from '~/models/tags.server';
 import { getPostsForTag } from '~/models/posts.server';
-import ListPageLayout from '~/layouts/ListPage';
-import { useEffect } from 'react';
 
 type NoTopic = {
   missing: 'topic';
@@ -75,14 +73,14 @@ export default function TopicPage() {
   const { tag, posts } = useLoaderData<typeof loader>();
 
   return (
-    <ListPageLayout>
+    <div className="mt-10">
       <PostList
         title={tag.name!}
         description={tag.description}
         image={tag.feature_image}
         posts={posts}
       />
-    </ListPageLayout>
+    </div>
   );
 }
 
@@ -92,12 +90,12 @@ export function CatchBoundary() {
   console.error({ data });
 
   return (
-    <ListPageLayout>
+    <div className="mt-10">
       <h1 className="text-4xl">
         {data.missing === 'topic' && `There's no topic "${data.slug}" known`}
         {data.missing === 'posts' &&
           `There are no posts found with the topic "${data.slug}"`}
       </h1>
-    </ListPageLayout>
+    </div>
   );
 }
