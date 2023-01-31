@@ -16,6 +16,9 @@ const Header = () => {
 
       <ul className="flex flex-row gap-5 items-center text-lg md:text-xl">
         <li>
+          <Link to="/development">Development</Link>
+        </li>
+        <li>
           <SnowModeToggle enabled={snowModeIsEnabled} />
         </li>
         <li>
