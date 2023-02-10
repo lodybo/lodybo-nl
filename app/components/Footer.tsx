@@ -19,7 +19,11 @@ const Footer = () => {
           url="https://www.twitter.com/lodybo"
           icon="twitter"
         />
+        <a rel="me" href="https://mastodon.social/@lodybo">
+          Mastodon
+        </a>
         <SocialMediaListItem
+          rel="me"
           url="https://mastodon.social/@lodybo"
           icon="mastodon"
         />
