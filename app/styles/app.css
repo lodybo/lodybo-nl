@@ -99,6 +99,23 @@
   pre[class*="language-"]::-webkit-scrollbar-track { /* Background */
     background: theme(colors.nord-polarnight-2.900);
   }
+
+  .marquee svg {
+    display: grid;
+    place-items: center;
+    /*width: 100%;*/
+    fill: #000;
+    background: theme(colors.nord-polarnight-2.200);
+    aspect-ratio: 16/9;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    height: 12rem;
+    width: 20rem;
+  }
+
+  .dark .marquee svg {
+    background: theme(colors.nord-polarnight-2.700);
+  }
 }
 
 .kg-width-wide {

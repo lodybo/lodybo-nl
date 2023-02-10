@@ -4,6 +4,7 @@ import { useLoaderData } from '@remix-run/react';
 import type { PostOrPage } from '@tryghost/content-api';
 import invariant from 'tiny-invariant';
 import { getPage } from '~/models/pages.server';
+import Marquee from '~/components/Marquee';
 
 export const loader = async ({ params }: LoaderArgs) => {
   let content: PostOrPage | void;
@@ -26,6 +27,7 @@ const DevelopmentPage = () => {
     <div className="mt-10">
       <h1>{content.title}</h1>
       <div dangerouslySetInnerHTML={{ __html: content.html || '' }} />
+      <Marquee />
     </div>
   );
 };

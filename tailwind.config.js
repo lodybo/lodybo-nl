@@ -20,7 +20,7 @@ module.exports = {
       cyan: colors.green,
 
       /*
-       * Nord's color scheme, deatiled here: https://www.nordtheme.com/docs/colors-and-palettes
+       * Nord's color scheme, detailed here: https://www.nordtheme.com/docs/colors-and-palettes
        * Every 'DEFAULT' key is the actual Nord color
        */
       // Nord 0
@@ -322,6 +322,29 @@ module.exports = {
           },
         },
       }),
+      animation: {
+        scroll: 'scroll 60s linear infinite',
+      },
+      // keyframes: ({ theme }) => ({
+      //   scroll: {
+      //     '0%': { transform: 'translateX(0)' },
+      //     '100%': {
+      //       transform: `translateX(calc(-100% - ${theme('gap.4')}')}))`,
+      //     },
+      //   },
+      // }),
+      keyframes: {
+        scroll: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': {
+            // transform: `translateX(calc(-100% - 1rem)}))`,
+            transform: `translateX(-100%)`,
+          },
+        },
+      },
+      width: {
+        'marquee-item': 'clamp(10rem, 1rem + 40vmin, 30rem)',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],
