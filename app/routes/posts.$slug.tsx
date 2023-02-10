@@ -1,21 +1,31 @@
 import { useEffect } from 'react';
 import type { LoaderArgs, MetaDescriptor, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useCatch, useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
 import { getPost } from '~/models/posts.server';
 import PostMeta from '~/components/PostMeta';
 import { formatDate, formatReadingTime } from '~/utils/formats';
 import { getGhostSettings } from '~/models/settings.server';
+import invariant from 'tiny-invariant';
+import AnchorLink from '~/components/AnchorLink';
+
+type MissingPost = {
+  slug: string;
+};
 
 export const loader = async ({ params }: LoaderArgs) => {
   const ghostSettings = await getGhostSettings();
   const { slug } = params;
 
+  invariant(slug, 'Post slug is required');
+
   const post = await getPost(slug!);
 
   if (!post) {
-    throw notFound({});
+    throw notFound<MissingPost>({
+      slug,
+    });
   }
 
   return json({ post, ghostSettings });
@@ -127,9 +137,33 @@ export default function Post() {
 }
 
 export function CatchBoundary() {
+  const { data } = useCatch();
+  const { slug } = data as MissingPost;
+
   return (
-    <div className="mt-10">
+    <div
+      className="mt-10 prose
+        prose-sm
+        sm:prose-base
+        md:prose-lg
+        xl:prose-2xl
+        prose-nord
+        dark:prose-invert
+        prose-a:no-underline
+        prose-a:border-b-2
+        prose-a:pb-1
+        prose-a:border-b-nord-frost-1-400
+        prose-a:transition-all
+        hover:prose-a:border-b-nord-frost-1-600"
+    >
       <h1 className="text-4xl">Post not found</h1>
+      <p>
+        I'm sorry, but a post with the slug "/posts/{slug}/" could not be found.
+      </p>
+
+      <p>
+        <AnchorLink href="/posts">Go back to the posts page</AnchorLink>
+      </p>
     </div>
   );
 }

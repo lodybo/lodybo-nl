@@ -5,6 +5,8 @@ import { notFound } from 'remix-utils';
 import PostList from '~/components/PostList';
 import { getTagInfo } from '~/models/tags.server';
 import { getPostsForTag } from '~/models/posts.server';
+import AnchorLink from '~/components/AnchorLink';
+import invariant from 'tiny-invariant';
 
 type NoTopic = {
   missing: 'topic';
@@ -31,11 +33,12 @@ export const loader = async ({ params }: LoaderArgs) => {
     throw notFound<NoTopic>({ missing: 'topic', slug });
   }
 
-  const posts = await getPostsForTag(tag.slug);
-
-  if (!posts) {
+  if (tag.count?.posts === 0) {
     throw notFound<NoPosts>({ missing: 'posts', slug });
   }
+
+  const posts = await getPostsForTag(tag.slug);
+  invariant(posts, 'Posts are required');
 
   return json({
     tag,
@@ -85,17 +88,36 @@ export default function TopicPage() {
 }
 
 export function CatchBoundary() {
-  const caught = useCatch();
-  const { data }: { data: ErrorRequest } = caught;
-  console.error({ data });
+  const { data } = useCatch();
+  const { slug, missing } = data as ErrorRequest;
 
   return (
-    <div className="mt-10">
-      <h1 className="text-4xl">
-        {data.missing === 'topic' && `There's no topic "${data.slug}" known`}
-        {data.missing === 'posts' &&
-          `There are no posts found with the topic "${data.slug}"`}
-      </h1>
+    <div
+      className="mt-10 prose
+        prose-sm
+        sm:prose-base
+        md:prose-lg
+        xl:prose-2xl
+        prose-nord
+        dark:prose-invert
+        prose-a:no-underline
+        prose-a:border-b-2
+        prose-a:pb-1
+        prose-a:border-b-nord-frost-1-400
+        prose-a:transition-all
+        hover:prose-a:border-b-nord-frost-1-600"
+    >
+      <h1>Topic not found</h1>
+      <p>
+        {missing === 'topic' &&
+          `I'm sorry, but a topic with the slug "/topics/${slug}/" could not be found.`}
+        {missing === 'posts' &&
+          `I'm sorry, but there are no posts found with the topic "${slug}"`}
+      </p>
+
+      <p>
+        <AnchorLink href="/topics">Go back to the topics page</AnchorLink>
+      </p>
     </div>
   );
 }

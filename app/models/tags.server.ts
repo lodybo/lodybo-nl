@@ -31,6 +31,10 @@ export function getTagInfo(slug: string) {
         return undefined;
       }
 
+      if (err.response.status === 404) {
+        return undefined;
+      }
+
       console.error(err);
     });
 }

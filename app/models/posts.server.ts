@@ -61,6 +61,10 @@ export async function getPost(slug: string) {
         return undefined;
       }
 
+      if (err.response.status === 404) {
+        return undefined;
+      }
+
       throw new Error(err);
     });
 }
