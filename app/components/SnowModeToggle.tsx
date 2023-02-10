@@ -10,7 +10,7 @@ const SnowModeToggle = ({ enabled }: Props) => {
   const location = useLocation();
 
   return (
-    <form action="/api.cookies.ts" method="post" className="flex items-center">
+    <form action="/api/cookies" method="post" className="flex items-center">
       <input type="hidden" name="actionType" value="snowMode" />
       <input
         type="hidden"
