@@ -12,6 +12,7 @@ import { recursiveFontURL } from '~/assets/fonts';
 import Document from '~/components/Document';
 import { userPrefs } from '~/cookies';
 import { getGhostSettings } from '~/models/settings.server';
+import { SnowModeSetting } from '~/hooks/useSnowMode';
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   const baseMetaData: MetaDescriptor = {
@@ -77,7 +78,7 @@ export type LoaderData = {
   cardsScriptUrl: string;
   cardsCssUrl: string;
   darkModeEnabled: any;
-  snowModeEnabled: any;
+  snowModeEnabled: SnowModeSetting;
   currentCopyrightYear: string;
   ghostSettings?: SettingsResponse | undefined;
 };
@@ -87,11 +88,16 @@ export const loader = async ({ request }: LoaderArgs) => {
   const cookieHeader = request.headers.get('Cookie');
   const cookie = (await userPrefs.parse(cookieHeader)) || {};
 
+  let snowModeEnabled: SnowModeSetting = null;
+  if (process.env.SNOW_MODE_ENABLED === 'true') {
+    snowModeEnabled = cookie.snowModeEnabled;
+  }
+
   const data: LoaderData = {
     cardsScriptUrl: `${process.env.GHOST_URL}/public/cards.min.js`,
     cardsCssUrl: `${process.env.GHOST_URL}/public/cards.min.css`,
     darkModeEnabled: cookie.darkModeEnabled,
-    snowModeEnabled: cookie.snowModeEnabled,
+    snowModeEnabled,
     ghostSettings,
     currentCopyrightYear: new Date().getFullYear().toString(),
   };

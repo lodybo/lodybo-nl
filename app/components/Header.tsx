@@ -15,9 +15,11 @@ const Header = () => {
       </h1>
 
       <ul className="flex flex-row gap-5 items-center text-lg md:text-xl">
-        <li>
-          <SnowModeToggle enabled={snowModeIsEnabled} />
-        </li>
+        {snowModeIsEnabled !== null && (
+          <li>
+            <SnowModeToggle />
+          </li>
+        )}
         <li>
           <DarkModeToggle enabled={darkModeIsEnabled} />
         </li>

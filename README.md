@@ -23,6 +23,5 @@ To update the Ghost version in the Docker image, you need to
 - Run `npm run docker`, which will pull the latest version from Docker Hub.
 - Import the exported database dump.
 
-## Themes
-Ideas for themes:
-- bg: `skyblue`, text: `#092a40`
+## Snow mode
+When winter is coming, I can enable the "Snow Mode" on my website. This is done by setting the `SNOW_MODE_ENABLED` environment variable to `true` on DigitalOcean.

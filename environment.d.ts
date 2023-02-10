@@ -1,9 +1,10 @@
 declare global {
-  namespace NodeJs {
+  namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: 'development' | 'production' | 'test';
       GHOST_URL: string;
       GHOST_KEY: string;
+      SNOW_MODE_ENABLED: string;
     }
   }
 }
