@@ -1,15 +1,13 @@
-import { useEffect } from 'react';
 import type { LoaderArgs, MetaDescriptor, MetaFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useCatch, useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
 import { getPost } from '~/models/posts.server';
-import PostMeta from '~/components/PostMeta';
-import { formatDate, formatReadingTime } from '~/utils/formats';
 import { getGhostSettings } from '~/models/settings.server';
 import invariant from 'tiny-invariant';
 import AnchorLink from '~/components/AnchorLink';
 import { filterInternalTags } from '~/models/tags.server';
+import PostContent from '~/components/PostContent';
 
 type MissingPost = {
   slug: string;
@@ -90,59 +88,8 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 
 export default function Post() {
   const { post } = useLoaderData<typeof loader>();
-  const publishedAt = formatDate(post.published_at);
-  const readingTime = formatReadingTime(post.reading_time);
 
-  useEffect(() => {
-    (window as any).Prism.highlightAll();
-  });
-
-  return (
-    <div
-      className="
-        prose
-        prose-sm
-        sm:prose-base
-        md:prose-lg
-        xl:prose-2xl
-        prose-nord
-        dark:prose-invert
-        leading-loose
-        max-w-5xl
-        prose-a:no-underline
-        prose-a:border-b-2
-        prose-a:pb-1
-        prose-a:border-b-nord-frost-1-400
-        prose-a:transition-all
-        hover:prose-a:border-b-nord-frost-1-600
-        mx-auto
-        px-4
-        sm:px-10
-      "
-    >
-      {post.feature_image && (
-        <div className="not-prose kg-width-full">
-          <img
-            className="w-full"
-            src={post.feature_image}
-            alt={post.feature_image_alt || post.title}
-          />
-        </div>
-      )}
-
-      <div className="h-8 sm:h-16 lg:h-32" />
-      <h1>{post.title}</h1>
-      <PostMeta
-        mode="full"
-        readingTime={readingTime}
-        publishedAt={publishedAt}
-        updatedAt={post.updated_at}
-        tags={post.tags}
-      />
-
-      <div dangerouslySetInnerHTML={{ __html: post.html || '' }} />
-    </div>
-  );
+  return <PostContent post={post} />;
 }
 
 export function CatchBoundary() {

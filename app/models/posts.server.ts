@@ -1,4 +1,5 @@
-import { ghost } from '~/ghost.server';
+import { PostOrPage } from '@tryghost/content-api';
+import { admin, ghost } from '~/ghost.server';
 
 export function getPosts() {
   return ghost.posts
@@ -67,4 +68,37 @@ export async function getPost(slug: string) {
 
       throw new Error(err);
     });
+}
+
+export async function getPostByUUID(
+  uuid: string,
+  slug: string,
+): Promise<PostOrPage> {
+  return admin.posts
+    .read(
+      {
+        uuid,
+        slug,
+      },
+      {
+        include: ['tags'],
+        formats: 'html',
+      },
+    )
+    .catch((err: any) => {
+      console.log({ err });
+      if (err.code === 'ECONNREFUSED') {
+        return undefined;
+      }
+
+      if (err.response.status === 404) {
+        return undefined;
+      }
+
+      throw new Error(err);
+    });
+}
+
+export async function adminPosts() {
+  return admin.posts.browse({ limit: 'all' });
 }
