@@ -1,10 +1,12 @@
 import { ghost } from '~/ghost.server';
+import { Tag } from '@tryghost/content-api';
 
 export function getTags() {
   return ghost.tags
     .browse({
       limit: 'all',
       include: 'count.posts',
+      filter: 'visibility:public',
     })
     .catch((err) => {
       if (err.code === 'ECONNREFUSED') {
@@ -37,4 +39,9 @@ export function getTagInfo(slug: string) {
 
       console.error(err);
     });
+}
+
+export function filterInternalTags(tags: Tag[] | undefined) {
+  if (!tags) return;
+  return tags.filter((tag) => !tag.slug.startsWith('hash'));
 }

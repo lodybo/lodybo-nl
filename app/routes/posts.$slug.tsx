@@ -9,6 +9,7 @@ import { formatDate, formatReadingTime } from '~/utils/formats';
 import { getGhostSettings } from '~/models/settings.server';
 import invariant from 'tiny-invariant';
 import AnchorLink from '~/components/AnchorLink';
+import { filterInternalTags } from '~/models/tags.server';
 
 type MissingPost = {
   slug: string;
@@ -28,7 +29,15 @@ export const loader = async ({ params }: LoaderArgs) => {
     });
   }
 
-  return json({ post, ghostSettings });
+  const filteredTags = filterInternalTags(post.tags);
+
+  return json({
+    post: {
+      ...post,
+      tags: filteredTags,
+    },
+    ghostSettings,
+  });
 };
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
