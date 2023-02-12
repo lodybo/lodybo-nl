@@ -1,10 +1,14 @@
-import { PostOrPage } from '@tryghost/content-api';
+import type { PostOrPage } from '@tryghost/content-api';
 import { admin, ghost } from '~/ghost.server';
 
-export function getPosts() {
+type GetPosts = {
+  page?: number;
+};
+
+export function getPosts({ page = 1 }: GetPosts) {
   return ghost.posts
     .browse({
-      limit: 'all',
+      page,
       include: ['tags'],
     })
     .catch((err) => {
