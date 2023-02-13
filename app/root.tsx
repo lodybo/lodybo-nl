@@ -12,7 +12,7 @@ import { recursiveFontURL } from '~/assets/fonts';
 import Document from '~/components/Document';
 import { userPrefs } from '~/cookies';
 import { getGhostSettings } from '~/models/settings.server';
-import { SnowModeSetting } from '~/hooks/useSnowMode';
+import type { SnowModeSetting } from '~/hooks/useSnowMode';
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   const baseMetaData: MetaDescriptor = {

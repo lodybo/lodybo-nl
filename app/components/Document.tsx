@@ -44,8 +44,21 @@ const Document = ({
         <style
           dangerouslySetInnerHTML={{ __html: `${recursiveFontDeclaration}` }}
         />
-        {cardsCssUrl && <link rel="stylesheet" href={cardsCssUrl} />}
+        {cardsCssUrl && (
+          <link
+            rel="preload"
+            as="style"
+            onLoad="this.onload=null;this.rel='stylesheet'"
+            href={cardsCssUrl}
+          />
+        )}
         {cardsScriptUrl && <script defer src={cardsScriptUrl} />}
+        <link
+          rel="preload"
+          as="style"
+          onLoad="this.onload=null;this.rel='stylesheet'"
+          href="/prism/prism-nord-1.29.0.css"
+        />
         <script defer data-domain="lodybo.nl" src="/js/script.js"></script>
         <DynamicLinks />
         <Links />

@@ -12,7 +12,9 @@ const PostContent = ({ post }: Props) => {
   const readingTime = formatReadingTime(post.reading_time);
 
   useEffect(() => {
-    (window as any).Prism.highlightAll();
+    window.addEventListener('load', () => {
+      (window as any).Prism.highlightAll();
+    });
   });
 
   return (
