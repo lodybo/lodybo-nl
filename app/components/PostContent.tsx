@@ -43,7 +43,7 @@ const PostContent = ({ post }: Props) => {
       {post.feature_image && (
         <div className="not-prose kg-width-full">
           <img
-            className="w-full"
+            className="w-full h-screen object-cover"
             src={post.feature_image}
             alt={post.feature_image_alt || post.title}
           />

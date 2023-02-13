@@ -49,7 +49,7 @@ const PostPreview = ({
       >
         {feature_image && (
           <img
-            className="w-full sm:w-1/4 h-20 sm:h-full flex-initial object-cover aspect-square"
+            className="w-full sm:w-52 h-20 sm:h-full flex-initial object-cover aspect-video sm:aspect-square"
             src={feature_image}
             alt={feature_image_alt || `Featured image for ${title}`}
           />
