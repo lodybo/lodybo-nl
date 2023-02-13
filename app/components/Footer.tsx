@@ -18,22 +18,23 @@ const Footer = () => {
         <SocialMediaListItem
           url="https://www.twitter.com/lodybo"
           icon="twitter"
+          ariaLabel="Twitter"
         />
-        <a rel="me" href="https://mastodon.social/@lodybo">
-          Mastodon
-        </a>
         <SocialMediaListItem
           rel="me"
           url="https://mastodon.social/@lodybo"
           icon="mastodon"
+          ariaLabel="Mastodon"
         />
         <SocialMediaListItem
           url="https://www.github.com/lodybo"
           icon="github"
+          ariaLabel="GitHub"
         />
         <SocialMediaListItem
           url="https://www.linkedin.com/in/lodybo"
           icon="linkedin-in"
+          ariaLabel="LinkedIn"
         />
       </SocialMediaList>
     </footer>

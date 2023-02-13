@@ -23,7 +23,7 @@ const DarkModeToggle = ({ enabled }: Props) => {
       />
       <input type="hidden" name="referrer" value={location.pathname} />
 
-      <button type="submit">
+      <button aria-label="dark-mode-toggle" type="submit">
         <Icon className="text-xl" name={enabled ? 'moon' : 'sun'} />
       </button>
     </fetcher.Form>

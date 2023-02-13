@@ -12,6 +12,8 @@ type ListItemProps = {
   handle?: string;
 
   rel?: string;
+
+  ariaLabel: string;
 };
 
 export const SocialMediaList = ({ children }: ListProps) => (
@@ -22,12 +24,14 @@ export const SocialMediaListItem = ({
   url,
   icon,
   handle,
+  ariaLabel,
   rel = '',
 }: ListItemProps) => (
   <li>
     <a
       className="flex flex-row gap-1.5 items-center"
       href={url}
+      aria-label={ariaLabel}
       target="_blank"
       rel={`noopener ${rel}`}
     >
