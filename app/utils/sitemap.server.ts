@@ -3,7 +3,7 @@ import { getTags } from '~/models/tags.server';
 import type { PostOrPage, Tag } from '@tryghost/content-api';
 
 export async function createSiteMap() {
-  const posts = await getPosts();
+  const posts = await getPosts({});
   const tags = await getTags();
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>';

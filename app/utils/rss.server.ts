@@ -1,13 +1,14 @@
 import * as cheerio from 'cheerio';
 import rss from 'rss';
 import invariant from 'tiny-invariant';
-import type { Tag } from '@tryghost/content-api';
+import type { SettingsResponse, Tag } from '@tryghost/content-api';
 import { getGhostSettings } from '~/models/settings.server';
 import { getPosts } from '~/models/posts.server';
 
 export async function generateRssFeed() {
-  const { title, description, url } = await getGhostSettings();
-  const posts = await getPosts();
+  const { title, description, url } =
+    (await getGhostSettings()) as SettingsResponse;
+  const posts = await getPosts({});
 
   invariant(title, 'title is required');
   invariant(description, 'description is required');
