@@ -19,6 +19,8 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
     charSet: 'utf-8',
     title: 'Lodybo',
     viewport: 'width=device-width,initial-scale=1',
+    description:
+      'My personal blog about front-end development. I write about React, TypeScript, Tailwind CSS, and more.',
   };
 
   if (data && data.ghostSettings) {

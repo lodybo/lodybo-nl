@@ -32,6 +32,8 @@ const Document = ({
   const [darkModeIsEnabled] = useDarkMode();
   const [snowModeIsEnabled] = useSnowMode();
 
+  const canonical = 'https://www.lodybo.nl' + location.pathname;
+
   return (
     <html
       lang="en"
@@ -67,12 +69,7 @@ const Document = ({
           type="application/rss+xml"
           href={`${siteUrl}rss.xml`}
         />
-        {siteUrl && (
-          <link
-            rel="canonical"
-            href={`${siteUrl}${location.pathname.substring(1)}`}
-          />
-        )}
+        <link rel="canonical" href={canonical} />
         <script src="/checkCookie.js"></script>
       </head>
       <body className="font-recursive antialiased bg-nord-6 dark:bg-nord-0 text-nord-0 dark:text-nord-6">

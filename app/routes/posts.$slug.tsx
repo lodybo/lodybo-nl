@@ -1,4 +1,9 @@
-import type { LoaderArgs, MetaDescriptor, MetaFunction } from '@remix-run/node';
+import type {
+  LinksFunction,
+  LoaderArgs,
+  MetaDescriptor,
+  MetaFunction,
+} from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useCatch, useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
