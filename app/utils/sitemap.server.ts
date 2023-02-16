@@ -1,8 +1,10 @@
 import { getPosts } from '~/models/posts.server';
 import { getTags } from '~/models/tags.server';
-import type { PostOrPage, Tag } from '@tryghost/content-api';
+import type { PostOrPage, SettingsResponse, Tag } from '@tryghost/content-api';
+import { getGhostSettings } from '~/models/settings.server';
 
 export async function createSiteMap() {
+  const { url } = (await getGhostSettings()) as SettingsResponse;
   const posts = await getPosts({});
   const tags = await getTags();
 
@@ -11,19 +13,19 @@ export async function createSiteMap() {
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">';
 
   // Create an entry for the index page.
-  xml += createEntry('/');
+  xml += createEntry(`${url}`);
 
   // Create entries for each post.
   if (posts && posts.length) {
     posts.forEach((post) => {
-      xml += createEntryForPost(post);
+      xml += createEntryForPost(post, url);
     });
   }
 
   // Create entries for each tag.
   if (tags && tags.length) {
     tags.forEach((tag) => {
-      xml += createEntryForTag(tag);
+      xml += createEntryForTag(tag, url);
     });
   }
 
@@ -32,7 +34,7 @@ export async function createSiteMap() {
   return xml;
 }
 
-function createEntryForPost(post: PostOrPage) {
+function createEntryForPost(post: PostOrPage, url: string = '/') {
   // Strip <, /> and ` from the post caption or title. Also encode it since Unsplash captions contain urls.
   let caption: string = '';
   if (post.feature_image && post.feature_image_caption) {
@@ -50,7 +52,7 @@ function createEntryForPost(post: PostOrPage) {
 
   return `
     <url>
-      <loc>${post.slug}</loc>
+      <loc>${url}posts/${post.slug}</loc>
       <lastmod>${post.updated_at || post.published_at}</lastmod>
       ${
         feature_image
@@ -64,10 +66,10 @@ function createEntryForPost(post: PostOrPage) {
     </url>`.trim();
 }
 
-function createEntryForTag(tag: Tag) {
+function createEntryForTag(tag: Tag, url: string = '/') {
   return `
     <url>
-      <loc>/topics/${tag.slug}</loc>
+      <loc>${url}topics/${tag.slug}</loc>
       ${
         tag.feature_image
           ? `<image:image><image:loc>${tag.feature_image}</image:loc></image:image>`
