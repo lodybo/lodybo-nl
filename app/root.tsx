@@ -55,10 +55,6 @@ export const links: LinksFunction = () => [
     type: 'font/woff2',
     crossOrigin: 'anonymous',
   },
-  {
-    rel: 'stylesheet',
-    href: '/prism/prism-nord-1.29.0.css',
-  },
   { rel: 'stylesheet', href: tailwindStylesheetUrl },
   { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
   {

@@ -6,6 +6,7 @@ import {
   Scripts,
   ScrollRestoration,
   useLocation,
+  useMatches,
 } from '@remix-run/react';
 import { recursiveFontDeclaration } from '~/assets/fonts';
 import classnames from 'classnames';
@@ -34,6 +35,9 @@ const Document = ({
 
   const canonical = 'https://www.lodybo.nl' + location.pathname;
 
+  const matches = useMatches();
+  const isPost = matches.find((match) => match.handle && match.handle.isPost);
+
   return (
     <html
       lang="en"
@@ -46,21 +50,9 @@ const Document = ({
         <style
           dangerouslySetInnerHTML={{ __html: `${recursiveFontDeclaration}` }}
         />
-        {cardsCssUrl && (
-          <link
-            rel="preload"
-            as="style"
-            onLoad="this.onload=null;this.rel='stylesheet'"
-            href={cardsCssUrl}
-          />
-        )}
+        {cardsCssUrl && <link rel="stylesheet" href={cardsCssUrl} />}
         {cardsScriptUrl && <script defer src={cardsScriptUrl} />}
-        <link
-          rel="preload"
-          as="style"
-          onLoad="this.onload=null;this.rel='stylesheet'"
-          href="/prism/prism-nord-1.29.0.css"
-        />
+        <link rel="stylesheet" href="/prism/prism-nord-1.29.0.css" />
         <script defer data-domain="lodybo.nl" src="/js/script.js"></script>
         <DynamicLinks />
         <Links />
