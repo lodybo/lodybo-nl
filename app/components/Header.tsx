@@ -1,37 +1,28 @@
-import { Link } from '@remix-run/react';
-import DarkModeToggle from '~/components/DarkModeToggle';
-import SnowModeToggle from '~/components/SnowModeToggle';
-import { useDarkMode } from '~/hooks/useDarkMode';
-import { useSnowMode } from '~/hooks/useSnowMode';
+import AnchorLink from '~/components/AnchorLink';
+import lody from '~/assets/images/header.jpg';
 
-const Header = () => {
-  const [darkModeIsEnabled] = useDarkMode();
-  const [snowModeIsEnabled] = useSnowMode();
-
+export default function Header() {
   return (
-    <header className="border-b-2 border-b-nord-1 dark:border-b-nord-4 py-5 px-5 sm:px-10 gap-5 flex flex-row items-center justify-between h-20">
-      <h1 className="text-xl sm:text-2xl md:text-3xl">
-        <Link to="/">Lodybo</Link>
-      </h1>
+    <div className="w-full relative mb-16 flex flex-col md:flex-row gap-10 md:gap-5 h-full">
+      <img
+        className="w-full h-screen object-cover"
+        src={lody}
+        alt="Me, on stage"
+      />
 
-      <ul className="flex flex-row gap-5 items-center text-lg md:text-xl">
-        {snowModeIsEnabled !== null && (
-          <li>
-            <SnowModeToggle />
-          </li>
-        )}
-        <li>
-          <DarkModeToggle enabled={darkModeIsEnabled} />
-        </li>
-        <li>
-          <Link to="/posts">Posts</Link>
-        </li>
-        <li>
-          <Link to="/topics">Topics</Link>
-        </li>
-      </ul>
-    </header>
+      <div className="absolute max-w-lg right-20 top-10 h-full flex flex-col gap-4 justify-center text-center md:text-left text-nord-6">
+        <h1 className="text-4xl sm:text-6xl xl:text-8xl font-black">
+          Hello, I'm Lody
+        </h1>
+        <p className="text-xl sm:text-3xl leading-relaxed font-light">
+          Born and raised in The Netherlands, currently work at{' '}
+          <AnchorLink href="https://www.taf.nl">TAF</AnchorLink>, and I
+          occasionally{' '}
+          <AnchorLink href="https://www.themarch.nl">make</AnchorLink>{' '}
+          <AnchorLink href="https://www.borgersfamilie.nl/">music</AnchorLink>{' '}
+          too.
+        </p>
+      </div>
+    </div>
   );
-};
-
-export default Header;
+}

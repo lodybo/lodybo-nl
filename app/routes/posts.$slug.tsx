@@ -13,6 +13,10 @@ import invariant from 'tiny-invariant';
 import AnchorLink from '~/components/AnchorLink';
 import { filterInternalTags } from '~/models/tags.server';
 import PostContent from '~/components/PostContent';
+import {
+  NavigationBackground,
+  NavigationVisibility,
+} from '~/components/Navigation';
 
 type MissingPost = {
   slug: string;
@@ -128,3 +132,8 @@ export function CatchBoundary() {
     </div>
   );
 }
+
+export const handle = {
+  navigationVisibility: NavigationVisibility.VISIBLE,
+  navigationBackground: NavigationBackground.SOLID,
+};
