@@ -16,7 +16,7 @@ export default function Posts({ posts }: Props) {
 
   return (
     <MainSection>
-      <PostList title="Some recent posts" posts={posts} grid />
+      <PostList title="Stuff that I've written" posts={posts} grid />
 
       <div className="mt-10 px-5 flex justify-end">
         <AnchorLink to="/posts">

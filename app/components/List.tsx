@@ -3,6 +3,8 @@ import type { Nullable } from '@tryghost/content-api';
 import classNames from 'classnames';
 import classnames from 'classnames';
 
+// TODO: remove all mentions of 'classnames'.
+
 type Props = {
   title: string;
   description?: Nullable<string>;

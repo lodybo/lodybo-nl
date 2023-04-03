@@ -16,6 +16,7 @@ import { useRef } from 'react';
 import { useHiddenNavigation, useSolidNavigation } from '~/utils/matches';
 import Bio from '~/components/Bio';
 import Posts from '~/components/Posts';
+import Music from '~/components/Music';
 
 export const loader = async () => {
   const posts = await getRecentPosts();
@@ -55,8 +56,10 @@ export default function _index() {
 
       <Header />
 
-      <main ref={mainContentRef}>
+      <main ref={mainContentRef} className="space-y-20">
         <Bio />
+
+        <Music />
 
         <Posts posts={posts} />
       </main>

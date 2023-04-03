@@ -3,7 +3,7 @@ import MainSection from '~/components/MainSection';
 
 export default function Bio() {
   return (
-    <MainSection className="mb-20">
+    <MainSection>
       <p className="text-xl sm:text-3xl leading-relaxed font-light">
         Born and raised in The Netherlands, currently work at{' '}
         <AnchorLink href="https://www.taf.nl">TAF</AnchorLink>, and I
