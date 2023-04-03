@@ -8,6 +8,7 @@ import { getPostsForTag } from '~/models/posts.server';
 import AnchorLink from '~/components/AnchorLink';
 import invariant from 'tiny-invariant';
 import Navigation from '~/components/Navigation';
+import Prose from '~/components/Prose';
 
 type NoTopic = {
   missing: 'topic';
@@ -98,22 +99,7 @@ export function CatchBoundary() {
   return (
     <>
       <Navigation />
-      <div
-        className="mt-10
-        prose
-        prose-sm
-        sm:prose-base
-        md:prose-lg
-        xl:prose-2xl
-        prose-nord
-        dark:prose-invert
-        prose-a:no-underline
-        prose-a:border-b-2
-        prose-a:pb-1
-        prose-a:border-b-nord-frost-1-400
-        prose-a:transition-all
-        hover:prose-a:border-b-nord-frost-1-600"
-      >
+      <Prose>
         <h1>Topic not found</h1>
         <p>
           {missing === 'topic' &&
@@ -125,7 +111,7 @@ export function CatchBoundary() {
         <p>
           <AnchorLink href="/topics">Go back to the topics page</AnchorLink>
         </p>
-      </div>
+      </Prose>
     </>
   );
 }

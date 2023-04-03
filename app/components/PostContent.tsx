@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import type { PostOrPage } from '@tryghost/content-api';
 import { formatDate, formatReadingTime } from '~/utils/formats';
 import PostMeta from '~/components/PostMeta';
+import Prose from '~/components/Prose';
 
 type Props = {
   post: PostOrPage;
@@ -18,29 +19,7 @@ const PostContent = ({ post }: Props) => {
   });
 
   return (
-    <div
-      className="
-        prose
-        prose-sm
-        sm:prose-base
-        md:prose-lg
-        xl:prose-2xl
-        prose-nord
-        dark:prose-invert
-        prose-a:no-underline
-        prose-a:border-b-2
-        prose-a:pb-1
-        prose-a:border-b-nord-frost-1-400
-        prose-a:transition-all
-        hover:prose-a:border-b-nord-frost-1-600
-
-        leading-loose
-        max-w-5xl
-        mx-auto
-        px-4
-        sm:px-10
-      "
-    >
+    <Prose isPost>
       {post.feature_image && (
         <div className="not-prose kg-width-full">
           <img
@@ -62,7 +41,7 @@ const PostContent = ({ post }: Props) => {
       />
 
       <div dangerouslySetInnerHTML={{ __html: post.html || '' }} />
-    </div>
+    </Prose>
   );
 };
 

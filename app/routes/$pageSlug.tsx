@@ -3,6 +3,7 @@ import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { getPage } from '~/models/pages.server';
 import { notFound } from 'remix-utils';
+import Prose from '~/components/Prose';
 
 export const loader = async ({ params }: LoaderArgs) => {
   const { pageSlug } = params;
@@ -13,23 +14,21 @@ export const loader = async ({ params }: LoaderArgs) => {
     throw notFound({});
   }
 
-  return json({ page, });
+  return json({ page });
 };
 
 export default function Post() {
   const { page } = useLoaderData<typeof loader>();
 
   return (
-    <div className="prose">
+    <Prose>
       <h1>{page.title}</h1>
 
       <div dangerouslySetInnerHTML={{ __html: page.html || '' }} />
-    </div>
+    </Prose>
   );
 }
 
 export function CatchBoundary() {
-  return (
-    <h1>Page not found</h1>
-  );
+  return <h1>Page not found</h1>;
 }

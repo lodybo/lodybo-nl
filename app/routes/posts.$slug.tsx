@@ -17,6 +17,7 @@ import Navigation, {
   NavigationBackground,
   NavigationVisibility,
 } from '~/components/Navigation';
+import Prose from '~/components/Prose';
 
 type MissingPost = {
   slug: string;
@@ -113,22 +114,7 @@ export function CatchBoundary() {
   return (
     <>
       <Navigation />
-      <div
-        className="mt-10
-        prose
-        prose-sm
-        sm:prose-base
-        md:prose-lg
-        xl:prose-2xl
-        prose-nord
-        dark:prose-invert
-        prose-a:no-underline
-        prose-a:border-b-2
-        prose-a:pb-1
-        prose-a:border-b-nord-frost-1-400
-        prose-a:transition-all
-        hover:prose-a:border-b-nord-frost-1-600"
-      >
+      <Prose>
         <h1 className="text-4xl">Post not found</h1>
         <p>
           I'm sorry, but a post with the slug "/posts/{slug}/" could not be
@@ -138,7 +124,7 @@ export function CatchBoundary() {
         <p>
           <AnchorLink href="/posts">Go back to the posts page</AnchorLink>
         </p>
-      </div>
+      </Prose>
     </>
   );
 }
