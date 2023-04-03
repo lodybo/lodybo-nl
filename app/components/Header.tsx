@@ -1,4 +1,3 @@
-import AnchorLink from '~/components/AnchorLink';
 import lody from '~/assets/images/header.jpg';
 
 export default function Header() {
@@ -15,12 +14,7 @@ export default function Header() {
           Hello, I'm Lody
         </h1>
         <p className="text-xl sm:text-3xl leading-relaxed font-light">
-          Born and raised in The Netherlands, currently work at{' '}
-          <AnchorLink href="https://www.taf.nl">TAF</AnchorLink>, and I
-          occasionally{' '}
-          <AnchorLink href="https://www.themarch.nl">make</AnchorLink>{' '}
-          <AnchorLink href="https://www.borgersfamilie.nl/">music</AnchorLink>{' '}
-          too.
+          Front-end developer and musician.
         </p>
       </div>
     </div>

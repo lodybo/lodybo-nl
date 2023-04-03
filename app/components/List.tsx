@@ -12,7 +12,7 @@ type Props = {
 };
 
 const List = ({ title, description, image, children, grid = false }: Props) => (
-  <div className="px-5">
+  <>
     <div className="flex flex-row gap-5 mb-10">
       {image && (
         <div className="w-32">
@@ -46,7 +46,7 @@ const List = ({ title, description, image, children, grid = false }: Props) => (
     >
       {children}
     </ul>
-  </div>
+  </>
 );
 
 export default List;

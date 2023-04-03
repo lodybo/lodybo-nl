@@ -14,6 +14,8 @@ import Navigation, {
 import { useIsColliding } from '~/hooks/useIsColliding';
 import { useRef } from 'react';
 import { useHiddenNavigation, useSolidNavigation } from '~/utils/matches';
+import Bio from '~/components/Bio';
+import Posts from '~/components/Posts';
 
 export const loader = async () => {
   const posts = await getRecentPosts();
@@ -50,23 +52,14 @@ export default function _index() {
         background={navigationHasBackground}
         position="fixed"
       />
+
       <Header />
 
-      <div ref={mainContentRef}>
-        {posts && (
-          <div className="px-5 md:px-10 xl:px-40 mx-auto flex flex-col">
-            <PostList title="Some recent posts" posts={posts} grid />
+      <main ref={mainContentRef}>
+        <Bio />
 
-            <div className="mt-10 px-5 flex justify-end">
-              <AnchorLink to="/posts">
-                <span className="flex flex-row items-center gap-2 hover:gap-3 transition-all">
-                  Read more here <Icon name="arrow-right" />
-                </span>
-              </AnchorLink>
-            </div>
-          </div>
-        )}
-      </div>
+        <Posts posts={posts} />
+      </main>
     </>
   );
 }
