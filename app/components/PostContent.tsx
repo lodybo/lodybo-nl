@@ -27,14 +27,15 @@ const PostContent = ({ post }: Props) => {
         xl:prose-2xl
         prose-nord
         dark:prose-invert
-        leading-loose
-        max-w-5xl
         prose-a:no-underline
         prose-a:border-b-2
         prose-a:pb-1
         prose-a:border-b-nord-frost-1-400
         prose-a:transition-all
         hover:prose-a:border-b-nord-frost-1-600
+
+        leading-loose
+        max-w-5xl
         mx-auto
         px-4
         sm:px-10

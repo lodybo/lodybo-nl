@@ -13,7 +13,7 @@ import invariant from 'tiny-invariant';
 import AnchorLink from '~/components/AnchorLink';
 import { filterInternalTags } from '~/models/tags.server';
 import PostContent from '~/components/PostContent';
-import {
+import Navigation, {
   NavigationBackground,
   NavigationVisibility,
 } from '~/components/Navigation';
@@ -98,7 +98,12 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 export default function Post() {
   const { post } = useLoaderData<typeof loader>();
 
-  return <PostContent post={post} />;
+  return (
+    <>
+      <Navigation />
+      <PostContent post={post} />
+    </>
+  );
 }
 
 export function CatchBoundary() {
@@ -106,8 +111,11 @@ export function CatchBoundary() {
   const { slug } = data as MissingPost;
 
   return (
-    <div
-      className="mt-10 prose
+    <>
+      <Navigation />
+      <div
+        className="mt-10
+        prose
         prose-sm
         sm:prose-base
         md:prose-lg
@@ -120,16 +128,18 @@ export function CatchBoundary() {
         prose-a:border-b-nord-frost-1-400
         prose-a:transition-all
         hover:prose-a:border-b-nord-frost-1-600"
-    >
-      <h1 className="text-4xl">Post not found</h1>
-      <p>
-        I'm sorry, but a post with the slug "/posts/{slug}/" could not be found.
-      </p>
+      >
+        <h1 className="text-4xl">Post not found</h1>
+        <p>
+          I'm sorry, but a post with the slug "/posts/{slug}/" could not be
+          found.
+        </p>
 
-      <p>
-        <AnchorLink href="/posts">Go back to the posts page</AnchorLink>
-      </p>
-    </div>
+        <p>
+          <AnchorLink href="/posts">Go back to the posts page</AnchorLink>
+        </p>
+      </div>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { ReactNode, useRef } from 'react';
 import {
   Links,
   LiveReload,
@@ -15,6 +15,7 @@ import { useSnowMode } from '~/hooks/useSnowMode';
 import Navigation from '~/components/Navigation';
 import Footer from '~/components/Footer';
 import { useHiddenNavigation, useSolidNavigation } from '~/utils/matches';
+import { useOnScreen } from '~/hooks/useOnScreen';
 
 type Props = {
   children: ReactNode;
@@ -34,9 +35,6 @@ const Document = ({
   const [snowModeIsEnabled] = useSnowMode();
 
   const canonical = 'https://www.lodybo.nl' + location.pathname;
-
-  const navigationIsHidden = useHiddenNavigation();
-  const navigationHasBackground = useSolidNavigation();
 
   return (
     <html
@@ -67,11 +65,6 @@ const Document = ({
       <body className="font-recursive antialiased bg-nord-6 dark:bg-nord-0 text-nord-0 dark:text-nord-6">
         <script src="/noFlash.js" />
         <div className="relative flex flex-col min-h-screen">
-          <Navigation
-            hidden={navigationIsHidden}
-            hasBackground={navigationHasBackground}
-          />
-
           <div className="w-full mb-10 flex-1">{children}</div>
 
           <Footer />

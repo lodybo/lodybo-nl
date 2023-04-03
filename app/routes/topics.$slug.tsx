@@ -7,6 +7,7 @@ import { getTagInfo } from '~/models/tags.server';
 import { getPostsForTag } from '~/models/posts.server';
 import AnchorLink from '~/components/AnchorLink';
 import invariant from 'tiny-invariant';
+import Navigation from '~/components/Navigation';
 
 type NoTopic = {
   missing: 'topic';
@@ -76,14 +77,17 @@ export default function TopicPage() {
   const { tag, posts } = useLoaderData<typeof loader>();
 
   return (
-    <div className="mt-10">
-      <PostList
-        title={tag.name!}
-        description={tag.description}
-        image={tag.feature_image}
-        posts={posts}
-      />
-    </div>
+    <>
+      <Navigation />
+      <div className="mt-10">
+        <PostList
+          title={tag.name!}
+          description={tag.description}
+          image={tag.feature_image}
+          posts={posts}
+        />
+      </div>
+    </>
   );
 }
 
@@ -92,8 +96,11 @@ export function CatchBoundary() {
   const { slug, missing } = data as ErrorRequest;
 
   return (
-    <div
-      className="mt-10 prose
+    <>
+      <Navigation />
+      <div
+        className="mt-10
+        prose
         prose-sm
         sm:prose-base
         md:prose-lg
@@ -106,18 +113,19 @@ export function CatchBoundary() {
         prose-a:border-b-nord-frost-1-400
         prose-a:transition-all
         hover:prose-a:border-b-nord-frost-1-600"
-    >
-      <h1>Topic not found</h1>
-      <p>
-        {missing === 'topic' &&
-          `I'm sorry, but a topic with the slug "/topics/${slug}/" could not be found.`}
-        {missing === 'posts' &&
-          `I'm sorry, but there are no posts found with the topic "${slug}"`}
-      </p>
+      >
+        <h1>Topic not found</h1>
+        <p>
+          {missing === 'topic' &&
+            `I'm sorry, but a topic with the slug "/topics/${slug}/" could not be found.`}
+          {missing === 'posts' &&
+            `I'm sorry, but there are no posts found with the topic "${slug}"`}
+        </p>
 
-      <p>
-        <AnchorLink href="/topics">Go back to the topics page</AnchorLink>
-      </p>
-    </div>
+        <p>
+          <AnchorLink href="/topics">Go back to the topics page</AnchorLink>
+        </p>
+      </div>
+    </>
   );
 }

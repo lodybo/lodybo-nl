@@ -12,8 +12,10 @@ export const useHasScrolled = (threshold = 200) => {
 
     window.addEventListener('scroll', handleScroll);
 
+    handleScroll();
+
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [threshold]);
 
   return [hasScrolled];
 };

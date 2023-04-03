@@ -7,6 +7,7 @@ import PostList from '~/components/PostList';
 import { getPosts } from '~/models/posts.server';
 import PostPagination from '~/components/Pagination';
 import { filterInternalTags } from '~/models/tags.server';
+import Navigation from '~/components/Navigation';
 
 export const loader = async ({ request }: LoaderArgs) => {
   const pageParam = new URL(request.url).searchParams.get('page') || '1';
@@ -43,19 +44,25 @@ export default function PostsPage() {
   const { posts, meta } = useLoaderData<typeof loader>();
 
   return (
-    <div className="mt-10">
-      <PostList title="What I've written" posts={posts} />
-      {meta.pagination.pages > 1 ? (
-        <PostPagination {...meta.pagination} />
-      ) : null}
-    </div>
+    <>
+      <Navigation />
+      <div className="mt-10">
+        <PostList title="What I've written" posts={posts} />
+        {meta.pagination.pages > 1 ? (
+          <PostPagination {...meta.pagination} />
+        ) : null}
+      </div>
+    </>
   );
 }
 
 export function CatchBoundary() {
   return (
-    <div className="mt-10">
-      <h1 className="text-4xl">No posts found.</h1>
-    </div>
+    <>
+      <Navigation />
+      <div className="mt-10">
+        <h1 className="text-4xl">No posts found.</h1>
+      </div>
+    </>
   );
 }
