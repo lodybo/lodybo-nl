@@ -14,6 +14,14 @@ export default function Projects() {
           image="/image/borgers-website.webp"
           type="website"
         />
+
+        <Project
+          name="THE MARCH"
+          description="The website for my own band."
+          url="https://www.themarch.nl"
+          image="/image/the-march.webp"
+          type="website"
+        />
       </div>
     </MainSection>
   );
