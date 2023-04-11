@@ -17,6 +17,7 @@ import { useHiddenNavigation, useSolidNavigation } from '~/utils/matches';
 import Bio from '~/components/Bio';
 import Posts from '~/components/Posts';
 import Music from '~/components/Music';
+import Projects from '~/components/Projects';
 
 export const loader = async () => {
   const posts = await getRecentPosts();
@@ -59,7 +60,9 @@ export default function _index() {
       <main ref={mainContentRef} className="space-y-20">
         <Bio />
 
-        <Music />
+        {/*<Music />*/}
+
+        <Projects />
 
         <Posts posts={posts} />
       </main>
