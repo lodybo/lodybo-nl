@@ -3,7 +3,7 @@ import { useParallaxEffect } from '~/hooks/useParallaxEffect';
 import type { ImageProps } from '~/components/Image';
 import { Image } from '~/components/Image';
 
-type Props = Pick<ImageProps, 'imageSizes'> & {
+type Props = Pick<ImageProps, 'srcSet' | 'sizes'> & {
   /**
    * The image's source.
    */
@@ -15,7 +15,7 @@ type Props = Pick<ImageProps, 'imageSizes'> & {
   alt: string;
 };
 
-export default function ParallaxImage({ src, alt, imageSizes }: Props) {
+export default function ParallaxImage({ src, alt, srcSet, sizes }: Props) {
   const { ref } = useParallaxEffect({ threshold: 0.5, speed: 0.5 });
 
   return (
@@ -25,7 +25,8 @@ export default function ParallaxImage({ src, alt, imageSizes }: Props) {
       ref={ref}
       loading="lazy"
       src={src}
-      imageSizes={imageSizes}
+      srcSet={srcSet}
+      sizes={sizes}
     />
   );
 }

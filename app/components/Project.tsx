@@ -1,6 +1,5 @@
 import AnchorLink from '~/components/AnchorLink';
 import ParallaxImage from '~/components/ParallaxImage';
-import type { ImageSizes } from '~/components/Image';
 
 type Props = {
   /**
@@ -42,20 +41,16 @@ export default function Project({
   type,
   wide,
 }: Props) {
-  const imageSizes: ImageSizes = {
-    '': {
-      '1x': 200,
-      '2x': 400,
-      '3x': 600,
-    },
-  };
-
   return (
     <div
       className={`flex flex-row gap-2 h-32 w-full ${wide ? 'col-span-2' : ''}`}
     >
       <div className="w-1/3">
-        <ParallaxImage alt={name} src={image} imageSizes={imageSizes} />
+        <ParallaxImage
+          alt={name}
+          src={`${image}?w=200`}
+          srcSet={`${image}?w=400 2x, ${image}?w=600 3x`}
+        />
       </div>
 
       <div className=" flex flex-col">
