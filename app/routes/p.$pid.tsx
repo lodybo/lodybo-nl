@@ -2,7 +2,7 @@ import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import invariant from 'tiny-invariant';
-import type { PostOrPage } from 'tryghost__content-api';
+import type { PostOrPage } from '@tryghost/content-api';
 
 import { adminPosts, getPostByUUID } from '~/models/posts.server';
 import PostContent from '~/components/PostContent';
