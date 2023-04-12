@@ -8,6 +8,7 @@ import {
   faArrowRight,
   faMoon,
   faSun,
+  faFilm,
 } from '@fortawesome/free-solid-svg-icons';
 import { faSnowflake } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -29,6 +30,7 @@ library.add(
   faSnowflake,
   faMastodon,
   faLinkedinIn,
+  faFilm,
 );
 
 export type Props = {

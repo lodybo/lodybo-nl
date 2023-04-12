@@ -76,6 +76,7 @@ export type LoaderData = {
   cardsScriptUrl: string;
   cardsCssUrl: string;
   darkModeEnabled: any;
+  animationEnabled: any;
   snowModeEnabled: SnowModeSetting;
   currentCopyrightYear: string;
   ghostSettings?: SettingsResponse | undefined;
@@ -95,6 +96,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     cardsScriptUrl: `${process.env.GHOST_URL}/public/cards.min.js`,
     cardsCssUrl: `${process.env.GHOST_URL}/public/cards.min.css`,
     darkModeEnabled: cookie.darkModeEnabled,
+    animationEnabled: cookie.animationEnabled,
     snowModeEnabled,
     ghostSettings,
     currentCopyrightYear: new Date().getFullYear().toString(),

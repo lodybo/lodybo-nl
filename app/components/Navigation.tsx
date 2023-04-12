@@ -5,8 +5,10 @@ import { useDarkMode } from '~/hooks/useDarkMode';
 import { useSnowMode } from '~/hooks/useSnowMode';
 import lody from '~/assets/images/lody.svg';
 import { useHasScrolled } from '~/hooks/hasScrolled';
-import type { RefObject } from 'react';
+import type { HTMLAttributeAnchorTarget, RefObject } from 'react';
 import { forwardRef } from 'react';
+import AnimationToggle from '~/components/AnimationToggle';
+import { useAnimationMode } from '~/hooks/useAnimationMode';
 
 type Props = {
   /**
@@ -54,6 +56,7 @@ const Navigation = forwardRef<HTMLElement, Props>(
   ) => {
     const [darkModeIsEnabled] = useDarkMode();
     const [snowModeIsEnabled] = useSnowMode();
+    const [animationModeIsEnabled] = useAnimationMode();
     const [hasScrolled] = useHasScrolled();
 
     let backgroundClass;
@@ -90,19 +93,34 @@ const Navigation = forwardRef<HTMLElement, Props>(
         </Link>
 
         <ul className="flex flex-row gap-5 items-center text-lg md:text-xl">
+          <li>
+            <NavigationLink to="/music">Music</NavigationLink>
+          </li>
+          <li>
+            <NavigationLink to="/development">Development</NavigationLink>
+          </li>
+          <li>
+            <NavigationLink to="/posts">Posts</NavigationLink>
+          </li>
+          <li>
+            <NavigationLink
+              href="https://github.com/lodybo/dotfiles"
+              target="_blank"
+              rel="noopener"
+            >
+              .dotfiles
+            </NavigationLink>
+          </li>
           {snowModeIsEnabled !== null && (
             <li>
               <SnowModeToggle />
             </li>
           )}
           <li>
+            <AnimationToggle enabled={animationModeIsEnabled} />
+          </li>
+          <li>
             <DarkModeToggle enabled={darkModeIsEnabled} />
-          </li>
-          <li>
-            <Link to="/posts">Posts</Link>
-          </li>
-          <li>
-            <Link to="/topics">Topics</Link>
           </li>
         </ul>
       </header>
@@ -112,3 +130,67 @@ const Navigation = forwardRef<HTMLElement, Props>(
 Navigation.displayName = 'Navigation';
 
 export default Navigation;
+
+type BaseNavigationLinkProps = {
+  children: string;
+};
+
+type InternalNavigationLinkProps = BaseNavigationLinkProps & {
+  to: string;
+  href?: never;
+};
+
+type ExternalNavigationLinkProps = BaseNavigationLinkProps & {
+  to?: never;
+  href: string;
+  target?: HTMLAttributeAnchorTarget;
+  rel?: string;
+};
+
+type NavigationLinkProps =
+  | InternalNavigationLinkProps
+  | ExternalNavigationLinkProps;
+
+function NavigationLink({ children, ...props }: NavigationLinkProps) {
+  const { href } = props;
+
+  const classes = `
+    relative 
+    text-nord-0
+    dark:text-nord-6
+    before:content-['']
+    before:absolute
+    before:w-full
+    before:h-0.5
+    before:bottom-[-5px]
+    before:left-0
+    before:bg-nord-0
+    before:dark:bg-nord-6
+    before:invisible
+    before:scale-x-0
+    before:transition-all
+    before:duration-300
+    before:ease-in-out
+    hover:before:visible
+    hover:before:scale-x-100
+  `;
+
+  if (href) {
+    const { href: to, target, rel } = props;
+    return (
+      <a className={classes} href={to} target={target} rel={rel}>
+        {children}
+      </a>
+    );
+  }
+
+  const { to } = props;
+  if (!to)
+    throw new Error('NavigationLink must have either a `to` or `href` prop.');
+
+  return (
+    <Link className={classes} to={to}>
+      {children}
+    </Link>
+  );
+}

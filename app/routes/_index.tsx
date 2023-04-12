@@ -60,7 +60,7 @@ export default function _index() {
       <main ref={mainContentRef} className="space-y-20">
         <Bio />
 
-        <Music />
+        {/*<Music />*/}
 
         <Projects />
 

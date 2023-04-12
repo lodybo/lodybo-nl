@@ -30,7 +30,13 @@ export const action = async ({ request }: ActionArgs) => {
     case 'snowMode':
       cookie.snowModeEnabled = actionValue == 'enable';
       break;
+
+    case 'animation':
+      cookie.animationEnabled = actionValue == 'enable';
+      break;
   }
+
+  console.log({ cookie });
 
   return redirect(referrer, {
     headers: {
