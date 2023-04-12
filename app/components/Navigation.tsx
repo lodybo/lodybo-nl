@@ -1,14 +1,14 @@
-import { Link } from '@remix-run/react';
+import { forwardRef } from 'react';
+import type { HTMLAttributeAnchorTarget, RefObject } from 'react';
+import { NavLink } from '@remix-run/react';
 import DarkModeToggle from '~/components/DarkModeToggle';
 import SnowModeToggle from '~/components/SnowModeToggle';
 import { useDarkMode } from '~/hooks/useDarkMode';
 import { useSnowMode } from '~/hooks/useSnowMode';
-import lody from '~/assets/images/lody.svg';
 import { useHasScrolled } from '~/hooks/hasScrolled';
-import type { HTMLAttributeAnchorTarget, RefObject } from 'react';
-import { forwardRef } from 'react';
 import AnimationToggle from '~/components/AnimationToggle';
 import { useAnimationMode } from '~/hooks/useAnimationMode';
+import lody from '~/assets/images/lody.svg';
 
 type Props = {
   /**
@@ -83,14 +83,14 @@ const Navigation = forwardRef<HTMLElement, Props>(
           hidden ? (hasScrolled ? 'opacity-100' : 'opacity-0') : 'opacity-100'
         } ${backgroundClass} transition-opacity duration-300 py-5 px-5 sm:px-10 gap-5 flex flex-col sm:flex-row items-center justify-between h-auto sm:h-20`}
       >
-        <Link
+        <NavLink
           className="flex flex-row gap-2.5 hover:gap-4 transition-all items-center"
           to="/"
         >
           <img className="w-14" src={lody} alt="Me" />
 
           <h1 className="text-xl sm:text-2xl md:text-3xl">Lodybo</h1>
-        </Link>
+        </NavLink>
 
         <ul className="flex flex-row gap-5 items-center text-lg md:text-xl">
           <li>
@@ -100,16 +100,16 @@ const Navigation = forwardRef<HTMLElement, Props>(
             <NavigationLink to="/development">Development</NavigationLink>
           </li>
           <li>
-            <NavigationLink to="/posts">Posts</NavigationLink>
+            <NavigationLink to="/posts">Blog</NavigationLink>
           </li>
           <li>
-            <NavigationLink
-              href="https://github.com/lodybo/dotfiles"
-              target="_blank"
-              rel="noopener"
-            >
-              .dotfiles
-            </NavigationLink>
+            <NavigationLink to="/me">Me</NavigationLink>
+          </li>
+          <li>
+            <NavigationLink to="/contact">Contact</NavigationLink>
+          </li>
+          <li>
+            <NavigationLink to="/uses">Uses</NavigationLink>
           </li>
           {snowModeIsEnabled !== null && (
             <li>
@@ -166,8 +166,6 @@ function NavigationLink({ children, ...props }: NavigationLinkProps) {
     before:left-0
     before:bg-nord-0
     before:dark:bg-nord-6
-    before:invisible
-    before:scale-x-0
     before:transition-all
     before:duration-300
     before:ease-in-out
@@ -178,7 +176,12 @@ function NavigationLink({ children, ...props }: NavigationLinkProps) {
   if (href) {
     const { href: to, target, rel } = props;
     return (
-      <a className={classes} href={to} target={target} rel={rel}>
+      <a
+        className={`${classes} before:invisible before:scale-x-0`}
+        href={to}
+        target={target}
+        rel={rel}
+      >
         {children}
       </a>
     );
@@ -189,8 +192,17 @@ function NavigationLink({ children, ...props }: NavigationLinkProps) {
     throw new Error('NavigationLink must have either a `to` or `href` prop.');
 
   return (
-    <Link className={classes} to={to}>
+    <NavLink
+      className={({ isActive }) => {
+        return `${classes} ${
+          isActive
+            ? 'before:visible before:scale-x-100'
+            : 'before:invisible before:scale-x-0'
+        }`;
+      }}
+      to={to}
+    >
       {children}
-    </Link>
+    </NavLink>
   );
 }
