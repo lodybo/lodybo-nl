@@ -29,7 +29,9 @@ export default function Prose({ isPost, children }: Props) {
         prose-a:border-b-nord-frost-1-400
         prose-a:transition-all
         hover:prose-a:border-b-nord-frost-1-600
-        ${isPost ? 'leading-loose max-w-5xl mx-auto px-4 sm:px-10' : ''}`}
+        ${
+          isPost ? 'leading-loose max-w-5xl w-full mx-auto px-4 sm:px-10' : ''
+        }`}
     >
       {children}
     </div>

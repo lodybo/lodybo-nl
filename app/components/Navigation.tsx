@@ -106,10 +106,10 @@ const Navigation = forwardRef<HTMLElement, Props>(
             <NavigationLink to="/me">Me</NavigationLink>
           </li>
           <li>
-            <NavigationLink to="/contact">Contact</NavigationLink>
+            <NavigationLink to="/uses">Uses</NavigationLink>
           </li>
           <li>
-            <NavigationLink to="/uses">Uses</NavigationLink>
+            <NavigationLink to="/contact">Contact</NavigationLink>
           </li>
           {snowModeIsEnabled !== null && (
             <li>

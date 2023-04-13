@@ -1,27 +1,79 @@
 import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { useLoaderData, useCatch } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import type { PostOrPage } from '@tryghost/content-api';
 
-import { adminPosts, getPostByUUID } from '~/models/posts.server';
+import { getAdminPages, getAdminPosts } from '~/models/posts.server';
 import PostContent from '~/components/PostContent';
+import MainSection from '~/components/MainSection';
+import Prose from '~/components/Prose';
 export const loader = async ({ params }: LoaderArgs) => {
   const { pid } = params;
 
-  const list = await adminPosts();
+  const posts = getAdminPosts();
+  const pages = getAdminPages();
+  const results = await Promise.allSettled([posts, pages]);
+
+  invariant(results, 'No posts or pages found');
+
+  const list: PostOrPage[] = results.flatMap((result) => {
+    if (result.status === 'fulfilled') {
+      return result.value;
+    }
+
+    return [];
+  });
 
   invariant(pid, 'Post UUID is required');
 
   const previewPost = list.find((item: PostOrPage) => item.uuid === pid);
 
-  const post = await getPostByUUID(previewPost.uuid, previewPost.slug);
+  if (!previewPost || !previewPost.uuid) {
+    throw json(
+      {
+        message: 'No post or pages found.',
+        description: `Uuid ${pid} returns no post or pages. Maybe check the post/pages list to see what we actually have.`,
+        list,
+      },
+      { status: 404 },
+    );
+  }
 
-  return json({ post });
+  return json({ post: previewPost });
 };
 
 export default function PostPreview() {
-  const { post } = useLoaderData<typeof loader>();
+  const { post } = useLoaderData();
 
-  return <PostContent post={post} />;
+  return (
+    <MainSection>
+      <PostContent post={post} />
+    </MainSection>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  console.error(error);
+  console.trace(error.stack);
+
+  return (
+    <MainSection className="mt-10">
+      <h1 className="text-4xl">{error.message}</h1>
+    </MainSection>
+  );
+}
+
+export function CatchBoundary() {
+  const { data } = useCatch();
+
+  // console.dir(data.list);
+  return (
+    <MainSection className="mt-10">
+      <Prose>
+        <h1>{data.message}</h1>
+        <p>{data.description}</p>
+      </Prose>
+    </MainSection>
+  );
 }

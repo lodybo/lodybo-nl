@@ -74,35 +74,10 @@ export async function getPost(slug: string) {
     });
 }
 
-export async function getPostByUUID(
-  uuid: string,
-  slug: string,
-): Promise<PostOrPage> {
-  return admin.posts
-    .read(
-      {
-        uuid,
-        slug,
-      },
-      {
-        include: ['tags'],
-        formats: 'html',
-      },
-    )
-    .catch((err: any) => {
-      console.log({ err });
-      if (err.code === 'ECONNREFUSED') {
-        return undefined;
-      }
-
-      if (err.response.status === 404) {
-        return undefined;
-      }
-
-      throw new Error(err);
-    });
+export async function getAdminPosts() {
+  return admin.posts.browse({ limit: 'all', formats: 'html' });
 }
 
-export async function adminPosts() {
-  return admin.posts.browse({ limit: 'all' });
+export async function getAdminPages() {
+  return admin.pages.browse({ limit: 'all', formats: 'html' });
 }

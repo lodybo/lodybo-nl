@@ -8,6 +8,7 @@ import { getPosts } from '~/models/posts.server';
 import PostPagination from '~/components/Pagination';
 import { filterInternalTags } from '~/models/tags.server';
 import Navigation from '~/components/Navigation';
+import MainSection from '~/components/MainSection';
 
 export const loader = async ({ request }: LoaderArgs) => {
   const pageParam = new URL(request.url).searchParams.get('page') || '1';
@@ -46,12 +47,12 @@ export default function PostsPage() {
   return (
     <>
       <Navigation />
-      <div className="mt-10">
+      <MainSection className="mt-10">
         <PostList title="What I've written" posts={posts} />
         {meta.pagination.pages > 1 ? (
           <PostPagination {...meta.pagination} />
         ) : null}
-      </div>
+      </MainSection>
     </>
   );
 }
