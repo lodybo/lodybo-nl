@@ -9,6 +9,7 @@ import AnchorLink from '~/components/AnchorLink';
 import invariant from 'tiny-invariant';
 import Navigation from '~/components/Navigation';
 import Prose from '~/components/Prose';
+import MainSection from '~/components/MainSection';
 
 type NoTopic = {
   missing: 'topic';
@@ -80,14 +81,14 @@ export default function TopicPage() {
   return (
     <>
       <Navigation />
-      <div className="mt-10">
+      <MainSection className="mt-10">
         <PostList
           title={tag.name!}
           description={tag.description}
           image={tag.feature_image}
           posts={posts}
         />
-      </div>
+      </MainSection>
     </>
   );
 }

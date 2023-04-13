@@ -6,6 +6,7 @@ import { getTags } from '~/models/tags.server';
 import TopicPreview from '~/components/TopicPreview';
 import List from '~/components/List';
 import Navigation from '~/components/Navigation';
+import MainSection from '~/components/MainSection';
 
 export const loader = async () => {
   const topics = await getTags();
@@ -29,13 +30,13 @@ export default function PostsPage() {
   return (
     <>
       <Navigation />
-      <div className="mt-10">
+      <MainSection className="mt-10">
         <List title="Topics I've written about" grid>
           {topics.map((topic) => (
             <TopicPreview key={topic.id} topic={topic} />
           ))}
         </List>
-      </div>
+      </MainSection>
     </>
   );
 }

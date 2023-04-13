@@ -67,7 +67,6 @@ export function ErrorBoundary({ error }: { error: Error }) {
 export function CatchBoundary() {
   const { data } = useCatch();
 
-  // console.dir(data.list);
   return (
     <MainSection className="mt-10">
       <Prose>

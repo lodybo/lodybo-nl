@@ -1,7 +1,7 @@
 import { json } from '@remix-run/node';
 import type { LoaderArgs } from '@remix-run/node';
 import type { MetaFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { Link, useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
 import PostList from '~/components/PostList';
 import { getPosts } from '~/models/posts.server';
@@ -9,6 +9,8 @@ import PostPagination from '~/components/Pagination';
 import { filterInternalTags } from '~/models/tags.server';
 import Navigation from '~/components/Navigation';
 import MainSection from '~/components/MainSection';
+import AnchorLink from '~/components/AnchorLink';
+import ActionLink from '~/components/ActionLink';
 
 export const loader = async ({ request }: LoaderArgs) => {
   const pageParam = new URL(request.url).searchParams.get('page') || '1';
@@ -47,7 +49,12 @@ export default function PostsPage() {
   return (
     <>
       <Navigation />
-      <MainSection className="mt-10">
+
+      <MainSection className="mt-10 space-y-5">
+        <div className="flex justify-end">
+          <ActionLink to="/topics">See more topics here</ActionLink>
+        </div>
+
         <PostList title="What I've written" posts={posts} />
         {meta.pagination.pages > 1 ? (
           <PostPagination {...meta.pagination} />
