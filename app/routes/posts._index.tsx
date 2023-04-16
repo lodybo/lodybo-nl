@@ -1,7 +1,7 @@
 import { json } from '@remix-run/node';
 import type { LoaderArgs } from '@remix-run/node';
 import type { MetaFunction } from '@remix-run/node';
-import { Link, useLoaderData } from '@remix-run/react';
+import { useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
 import PostList from '~/components/PostList';
 import { getPosts } from '~/models/posts.server';
@@ -9,7 +9,6 @@ import PostPagination from '~/components/Pagination';
 import { filterInternalTags } from '~/models/tags.server';
 import Navigation from '~/components/Navigation';
 import MainSection from '~/components/MainSection';
-import AnchorLink from '~/components/AnchorLink';
 import ActionLink from '~/components/ActionLink';
 
 export const loader = async ({ request }: LoaderArgs) => {

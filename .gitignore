@@ -13,3 +13,5 @@ ghost/
 
 .idea
 .DS_Store
+
+prisma/site.db
