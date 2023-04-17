@@ -28,6 +28,7 @@ interface Track {
     uri: string;
   };
   progress_ms: number;
+  is_playing: boolean;
   item: {
     album: {
       album_group: string;

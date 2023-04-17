@@ -227,7 +227,7 @@ async function updateRefreshToken(refreshToken: string) {
   });
 }
 
-export async function getTrack() {
+export async function getTrack(): Promise<Track> {
   const stringifiedTrack = await prisma.spotify.findUnique({
     where: {
       id: 1,
