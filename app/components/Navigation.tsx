@@ -28,6 +28,7 @@ type Props = {
 
   /**
    * The position of the navigation.
+   * @default 'relative'
    */
   position?: 'fixed' | 'relative';
 };

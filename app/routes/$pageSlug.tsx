@@ -1,6 +1,6 @@
 import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { Link, useLoaderData } from '@remix-run/react';
 import { getPage } from '~/models/pages.server';
 import { notFound } from 'remix-utils';
 import Prose from '~/components/Prose';
@@ -38,5 +38,20 @@ export default function Post() {
 }
 
 export function CatchBoundary() {
-  return <h1>Page not found</h1>;
+  return (
+    <>
+      <Navigation />
+      <MainSection className="mt-10">
+        <Prose>
+          <h1>Page not found</h1>
+          <p>
+            I'm sorry, but I couldn't find this page anywhere. You could take a
+            look through <Link to="/posts">my posts</Link>. If you're sure this
+            is a mistake, then by all means{' '}
+            <Link to="/contact">let me know.</Link>
+          </p>
+        </Prose>
+      </MainSection>
+    </>
+  );
 }
