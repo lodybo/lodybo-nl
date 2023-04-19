@@ -13,6 +13,9 @@ import Document from '~/components/Document';
 import { userPrefs } from '~/cookies';
 import { getGhostSettings } from '~/models/settings.server';
 import type { SnowModeSetting } from '~/hooks/useSnowMode';
+import Navigation from '~/components/Navigation';
+import MainSection from '~/components/MainSection';
+import Prose from '~/components/Prose';
 
 export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
   const baseMetaData: MetaDescriptor = {
@@ -123,19 +126,24 @@ export default function App() {
 export function ErrorBoundary({ error }: { error: Error }) {
   return (
     <Document>
-      <div className="mt-10 prose prose-nord dark:prose-invert prose-xl max-w-none">
-        <h1>Oops.. Something went wrong!</h1>
+      <Navigation />
+      <MainSection className="mt-10">
+        <Prose isPost>
+          <h1>Oops.. Something went wrong!</h1>
 
-        <p>
-          It's not you, it's us. We encountered an error and reported it.
-          <br />
-          If you're curious, this is what it said:
-        </p>
+          <p>
+            It's not you, it's us. We encountered an error and reported it.
+            <br />
+            If you're curious, this is what it said:
+          </p>
 
-        <pre className="language-jsstacktrace">
-          <code className="language-jsstacktrace">{error.message}</code>
-        </pre>
-      </div>
+          <pre className="language-jsstacktrace">
+            <code className="language-jsstacktrace whitespace-normal">
+              {error.message}
+            </code>
+          </pre>
+        </Prose>
+      </MainSection>
     </Document>
   );
 }

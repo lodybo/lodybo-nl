@@ -12,11 +12,7 @@ import classnames from 'classnames';
 import { DynamicLinks } from 'remix-utils';
 import { useDarkMode } from '~/hooks/useDarkMode';
 import { useSnowMode } from '~/hooks/useSnowMode';
-import Navigation from '~/components/Navigation';
 import Footer from '~/components/Footer';
-import { useHiddenNavigation, useSolidNavigation } from '~/utils/matches';
-import { useOnScreen } from '~/hooks/useOnScreen';
-import { useAnimationMode } from '~/hooks/useAnimationMode';
 
 type Props = {
   children: ReactNode;

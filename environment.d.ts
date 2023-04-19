@@ -1,5 +1,3 @@
-import './app/types/Spotify';
-
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -12,7 +10,14 @@ declare global {
       SPOTIFY_CLIENT_SECRET: string;
       SPOTIFY_REDIRECT_URI: string;
       SPOTIFY_CODE: string;
+      SENDGRID_API_KEY: string;
     }
+  }
+}
+
+declare global {
+  interface Window {
+    Calendly: any;
   }
 }
 
