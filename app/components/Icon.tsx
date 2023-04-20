@@ -11,7 +11,10 @@ import {
   faFilm,
   faArrowsUpDown,
 } from '@fortawesome/free-solid-svg-icons';
-import { faSnowflake } from '@fortawesome/free-regular-svg-icons';
+import {
+  faSnowflake,
+  faCalendarPlus,
+} from '@fortawesome/free-regular-svg-icons';
 import {
   faTwitter,
   faGithub,
@@ -35,6 +38,7 @@ library.add(
   faFilm,
   faInstagram,
   faArrowsUpDown,
+  faCalendarPlus,
 );
 
 export type Props = {

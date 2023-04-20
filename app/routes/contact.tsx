@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import type { ActionArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useActionData } from '@remix-run/react';
@@ -19,6 +18,8 @@ import type {
 import ContactForm from '~/components/ContactForm';
 import { hasValue, isEmail } from '~/validations';
 import AnchorLink from '~/components/AnchorLink';
+import { useEffect, useState } from 'react';
+import Icon from '~/components/Icon';
 
 export async function action({ request }: ActionArgs) {
   const data = await request.formData();
@@ -92,6 +93,7 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function ContactPage() {
+  const [calendlyIsLoaded, setCalendlyIsLoaded] = useState(false);
   const data = useActionData() as ContactFormValidationMessages | undefined;
   let errors: ContactFormErrors = {};
   let values: ContactFormFields = {
@@ -106,16 +108,26 @@ export default function ContactPage() {
   }
 
   useEffect(() => {
-    if (window.Calendly) {
+    const script = document.createElement('script');
+    script.src = 'https://assets.calendly.com/assets/external/widget.js';
+    script.async = true;
+    script.onload = () => {
+      setCalendlyIsLoaded(true);
       window.Calendly.initInlineWidget({
         url: 'https://calendly.com/lodybo/30min',
         parentElement: document.getElementById('calendly-lodybo'),
         prefill: {},
         utm: {},
       });
-    }
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
+  console.log('calendlyIsLoaded', calendlyIsLoaded);
   return (
     <>
       <Navigation />
@@ -192,7 +204,19 @@ export default function ContactPage() {
             something, I'm also available for 30 minute calls. Book a date in my
             calender and let's meet!
           </p>
-          <div id="calendly-lodybo" className="w-full h-[64rem]" />
+          <p
+            className={`w-full text-7xl text-center ${
+              calendlyIsLoaded ? 'hidden' : 'block'
+            }`}
+          >
+            <Icon prefix="far" name="calendar-plus" iconClasses="fa-fade" />
+          </p>
+          <div
+            id="calendly-lodybo"
+            className={`w-full h-[64rem] ${
+              calendlyIsLoaded ? 'visible' : 'invisible'
+            }`}
+          />
 
           {data && data.success ? (
             <>
@@ -221,12 +245,6 @@ export default function ContactPage() {
           )}
         </Prose>
       </MainSection>
-
-      <script
-        type="text/javascript"
-        src="https://assets.calendly.com/assets/external/widget.js"
-        async
-      ></script>
     </>
   );
 }
