@@ -38,7 +38,7 @@ async function fetchAccessToken(code: string) {
 
   if (!response.ok) {
     const body = await response.text();
-    throw new Error(body);
+    console.error(body);
   }
 
   const body = (await response.json()) as AccessTokenResponse;
@@ -83,7 +83,7 @@ async function refreshAccessToken() {
 
   if (!response.ok) {
     const body = await response.text();
-    throw new Error(body);
+    console.error(body);
   }
 
   const body = (await response.json()) as AccessTokenResponse;
@@ -109,7 +109,7 @@ async function getPlaybackState(): Promise<Track | undefined> {
   if (!result) {
     const token = await refreshAccessToken();
     if (!token) {
-      throw json({ error: 'No access token' }, { status: 401 });
+      console.error('No Spotify access token');
     }
 
     accessToken = token.accessToken;
@@ -131,8 +131,8 @@ async function getPlaybackState(): Promise<Track | undefined> {
       await refreshAccessToken();
       return getPlaybackState();
     }
-    const { error } = await response.json();
-    throw json({ error }, { status: response.status });
+    const error = await response.text();
+    console.error(error);
   }
 
   const body = await response.text();

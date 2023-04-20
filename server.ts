@@ -4,6 +4,7 @@ import compression from 'compression';
 import morgan from 'morgan';
 import { createRequestHandler } from '@remix-run/express';
 import { startSpotifyFlow } from './app/spotify.server';
+import { isResponseError } from './app/utils/errors';
 
 const app = express();
 
@@ -48,14 +49,18 @@ startSpotifyFlow()
   .then(() => {
     console.log('Spotify flow started successfully!');
   })
-  .catch(async (errorResponse: Response) => {
-    const { status, text } = errorResponse;
-    const message = await text();
+  .catch(async (errorResponse: unknown) => {
+    if (isResponseError(errorResponse)) {
+      const { status, text } = errorResponse;
+      const message = await text();
 
-    console.error(
-      `Spotify flow encountered an error with status ${status}`,
-      message,
-    );
+      console.error(
+        `Spotify flow encountered an error with status ${status}`,
+        message,
+      );
+    } else {
+      console.error('Spotify flow encountered an error', errorResponse);
+    }
   });
 
 app.listen(port, () => {

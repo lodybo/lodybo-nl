@@ -106,12 +106,14 @@ export default function ContactPage() {
   }
 
   useEffect(() => {
-    window.Calendly.initInlineWidget({
-      url: 'https://calendly.com/lodybo/30min',
-      parentElement: document.getElementById('calendly-lodybo'),
-      prefill: {},
-      utm: {},
-    });
+    if (window.Calendly) {
+      window.Calendly.initInlineWidget({
+        url: 'https://calendly.com/lodybo/30min',
+        parentElement: document.getElementById('calendly-lodybo'),
+        prefill: {},
+        utm: {},
+      });
+    }
   }, []);
 
   return (
@@ -223,6 +225,7 @@ export default function ContactPage() {
       <script
         type="text/javascript"
         src="https://assets.calendly.com/assets/external/widget.js"
+        async
       ></script>
     </>
   );

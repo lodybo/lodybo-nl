@@ -6,3 +6,7 @@ export function getErrorMessage(err: unknown) {
 
   return message;
 }
+
+export function isResponseError(err: unknown): err is Response {
+  return err instanceof Response;
+}
