@@ -1,4 +1,4 @@
-import { ReactNode, useRef } from 'react';
+import type { ReactNode } from 'react';
 import {
   Links,
   LiveReload,

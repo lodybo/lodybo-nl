@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import type { HTMLAttributeAnchorTarget, RefObject } from 'react';
 import { NavLink } from '@remix-run/react';
 import DarkModeToggle from '~/components/DarkModeToggle';
@@ -9,6 +9,7 @@ import { useHasScrolled } from '~/hooks/hasScrolled';
 import AnimationToggle from '~/components/AnimationToggle';
 import { useAnimationMode } from '~/hooks/useAnimationMode';
 import lody from '~/assets/images/lody.svg';
+import Icon from '~/components/Icon';
 
 type Props = {
   /**
@@ -59,6 +60,7 @@ const Navigation = forwardRef<HTMLElement, Props>(
     const [snowModeIsEnabled] = useSnowMode();
     const [animationModeIsEnabled] = useAnimationMode();
     const [hasScrolled] = useHasScrolled();
+    const [menuIsExpanded, setMenuIsExpanded] = useState(false);
 
     let backgroundClass;
 
@@ -69,7 +71,7 @@ const Navigation = forwardRef<HTMLElement, Props>(
         break;
 
       case NavigationBackground.TRANSLUCENT:
-        backgroundClass = 'bg-nord-6/75 dark:bg-nord-0/75 border-b-0';
+        backgroundClass = 'bg-nord-6/90 dark:bg-nord-0/90 border-b-0';
         break;
 
       case NavigationBackground.TRANSPARENT:
@@ -77,23 +79,31 @@ const Navigation = forwardRef<HTMLElement, Props>(
         backgroundClass = 'bg-transparent border-b-0';
     }
 
+    const handleMenuToggle = () => {
+      setMenuIsExpanded(!menuIsExpanded);
+    };
+
     return (
       <header
         ref={ref}
         className={`${position} w-full z-10 top-0 border-b-2 ${
           hidden ? (hasScrolled ? 'opacity-100' : 'opacity-0') : 'opacity-100'
-        } ${backgroundClass} transition-opacity duration-300 py-5 px-5 sm:px-10 gap-5 flex flex-col sm:flex-row items-center justify-between h-auto sm:h-20`}
+        } ${backgroundClass} transition-opacity duration-300 px-5 sm:px-10 grid grid-cols-[15rem_1fr] grid-rows-[5rem_1fr] lg:grid-rows-1 [grid-template-areas:_'logo_toggle'_'menu_menu'] lg:[grid-template-areas:_'logo_menu'] items-center justify-between h-auto lg:h-20`}
       >
         <NavLink
-          className="flex flex-row gap-2.5 hover:gap-4 transition-all items-center"
+          className="[grid-area:logo] flex flex-row gap-2.5 hover:gap-4 transition-all items-center"
           to="/"
         >
           <img className="w-14" src={lody} alt="Me" />
 
-          <h1 className="text-xl sm:text-2xl md:text-3xl">Lodybo</h1>
+          <h1 className="text-4xl">Lodybo</h1>
         </NavLink>
 
-        <ul className="flex flex-row gap-5 items-center text-lg md:text-xl">
+        <ul
+          className={`[grid-area:menu] mb-5 sm:mb-0 w-full lg:w-auto lg:flex flex-col flex-wrap h-auto sm:h-64 ${
+            menuIsExpanded ? 'flex' : 'hidden'
+          } lg:h-auto lg:flex-row gap-5 items-center text-3xl lg:text-xl justify-self-end`}
+        >
           <li>
             <NavigationLink to="/music">Music</NavigationLink>
           </li>
@@ -124,6 +134,13 @@ const Navigation = forwardRef<HTMLElement, Props>(
             <DarkModeToggle enabled={darkModeIsEnabled} />
           </li>
         </ul>
+
+        <button
+          className="[grid-area:toggle] cursor-pointer lg:hidden justify-self-end pr-5"
+          onClick={handleMenuToggle}
+        >
+          <Icon name="bars" />
+        </button>
       </header>
     );
   },

@@ -10,6 +10,7 @@ import {
   faSun,
   faFilm,
   faArrowsUpDown,
+  faBars,
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faSnowflake,
@@ -39,6 +40,7 @@ library.add(
   faInstagram,
   faArrowsUpDown,
   faCalendarPlus,
+  faBars,
 );
 
 export type Props = {
