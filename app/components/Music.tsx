@@ -6,8 +6,9 @@ export default function Music() {
       <h1 className="text-4xl">Music</h1>
       <p className="text-lg">Some records I'm on :)</p>
 
-      <div className="grid grid-cold-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <iframe
+          className="w-full"
           title="Kid Calloway - Born Again Man"
           style={{ borderRadius: '12px' }}
           src="https://open.spotify.com/embed/album/5BgETtwK8ewldo7UNzBIT0?utm_source=generator&theme=0"
@@ -20,6 +21,7 @@ export default function Music() {
         />
 
         <iframe
+          className="w-full"
           title="Kid Calloway - II"
           style={{ borderRadius: '12px' }}
           src="https://open.spotify.com/embed/album/2C3Rf7mXqreLtqcC9nVa6E?utm_source=generator&theme=0"
@@ -32,8 +34,8 @@ export default function Music() {
         />
 
         <iframe
+          className="w-full col-span-1 md:col-span-2"
           title="Borgers - Family Life @ Blue Collar"
-          className="col-span-2"
           style={{ borderRadius: '12px' }}
           src="https://open.spotify.com/embed/album/0uW6IwulDuctTWdvczb9GC?utm_source=generator&theme=0"
           width="100%"
