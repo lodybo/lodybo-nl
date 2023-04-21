@@ -34,16 +34,16 @@ export default function NowPlaying() {
   }
 
   return (
-    <div className="grid grid-cols-[auto_1fr] min-h-20 justify-end gap-2">
-      <div />
-      <h2 className="text-left font-light mb-1">{label}</h2>
-
-      <div className="w-24">
-        <img src={cover} alt={title} />
+    <div className="grid grid-rows-1 grid-cols-1 sm:grid-cols-[auto_1fr] min-h-20 justify-end items-center gap-2 sm:gap-5">
+      <div className="w-full sm:w-24">
+        <img className="mx-auto" src={cover} alt={title} />
       </div>
 
-      <div className="flex flex-col gap-1.5 items-start">
-        <h3 className="text-xl">{title}</h3>
+      <div className="flex flex-col gap-1.5 items-center lg:items-start justify-between">
+        <h3 className="text-xl sm:text-base text-center sm:text-left font-light">
+          {label}
+        </h3>
+        <h2 className="text-2xl">{title}</h2>
         <p>
           {artist} <span className="text-small">(from "{album}")</span>
         </p>

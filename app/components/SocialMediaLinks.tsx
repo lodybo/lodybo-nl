@@ -29,7 +29,7 @@ export const SocialMediaList = ({
   alignment = 'center',
 }: ListProps) => (
   <ul
-    className={`flex gap-5 ${stacked ? 'flex-col' : 'flex-row'} ${
+    className={`flex gap-10 sm:gap-5 ${stacked ? 'flex-col' : 'flex-row'} ${
       alignment === 'center'
         ? 'justify-center'
         : alignment === 'left'
@@ -57,7 +57,7 @@ export const SocialMediaListItem = ({
       target="_blank"
       rel={`noopener ${rel}`}
     >
-      <Icon prefix="fab" name={icon} className="text-xl" />
+      <Icon prefix="fab" name={icon} className="text-4xl sm:text-2xl" />
       {handle && <small>@{handle}</small>}
       {title && <small>{title}</small>}
     </a>
