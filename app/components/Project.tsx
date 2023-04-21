@@ -43,9 +43,11 @@ export default function Project({
 }: Props) {
   return (
     <div
-      className={`flex flex-row gap-2 h-32 w-full ${wide ? 'col-span-2' : ''}`}
+      className={`flex flex-col sm:flex-row gap-2 w-full ${
+        wide ? 'col-span-2' : ''
+      }`}
     >
-      <div className="w-1/3">
+      <div className="w-full sm:w-1/3 md:w-1/2 h-32 sm:h-80 object-cover">
         <ParallaxImage
           alt={name}
           src={`${image}?w=200`}
@@ -53,11 +55,11 @@ export default function Project({
         />
       </div>
 
-      <div className=" flex flex-col">
-        <h2 className="text-2xl">{name}</h2>
+      <div className="w-full sm:w-2/3 md:w-1/2 flex flex-col">
+        <h2 className="text-2xl mb-5">{name}</h2>
         <p>{description}</p>
-        <AnchorLink href={url} className="mt-auto text-blue-500">
-          {url}
+        <AnchorLink href={url} className="mt-5 sm:mt-auto w-auto">
+          {type === 'website' ? 'Visit website' : 'View source on GitHub'}
         </AnchorLink>
       </div>
     </div>
