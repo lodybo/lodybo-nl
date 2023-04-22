@@ -114,7 +114,7 @@ const Navigation = forwardRef<HTMLElement, Props>(
             <NavigationLink to="/posts">Blog</NavigationLink>
           </li>
           <li>
-            <NavigationLink to="/me">Me</NavigationLink>
+            <NavigationLink to="/resume">Resume</NavigationLink>
           </li>
           <li>
             <NavigationLink to="/uses">Uses</NavigationLink>
