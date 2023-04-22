@@ -58,8 +58,8 @@ export const SocialMediaListItem = ({
       rel={`noopener ${rel}`}
     >
       <Icon prefix="fab" name={icon} className="text-4xl sm:text-2xl" />
-      {handle && <small>@{handle}</small>}
-      {title && <small>{title}</small>}
+      {handle && <p>@{handle}</p>}
+      {title && <p>{title}</p>}
     </a>
   </li>
 );

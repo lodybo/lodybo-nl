@@ -127,7 +127,6 @@ export default function ContactPage() {
     };
   }, []);
 
-  console.log('calendlyIsLoaded', calendlyIsLoaded);
   return (
     <>
       <Navigation />
@@ -151,7 +150,7 @@ export default function ContactPage() {
               depending on <em>what</em> you want to contact me for, you might
               need to use a different channel.
             </p>
-            <div className="flex-1 flex flex-row gap-4">
+            <div className="flex-1 flex flex-col sm:flex-row gap-4">
               <div className="flex-1">
                 <h3 className="!mt-0">Music</h3>
                 <div className="not-prose">
