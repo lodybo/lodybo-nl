@@ -1,4 +1,4 @@
-import { json } from '@remix-run/node';
+import { json, V2_MetaFunction } from '@remix-run/node';
 import type { MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
@@ -20,9 +20,11 @@ export const loader = async () => {
   });
 };
 
-export const meta: MetaFunction = () => ({
-  title: 'Topics | Lodybo',
-});
+export const meta: V2_MetaFunction = () => [
+  {
+    title: 'Topics | Lodybo',
+  },
+];
 
 export default function PostsPage() {
   const { topics } = useLoaderData<typeof loader>();

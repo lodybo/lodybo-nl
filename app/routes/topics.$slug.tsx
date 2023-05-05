@@ -1,4 +1,8 @@
-import type { LoaderArgs, MetaFunction } from '@remix-run/node';
+import type {
+  LoaderArgs,
+  MetaFunction,
+  V2_MetaFunction,
+} from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { useCatch, useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
@@ -60,19 +64,21 @@ export const loader = async ({ params }: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   if (!data) {
-    return {
-      title: 'Lodybo',
-    };
+    return [
+      {
+        title: 'Lodybo',
+      },
+    ];
   }
 
   const { tag } = data;
 
-  return {
-    title: `Topic ${tag.name} | Lodybo`,
-    description: tag.description,
-  };
+  return [
+    { title: `Topic ${tag.name} | Lodybo` },
+    { name: 'description', content: tag.description },
+  ];
 };
 
 export default function TopicPage() {

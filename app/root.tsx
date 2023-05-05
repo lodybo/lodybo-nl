@@ -1,9 +1,4 @@
-import type {
-  LinksFunction,
-  LoaderArgs,
-  MetaDescriptor,
-  MetaFunction,
-} from '@remix-run/node';
+import type { LinksFunction, LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Outlet, useLoaderData } from '@remix-run/react';
 import type { SettingsResponse } from '@tryghost/content-api';
@@ -16,39 +11,6 @@ import type { SnowModeSetting } from '~/hooks/useSnowMode';
 import Navigation from '~/components/Navigation';
 import MainSection from '~/components/MainSection';
 import Prose from '~/components/Prose';
-
-export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
-  const baseMetaData: MetaDescriptor = {
-    charSet: 'utf-8',
-    title: 'Lodybo',
-    viewport: 'width=device-width,initial-scale=1',
-    description:
-      'My personal blog about front-end development. I write about React, TypeScript, Tailwind CSS, and more.',
-  };
-
-  if (data && data.ghostSettings) {
-    const { ghostSettings } = data;
-
-    return {
-      ...baseMetaData,
-      'og:site_name': ghostSettings.meta_title,
-      'og:type': 'website',
-      'og:title': ghostSettings.meta_title,
-      'og:description': ghostSettings.meta_description,
-      'og:url': `${ghostSettings.url}${location.pathname.substring(1)}`,
-      'og:image': ghostSettings.cover_image,
-      'article:publisher': ghostSettings.facebook,
-      'twitter:card': 'summary_large_image',
-      'twitter:site': ghostSettings.twitter_title,
-      'twitter:title': ghostSettings.meta_title,
-      'twitter:description': ghostSettings.meta_description,
-      'twitter:url': `${ghostSettings.url}${location.pathname.substring(1)}`,
-      'twitter:image': ghostSettings.cover_image,
-    };
-  }
-
-  return baseMetaData;
-};
 
 export const links: LinksFunction = () => [
   {

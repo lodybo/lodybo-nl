@@ -1,9 +1,6 @@
-import { json } from '@remix-run/node';
+import { json, V2_MetaDescriptor, V2_MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
-import AnchorLink from '~/components/AnchorLink';
-import PostList from '~/components/PostList';
-import Icon from '~/components/Icon';
 import Header from '~/components/Header';
 
 import { getRecentPosts } from '~/models/posts.server';
@@ -18,6 +15,18 @@ import Bio from '~/components/Bio';
 import Posts from '~/components/Posts';
 import Music from '~/components/Music';
 import Projects from '~/components/Projects';
+import { generateMeta } from '~/utils/meta';
+
+export const meta: V2_MetaFunction = ({ data, location }) =>
+  generateMeta({
+    metadata: [
+      {
+        title: 'Lodybo',
+      },
+    ],
+    location,
+    data,
+  });
 
 export const loader = async () => {
   const posts = await getRecentPosts();

@@ -1,6 +1,5 @@
 import { json } from '@remix-run/node';
-import type { LoaderArgs } from '@remix-run/node';
-import type { MetaFunction } from '@remix-run/node';
+import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { notFound } from 'remix-utils';
 import PostList from '~/components/PostList';
@@ -10,6 +9,7 @@ import { filterInternalTags } from '~/models/tags.server';
 import Navigation from '~/components/Navigation';
 import MainSection from '~/components/MainSection';
 import ActionLink from '~/components/ActionLink';
+import { generateMeta } from '~/utils/meta';
 
 export const loader = async ({ request }: LoaderArgs) => {
   const pageParam = new URL(request.url).searchParams.get('page') || '1';
@@ -38,9 +38,16 @@ export const loader = async ({ request }: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction = () => ({
-  title: 'Posts | Lodybo',
-});
+export const meta: V2_MetaFunction = ({ data, location }) =>
+  generateMeta({
+    metadata: [
+      {
+        title: 'Posts',
+      },
+    ],
+    data,
+    location,
+  });
 
 export default function PostsPage() {
   const { posts, meta } = useLoaderData<typeof loader>();

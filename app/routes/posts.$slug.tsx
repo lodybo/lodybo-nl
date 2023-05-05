@@ -3,6 +3,8 @@ import type {
   LoaderArgs,
   MetaDescriptor,
   MetaFunction,
+  V2_MetaDescriptor,
+  V2_MetaFunction,
 } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { useCatch, useLoaderData } from '@remix-run/react';
@@ -48,19 +50,19 @@ export const loader = async ({ params }: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => {
   if (!data) {
-    return {};
+    return [];
   }
 
   const { post, ghostSettings } = data;
 
   const post_description = post.excerpt || post.meta_description;
 
-  const baseMeta: MetaDescriptor = {
-    title: `${post.title} | Lodybo`,
-    description: post_description,
-  };
+  const baseMeta: V2_MetaDescriptor[] = [
+    { title: `${post.title ?? ''} | Lodybo` },
+    { name: 'description', content: post_description },
+  ];
 
   if (!ghostSettings) {
     return baseMeta;
@@ -68,32 +70,74 @@ export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
 
   const url = `${ghostSettings.url}${location.pathname.substring(1)}`;
 
-  const meta: MetaDescriptor = {
-    ...baseMeta,
-    'og:site_name': ghostSettings.meta_title,
-    'og:type': 'article',
-    'og:title': post.og_title || post.title,
-    'og:description': post.og_description || post_description,
-    'og:url': url,
-    'og:image': post.og_image || post.feature_image,
-    'article:publisher': ghostSettings.facebook,
-    'article:published_time': post.published_at,
-    'article:modified_time': post.updated_at,
-    'twitter:card': 'summary_large_image',
-    'twitter:site': ghostSettings.twitter_title,
-    'twitter:title': post.twitter_title || post.title,
-    'twitter:description': post.twitter_description || post_description,
-    'twitter:url': url,
-    'twitter:image': post.twitter_image || post.feature_image,
-  };
+  baseMeta.push({ name: 'og:type', content: 'article' });
+  baseMeta.push({ name: 'og:url', content: url });
 
-  if (post.tags && post.tags.length) {
-    post.tags.forEach((tag) => {
-      meta['article:tag'] = tag.name;
+  if (ghostSettings.meta_title) {
+    baseMeta.push({ name: 'og:site_name', content: ghostSettings.meta_title });
+  }
+
+  if (post.og_title || post.title) {
+    baseMeta.push({ name: 'og:title', content: post.og_title || post.title });
+  }
+
+  if (post.og_description || post_description) {
+    baseMeta.push({
+      name: 'og:description',
+      content: post.og_description || post_description,
     });
   }
 
-  return meta;
+  if (post.og_image || post.feature_image) {
+    baseMeta.push({
+      name: 'og:image',
+      content: post.og_image || post.feature_image,
+    });
+  }
+
+  if (ghostSettings.facebook) {
+    baseMeta.push({
+      name: 'article:publisher',
+      content: ghostSettings.facebook,
+    });
+  }
+
+  if (post.published_at) {
+    baseMeta.push({
+      name: 'article:published_time',
+      content: post.published_at,
+    });
+  }
+
+  if (post.updated_at) {
+    baseMeta.push({ name: 'article:modified_time', content: post.updated_at });
+  }
+
+  if (post.twitter_title) {
+    baseMeta.push({
+      name: 'twitter:title',
+      content: post.twitter_title || post.title,
+    });
+    baseMeta.push({ name: 'twitter:site', content: post.twitter_title });
+    baseMeta.push({ name: 'twitter:card', content: 'summary_large_image' });
+    baseMeta.push({
+      name: 'twitter:description',
+      content: post.twitter_description || post_description,
+    });
+    baseMeta.push({
+      name: 'twitter:image',
+      content: post.twitter_image || post.feature_image,
+    });
+    baseMeta.push({ name: 'twitter:url', content: url });
+  }
+
+  if (post.tags && post.tags.length) {
+    post.tags.forEach((tag) => {
+      baseMeta.push({ name: 'article:tag', content: tag.name });
+    });
+  }
+
+  return baseMeta;
 };
 
 export default function Post() {
