@@ -248,7 +248,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      mono: 'Recursive, JetBrains Mono, monospace',
+      mono: 'Recursive Variable, JetBrains Mono, monospace',
     },
     fontWeight: {},
     extend: {
@@ -273,7 +273,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        recursive: 'Recursive, sans-serif',
+        recursive: 'Recursive Variable, sans-serif',
       },
       fontSize: {
         small: '80%',

@@ -5,7 +5,7 @@
   "scripts": {
     "setup": "run-p docker link-fonts",
     "link-fonts": "run-p link-fonts:*",
-    "link-fonts:normal": "ln node_modules/@fontsource/recursive/files/recursive-latin-variable-full-normal.woff2 app/assets/fonts/recursive",
+    "link-fonts:normal": "ln node_modules/@fontsource-variable/recursive/files/recursive-latin-full-normal.woff2 app/assets/fonts/recursive/",
     "docker": "npm run docker:start",
     "docker:setup": "docker run -d --name lodybo-ghost -e NODE_ENV=development -e url=http://localhost:3000 -p 3001:2368 -v /Users/lodyborgers/dev/other/blog/ghost/content:/var/lib/ghost/content ghost:latest",
     "docker:start": "docker start lodybo-ghost",
@@ -25,7 +25,7 @@
     "validate": "run-p lint typecheck"
   },
   "dependencies": {
-    "@fontsource/recursive": "^5.0.8",
+    "@fontsource-variable/recursive": "^5.0.8",
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
     "@fortawesome/free-brands-svg-icons": "^6.4.2",
     "@fortawesome/free-regular-svg-icons": "^6.4.2",
