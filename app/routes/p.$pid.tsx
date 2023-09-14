@@ -1,6 +1,11 @@
 import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLoaderData, useCatch } from '@remix-run/react';
+import {
+  useLoaderData,
+  useCatch,
+  useRouteError,
+  isRouteErrorResponse,
+} from '@remix-run/react';
 import invariant from 'tiny-invariant';
 import type { PostOrPage } from '@tryghost/content-api';
 
@@ -8,6 +13,7 @@ import { getAdminPages, getAdminPosts } from '~/models/posts.server';
 import PostContent from '~/components/PostContent';
 import MainSection from '~/components/MainSection';
 import Prose from '~/components/Prose';
+import { getErrorMessage } from '~/utils/errors';
 export const loader = async ({ params }: LoaderArgs) => {
   const { pid } = params;
 
@@ -53,26 +59,33 @@ export default function PostPreview() {
   );
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    const { data } = error;
+
+    return (
+      <MainSection className="mt-10">
+        <Prose>
+          <h1>{data.message}</h1>
+          <p>{data.description}</p>
+        </Prose>
+      </MainSection>
+    );
+  }
+
   console.error(error);
-  console.trace(error.stack);
+
+  if (error instanceof Error && error.stack) {
+    console.trace(error.stack);
+  }
+
+  const message = getErrorMessage(error);
 
   return (
     <MainSection className="mt-10">
-      <h1 className="text-4xl">{error.message}</h1>
-    </MainSection>
-  );
-}
-
-export function CatchBoundary() {
-  const { data } = useCatch();
-
-  return (
-    <MainSection className="mt-10">
-      <Prose>
-        <h1>{data.message}</h1>
-        <p>{data.description}</p>
-      </Prose>
+      <h1 className="text-4xl">{message}</h1>
     </MainSection>
   );
 }

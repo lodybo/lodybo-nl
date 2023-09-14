@@ -1,11 +1,16 @@
 import type {
   LinksFunction,
   LoaderArgs,
-  MetaDescriptor,
-  MetaFunction,
+  V2_MetaDescriptor,
+  V2_MetaFunction,
 } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { Outlet, useLoaderData } from '@remix-run/react';
+import {
+  isRouteErrorResponse,
+  Outlet,
+  useLoaderData,
+  useRouteError,
+} from '@remix-run/react';
 import type { SettingsResponse } from '@tryghost/content-api';
 import tailwindStylesheetUrl from './styles/tailwind.css';
 import { recursiveFontURL } from '~/assets/fonts';
@@ -13,38 +18,40 @@ import Document from '~/components/Document';
 import { userPrefs } from '~/cookies';
 import { getGhostSettings } from '~/models/settings.server';
 import type { SnowModeSetting } from '~/hooks/useSnowMode';
-import Navigation from '~/components/Navigation';
-import MainSection from '~/components/MainSection';
-import Prose from '~/components/Prose';
+import ErrorPage from '~/components/ErrorPage';
 
-export const meta: MetaFunction<typeof loader> = ({ data, location }) => {
-  const baseMetaData: MetaDescriptor = {
-    charSet: 'utf-8',
-    title: 'Lodybo',
-    viewport: 'width=device-width,initial-scale=1',
-    description:
-      'My personal blog about front-end development. I write about React, TypeScript, Tailwind CSS, and more.',
-  };
+export const meta: V2_MetaFunction<typeof loader> = ({ data, location }) => {
+  const baseMetaData: V2_MetaDescriptor[] = [
+    { charSet: 'utf-8' },
+    { title: 'Lodybo' },
+    { viewport: 'width=device-width,initial-scale=1' },
+    {
+      description:
+        'My personal blog about front-end development. I write about React, TypeScript, Tailwind CSS, and more.',
+    },
+  ];
 
   if (data && data.ghostSettings) {
     const { ghostSettings } = data;
 
-    return {
+    return [
       ...baseMetaData,
-      'og:site_name': ghostSettings.meta_title,
-      'og:type': 'website',
-      'og:title': ghostSettings.meta_title,
-      'og:description': ghostSettings.meta_description,
-      'og:url': `${ghostSettings.url}${location.pathname.substring(1)}`,
-      'og:image': ghostSettings.cover_image,
-      'article:publisher': ghostSettings.facebook,
-      'twitter:card': 'summary_large_image',
-      'twitter:site': ghostSettings.twitter_title,
-      'twitter:title': ghostSettings.meta_title,
-      'twitter:description': ghostSettings.meta_description,
-      'twitter:url': `${ghostSettings.url}${location.pathname.substring(1)}`,
-      'twitter:image': ghostSettings.cover_image,
-    };
+      { 'og:site_name': ghostSettings.meta_title },
+      { 'og:type': 'website' },
+      { 'og:title': ghostSettings.meta_title },
+      { 'og:description': ghostSettings.meta_description },
+      { 'og:url': `${ghostSettings.url}${location.pathname.substring(1)}` },
+      { 'og:image': ghostSettings.cover_image },
+      { 'article:publisher': ghostSettings.facebook },
+      { 'twitter:card': 'summary_large_image' },
+      { 'twitter:site': ghostSettings.twitter_title },
+      { 'twitter:title': ghostSettings.meta_title },
+      { 'twitter:description': ghostSettings.meta_description },
+      {
+        'twitter:url': `${ghostSettings.url}${location.pathname.substring(1)}`,
+      },
+      { 'twitter:image': ghostSettings.cover_image },
+    ];
   }
 
   return baseMetaData;
@@ -128,27 +135,8 @@ export default function App() {
   );
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
-  return (
-    <Document>
-      <Navigation />
-      <MainSection className="mt-10">
-        <Prose isPost>
-          <h1>Oops.. Something went wrong!</h1>
+export function ErrorBoundary() {
+  const error = useRouteError();
 
-          <p>
-            It's not you, it's us. We encountered an error and reported it.
-            <br />
-            If you're curious, this is what it said:
-          </p>
-
-          <pre className="language-jsstacktrace">
-            <code className="language-jsstacktrace whitespace-normal">
-              {error.message}
-            </code>
-          </pre>
-        </Prose>
-      </MainSection>
-    </Document>
-  );
+  return <ErrorPage error={error} />;
 }

@@ -5,7 +5,7 @@ function isTrack(track: Track | string): track is Track {
 }
 
 export default function NowPlaying() {
-  const trackStream = useEventSource('api/spotify/now', {
+  const trackStream = useEventSource('/api/spotify/now', {
     event: 'spotify',
   });
 

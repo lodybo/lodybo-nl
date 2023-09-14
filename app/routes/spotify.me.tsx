@@ -1,5 +1,5 @@
 import { json } from '@remix-run/node';
-import { useCatch, useLoaderData } from '@remix-run/react';
+import { useLoaderData, useRouteError } from '@remix-run/react';
 import { getTrack, updateTrack } from '~/spotify.server';
 import Navigation from '~/components/Navigation';
 import MainSection from '~/components/MainSection';
@@ -27,7 +27,9 @@ export default function SpotifyMe() {
   );
 }
 
-export function ErrorBoundary({ error }: { error: any }) {
+export function ErrorBoundary() {
+  const error = useRouteError();
+
   console.error({ error });
 
   return (
@@ -38,25 +40,6 @@ export function ErrorBoundary({ error }: { error: any }) {
         <Prose>
           <h1>Error!!</h1>
           <pre>{JSON.stringify(error, null, 2)}</pre>
-        </Prose>
-      </MainSection>
-    </>
-  );
-}
-
-export function CatchBoundary() {
-  const { data } = useCatch();
-
-  console.error({ data });
-
-  return (
-    <>
-      <Navigation />
-
-      <MainSection className="mt-10">
-        <Prose>
-          <h1>Error!</h1>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
         </Prose>
       </MainSection>
     </>

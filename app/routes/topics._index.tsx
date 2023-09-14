@@ -1,12 +1,17 @@
 import { json } from '@remix-run/node';
-import type { MetaFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import type { V2_MetaFunction } from '@remix-run/node';
+import {
+  isRouteErrorResponse,
+  useLoaderData,
+  useRouteError,
+} from '@remix-run/react';
 import { notFound } from 'remix-utils';
 import { getTags } from '~/models/tags.server';
 import TopicPreview from '~/components/TopicPreview';
 import List from '~/components/List';
 import Navigation from '~/components/Navigation';
 import MainSection from '~/components/MainSection';
+import ErrorPage from '~/components/ErrorPage';
 
 export const loader = async () => {
   const topics = await getTags();
@@ -20,9 +25,7 @@ export const loader = async () => {
   });
 };
 
-export const meta: MetaFunction = () => ({
-  title: 'Topics | Lodybo',
-});
+export const meta: V2_MetaFunction = () => [{ title: 'Topics | Lodybo' }];
 
 export default function PostsPage() {
   const { topics } = useLoaderData<typeof loader>();
@@ -41,13 +44,19 @@ export default function PostsPage() {
   );
 }
 
-export function CatchBoundary() {
-  return (
-    <>
-      <Navigation />
-      <div className="mt-10">
-        <h1 className="text-4xl">No topics found.</h1>
-      </div>
-    </>
-  );
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <>
+        <Navigation />
+        <div className="mt-10">
+          <h1 className="text-4xl">No topics found.</h1>
+        </div>
+      </>
+    );
+  }
+
+  return <ErrorPage error={error} />;
 }
