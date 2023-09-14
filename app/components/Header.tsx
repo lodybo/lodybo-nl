@@ -2,7 +2,7 @@ import lody from '~/assets/images/header.jpg';
 
 export default function Header() {
   return (
-    <div className="w-full relative mb-16 flex flex-col md:flex-row gap-10 md:gap-5 h-full">
+    <div className="w-full relative pb-6 flex flex-col md:flex-row gap-10 md:gap-5 h-full">
       <img
         className="w-full h-screen object-cover object-[20%] md:object-center"
         src={lody}
@@ -17,6 +17,13 @@ export default function Header() {
           Front-end developer and musician.
         </p>
       </div>
+
+      <p className="absolute bottom-0 right-2.5 text-nord-6 text-xs sm:text-small">
+        Photo by{' '}
+        <a href="https://josannevanderheijden.nl/" className="underline">
+          Josanne van der Heijden
+        </a>
+      </p>
     </div>
   );
 }

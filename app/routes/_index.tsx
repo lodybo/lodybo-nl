@@ -57,6 +57,8 @@ export default function _index() {
 
       <Header />
 
+      <div className="h-16" />
+
       <main ref={mainContentRef} className="space-y-20">
         <Bio />
 
