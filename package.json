@@ -10,6 +10,7 @@
     "docker:setup": "docker run -d --name lodybo-ghost -e NODE_ENV=development -e url=http://localhost:3000 -p 3001:2368 -v /Users/lodyborgers/dev/other/blog/ghost/content:/var/lib/ghost/content ghost:latest",
     "docker:start": "docker start lodybo-ghost",
     "docker:stop": "docker stop lodybo-ghost",
+    "docker:remove": "docker rm lodybo-ghost && docker rmi ghost:latest",
     "dev": "run-p dev:*",
     "dev:remix": "remix watch",
     "dev:server": "cross-env NODE_ENV=development nodemon --require dotenv/config --exec ts-node --files server.ts --watch server.ts",
