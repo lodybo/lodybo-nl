@@ -1,4 +1,3 @@
-import { json } from '@remix-run/node';
 import { prisma } from './db.server';
 
 // const scope = 'user-read-playback-state';
