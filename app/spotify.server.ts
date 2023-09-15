@@ -25,7 +25,7 @@ async function fetchAccessToken(code: string) {
     },
     body: new URLSearchParams({
       code,
-      redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
+      redirect_uri: process.env.SPOTIFY_REDIRECT_URI ?? '',
       grant_type: 'authorization_code',
     }),
   };
@@ -53,7 +53,7 @@ async function fetchAccessToken(code: string) {
  * Refreshes the access token
  */
 async function refreshAccessToken() {
-  let refreshToken: string | undefined;
+  let refreshToken: string;
   const result = await getRefreshToken();
 
   if (!result) {
