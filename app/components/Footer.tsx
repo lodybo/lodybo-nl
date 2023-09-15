@@ -4,7 +4,6 @@ import {
   SocialMediaListItem,
 } from '~/components/SocialMediaLinks';
 import type { LoaderData } from '~/root';
-import NowPlaying from '~/components/NowPlaying';
 
 const Footer = () => {
   const data = useRouteLoaderData('root') as LoaderData;
@@ -67,9 +66,7 @@ const Footer = () => {
         </SocialMediaList>
       </div>
 
-      <div className="flex-1 [grid-area:spotify] flex justify-center">
-        <NowPlaying />
-      </div>
+      <div className="flex-1 [grid-area:spotify] flex justify-center"></div>
     </footer>
   );
 };
