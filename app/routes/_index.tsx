@@ -1,13 +1,23 @@
 import { json } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 
-import lody from '~/assets/images/lody.svg';
-
 import AnchorLink from '~/components/AnchorLink';
 import PostList from '~/components/PostList';
 import Icon from '~/components/Icon';
+import Header from '~/components/Header';
 
 import { getRecentPosts } from '~/models/posts.server';
+import Navigation, {
+  NavigationBackground,
+  NavigationVisibility,
+} from '~/components/Navigation';
+import { useIsColliding } from '~/hooks/useIsColliding';
+import { useRef } from 'react';
+import { useHiddenNavigation, useSolidNavigation } from '~/utils/matches';
+import Bio from '~/components/Bio';
+import Posts from '~/components/Posts';
+import Music from '~/components/Music';
+import Projects from '~/components/Projects';
 
 export const loader = async () => {
   const posts = await getRecentPosts();
@@ -18,43 +28,50 @@ export const loader = async () => {
 export default function _index() {
   const { posts } = useLoaderData<typeof loader>();
 
+  const mainContentRef: any = useRef<HTMLDivElement>(null);
+  const navigationRef: any = useRef<typeof Navigation>(null);
+  const isColliding = useIsColliding(mainContentRef, navigationRef);
+
+  let navigationHasBackground: NavigationBackground;
+  const navigationIsHidden = useHiddenNavigation();
+  const solidNavigation = useSolidNavigation();
+
+  if (solidNavigation) {
+    navigationHasBackground = NavigationBackground.SOLID;
+  } else {
+    navigationHasBackground = NavigationBackground.TRANSLUCENT;
+
+    if (isColliding) {
+      navigationHasBackground = NavigationBackground.SOLID;
+    }
+  }
+
   return (
     <>
-      <div className="mb-16 mt-0 sm:mb-32 md:mt-32 flex flex-col md:flex-row gap-10 md:gap-5 h-full md:h-80">
-        <img
-          className="w-2/3 max-w-[20rem] md:w-auto mx-auto"
-          src={lody}
-          alt="Me"
-        />
+      <Navigation
+        ref={navigationRef}
+        hidden={navigationIsHidden}
+        background={navigationHasBackground}
+        position="fixed"
+      />
 
-        <div className="h-full flex flex-col gap-4 justify-center text-center md:text-left">
-          <h1 className="text-4xl sm:text-6xl xl:text-8xl font-black">
-            Hello, I'm Lody
-          </h1>
-          <p className="text-xl sm:text-3xl leading-relaxed font-light">
-            Born and raised in The Netherlands, currently work at{' '}
-            <AnchorLink href="https://www.taf.nl">TAF</AnchorLink>, and I
-            occasionally{' '}
-            <AnchorLink href="https://www.themarch.nl">make</AnchorLink>{' '}
-            <AnchorLink href="https://www.borgersfamilie.nl/">music</AnchorLink>{' '}
-            too.
-          </p>
-        </div>
-      </div>
+      <Header />
 
-      {posts && (
-        <>
-          <PostList title="Some recent posts" posts={posts} grid />
+      <div className="h-16" />
 
-          <div className="mt-10 px-5 flex justify-end">
-            <AnchorLink to="/posts">
-              <span className="flex flex-row items-center gap-2 hover:gap-3 transition-all">
-                Read more here <Icon name="arrow-right" />
-              </span>
-            </AnchorLink>
-          </div>
-        </>
-      )}
+      <main ref={mainContentRef} className="space-y-20">
+        <Bio />
+
+        <Music />
+
+        <Projects />
+
+        <Posts posts={posts} />
+      </main>
     </>
   );
 }
+
+export const handle = {
+  navigationVisibility: NavigationVisibility.HIDDEN,
+};

@@ -1,5 +1,5 @@
 import { ghost } from '~/ghost.server';
-import { Tag } from '@tryghost/content-api';
+import type { Tag } from '@tryghost/content-api';
 
 export function getTags() {
   return ghost.tags

@@ -19,9 +19,12 @@ These step need to be run at project setup, and after that on a regular basis wh
 To update the Ghost version in the Docker image, you need to
 - Export the current database + contents from the Ghost admin.
 - Stop the Docker container, and remove it.
+- Remove the Docker image.
+- Backup the `./ghost/content/images` folder into `./ghost/dumps/images`.
 - Empty the `./ghost/content` folder.
-- Run `npm run docker`, which will pull the latest version from Docker Hub.
+- Run `npm run docker:setup`, which will pull the latest version from Docker Hub.
 - Import the exported database dump.
+- Copy the images from the backup folder back into `./ghost/content/images`.
 
 ## Snow mode
 When winter is coming, I can enable the "Snow Mode" on my website. This is done by setting the `SNOW_MODE_ENABLED` environment variable to `true` on DigitalOcean.

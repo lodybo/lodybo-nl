@@ -8,13 +8,20 @@ import {
   faArrowRight,
   faMoon,
   faSun,
+  faFilm,
+  faArrowsUpDown,
+  faBars,
 } from '@fortawesome/free-solid-svg-icons';
-import { faSnowflake } from '@fortawesome/free-regular-svg-icons';
+import {
+  faSnowflake,
+  faCalendarPlus,
+} from '@fortawesome/free-regular-svg-icons';
 import {
   faTwitter,
   faGithub,
   faMastodon,
   faLinkedinIn,
+  faInstagram,
 } from '@fortawesome/free-brands-svg-icons';
 
 library.add(
@@ -29,6 +36,11 @@ library.add(
   faSnowflake,
   faMastodon,
   faLinkedinIn,
+  faFilm,
+  faInstagram,
+  faArrowsUpDown,
+  faCalendarPlus,
+  faBars,
 );
 
 export type Props = {

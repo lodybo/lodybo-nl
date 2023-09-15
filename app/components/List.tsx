@@ -3,6 +3,8 @@ import type { Nullable } from '@tryghost/content-api';
 import classNames from 'classnames';
 import classnames from 'classnames';
 
+// TODO: remove all mentions of 'classnames'.
+
 type Props = {
   title: string;
   description?: Nullable<string>;
@@ -12,7 +14,7 @@ type Props = {
 };
 
 const List = ({ title, description, image, children, grid = false }: Props) => (
-  <div className="px-5">
+  <>
     <div className="flex flex-row gap-5 mb-10">
       {image && (
         <div className="w-32">
@@ -46,7 +48,7 @@ const List = ({ title, description, image, children, grid = false }: Props) => (
     >
       {children}
     </ul>
-  </div>
+  </>
 );
 
 export default List;

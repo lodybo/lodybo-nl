@@ -6,14 +6,12 @@ import {
   Scripts,
   ScrollRestoration,
   useLocation,
-  useMatches,
 } from '@remix-run/react';
 import { recursiveFontDeclaration } from '~/assets/fonts';
 import classnames from 'classnames';
 import { DynamicLinks } from 'remix-utils';
 import { useDarkMode } from '~/hooks/useDarkMode';
 import { useSnowMode } from '~/hooks/useSnowMode';
-import Header from '~/components/Header';
 import Footer from '~/components/Footer';
 
 type Props = {
@@ -34,9 +32,6 @@ const Document = ({
   const [snowModeIsEnabled] = useSnowMode();
 
   const canonical = 'https://www.lodybo.nl' + location.pathname;
-
-  const matches = useMatches();
-  const isPost = matches.find((match) => match.handle && match.handle.isPost);
 
   return (
     <html
@@ -66,12 +61,8 @@ const Document = ({
       </head>
       <body className="font-recursive antialiased bg-nord-6 dark:bg-nord-0 text-nord-0 dark:text-nord-6">
         <script src="/noFlash.js" />
-        <div className="flex flex-col min-h-screen">
-          <Header />
-
-          <div className="w-full mb-10 px-5 md:px-10 xl:px-40 mx-auto flex-1">
-            {children}
-          </div>
+        <div className="relative flex flex-col min-h-screen">
+          <div className="w-full mb-10 flex-1">{children}</div>
 
           <Footer />
         </div>

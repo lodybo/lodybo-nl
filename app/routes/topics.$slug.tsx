@@ -1,12 +1,21 @@
-import type { LoaderArgs, MetaFunction } from '@remix-run/node';
+import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
-import { useCatch, useLoaderData } from '@remix-run/react';
+import {
+  isRouteErrorResponse,
+  useCatch,
+  useLoaderData,
+  useRouteError,
+} from '@remix-run/react';
 import { notFound } from 'remix-utils';
 import PostList from '~/components/PostList';
 import { getTagInfo } from '~/models/tags.server';
 import { getPostsForTag } from '~/models/posts.server';
 import AnchorLink from '~/components/AnchorLink';
 import invariant from 'tiny-invariant';
+import Navigation from '~/components/Navigation';
+import Prose from '~/components/Prose';
+import MainSection from '~/components/MainSection';
+import ErrorPage from '~/components/ErrorPage';
 
 type NoTopic = {
   missing: 'topic';
@@ -57,67 +66,67 @@ export const loader = async ({ params }: LoaderArgs) => {
   });
 };
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   if (!data) {
-    return {
-      title: 'Lodybo',
-    };
+    return [
+      {
+        title: 'Lodybo',
+      },
+    ];
   }
 
   const { tag } = data;
 
-  return {
-    title: `Topic ${tag.name} | Lodybo`,
-    description: tag.description,
-  };
+  return [
+    { title: `Topic ${tag.name} | Lodybo` },
+    { description: tag.description },
+  ];
 };
 
 export default function TopicPage() {
   const { tag, posts } = useLoaderData<typeof loader>();
 
   return (
-    <div className="mt-10">
-      <PostList
-        title={tag.name!}
-        description={tag.description}
-        image={tag.feature_image}
-        posts={posts}
-      />
-    </div>
+    <>
+      <Navigation />
+      <MainSection className="mt-10">
+        <PostList
+          title={tag.name!}
+          description={tag.description}
+          image={tag.feature_image}
+          posts={posts}
+        />
+      </MainSection>
+    </>
   );
 }
 
-export function CatchBoundary() {
-  const { data } = useCatch();
-  const { slug, missing } = data as ErrorRequest;
+export function ErrorBoundary() {
+  const error = useRouteError();
 
-  return (
-    <div
-      className="mt-10 prose
-        prose-sm
-        sm:prose-base
-        md:prose-lg
-        xl:prose-2xl
-        prose-nord
-        dark:prose-invert
-        prose-a:no-underline
-        prose-a:border-b-2
-        prose-a:pb-1
-        prose-a:border-b-nord-frost-1-400
-        prose-a:transition-all
-        hover:prose-a:border-b-nord-frost-1-600"
-    >
-      <h1>Topic not found</h1>
-      <p>
-        {missing === 'topic' &&
-          `I'm sorry, but a topic with the slug "/topics/${slug}/" could not be found.`}
-        {missing === 'posts' &&
-          `I'm sorry, but there are no posts found with the topic "${slug}"`}
-      </p>
+  if (isRouteErrorResponse(error)) {
+    const { data } = error;
+    const { slug, missing } = data as ErrorRequest;
 
-      <p>
-        <AnchorLink href="/topics">Go back to the topics page</AnchorLink>
-      </p>
-    </div>
-  );
+    return (
+      <>
+        <Navigation />
+        <Prose>
+          <h1>Topic not found</h1>
+          <p>
+            {missing === 'topic' &&
+              `I'm sorry, but a topic with the slug "/topics/${slug}/" could not be found.`}
+            {missing === 'posts' &&
+              `I'm sorry, but there are no posts found with the topic "${slug}"`}
+          </p>
+
+          <p>
+            <AnchorLink href="/topics">Go back to the topics page</AnchorLink>
+          </p>
+        </Prose>
+      </>
+    );
+  }
+
+  return <ErrorPage error={error} />;
 }

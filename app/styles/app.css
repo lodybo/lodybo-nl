@@ -78,6 +78,7 @@
   pre[class*="language-"],
   code[class*="language-"] {
     font-family: theme(fontFamily.mono);
+    white-space: pre-wrap;
   }
 
   pre[class*="language-"] {

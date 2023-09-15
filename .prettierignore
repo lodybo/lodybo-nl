@@ -1,9 +1,0 @@
-node_modules
-
-/build
-/public/build
-.env
-
-ghost
-
-/app/styles/tailwind.css

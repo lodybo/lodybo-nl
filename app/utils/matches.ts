@@ -1,5 +1,9 @@
 import { useMemo } from 'react';
 import { useMatches } from '@remix-run/react';
+import {
+  NavigationBackground,
+  NavigationVisibility,
+} from '~/components/Navigation';
 
 /**
  * This base hook is used in other hooks to quickly search for specific data
@@ -16,4 +20,20 @@ export function useMatchesData(
     [matchingRoutes, id],
   );
   return route?.data;
+}
+
+export function useHiddenNavigation() {
+  const matches = useMatches();
+
+  const { handle } = matches[matches.length - 1];
+
+  return handle?.navigationVisibility === NavigationVisibility.HIDDEN || false;
+}
+
+export function useSolidNavigation() {
+  const matches = useMatches();
+
+  const { handle } = matches[matches.length - 1];
+
+  return handle?.navigationBackground === NavigationBackground.SOLID || false;
 }

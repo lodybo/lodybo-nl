@@ -1,12 +1,18 @@
 import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLoaderData, useCatch } from '@remix-run/react';
+import {
+  useLoaderData,
+  useRouteError,
+  isRouteErrorResponse,
+} from '@remix-run/react';
 import invariant from 'tiny-invariant';
-import type { PostOrPage } from 'tryghost__content-api';
+import type { PostOrPage } from '@tryghost/content-api';
 
 import { getAdminPages, getAdminPosts } from '~/models/posts.server';
 import PostContent from '~/components/PostContent';
-
+import MainSection from '~/components/MainSection';
+import Prose from '~/components/Prose';
+import { getErrorMessage } from '~/utils/errors';
 export const loader = async ({ params }: LoaderArgs) => {
   const { pid } = params;
 
@@ -46,47 +52,39 @@ export default function PostPreview() {
   const { post } = useLoaderData();
 
   return (
-    <section className="px-5 md:px-10 xl:px-40 mx-auto flex flex-col">
+    <MainSection>
       <PostContent post={post} />
-    </section>
+    </MainSection>
   );
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    const { data } = error;
+
+    return (
+      <MainSection className="mt-10">
+        <Prose>
+          <h1>{data.message}</h1>
+          <p>{data.description}</p>
+        </Prose>
+      </MainSection>
+    );
+  }
+
   console.error(error);
-  console.trace(error.stack);
+
+  if (error instanceof Error && error.stack) {
+    console.trace(error.stack);
+  }
+
+  const message = getErrorMessage(error);
 
   return (
-    <section className="px-5 md:px-10 xl:px-40 mx-auto flex flex-col mt-10">
-      <h1 className="text-4xl">{error.message}</h1>
-    </section>
-  );
-}
-
-export function CatchBoundary() {
-  const { data } = useCatch();
-
-  // console.dir(data.list);
-  return (
-    <section className="px-5 md:px-10 xl:px-40 mx-auto flex flex-col mt-10">
-      <div
-        className="mt-10 prose
-        prose-sm
-        sm:prose-base
-        md:prose-lg
-        xl:prose-2xl
-        prose-nord
-        dark:prose-invert
-        prose-a:no-underline
-        prose-a:border-b-2
-        prose-a:pb-1
-        prose-a:border-b-nord-frost-1-400
-        prose-a:transition-all
-        hover:prose-a:border-b-nord-frost-1-600"
-      >
-        <h1>{data.message}</h1>
-        <p>{data.description}</p>
-      </div>
-    </section>
+    <MainSection className="mt-10">
+      <h1 className="text-4xl">{message}</h1>
+    </MainSection>
   );
 }
