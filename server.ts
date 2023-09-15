@@ -7,8 +7,6 @@ import { createRequestHandler } from '@remix-run/express';
 import { broadcastDevReady, installGlobals } from '@remix-run/node';
 import sourceMapSupport from 'source-map-support';
 import chokidar from 'chokidar';
-import { startSpotifyFlow } from './app/spotify.server';
-import { isResponseError } from './app/utils/errors';
 
 sourceMapSupport.install();
 installGlobals();
@@ -44,25 +42,6 @@ app.all(
 );
 
 const port = process.env.PORT || 3000;
-
-console.log('Starting Spotify flow...');
-startSpotifyFlow()
-  .then(() => {
-    console.log('Spotify flow started successfully!');
-  })
-  .catch(async (errorResponse: unknown) => {
-    if (isResponseError(errorResponse)) {
-      const { status, text } = errorResponse;
-      const message = await text();
-
-      console.error(
-        `Spotify flow encountered an error with status ${status}`,
-        message,
-      );
-    } else {
-      console.error('Spotify flow encountered an error', errorResponse);
-    }
-  });
 
 app.listen(port, async () => {
   console.log(`✅ Express server listening on port ${port}`);
