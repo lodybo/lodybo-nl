@@ -28,7 +28,7 @@ export default function NowPlaying() {
 
   let label: string;
   if (track.is_playing) {
-    label = 'Now playing';
+    label = 'Currently listening to';
   } else {
     label = 'I recently listened to';
   }
