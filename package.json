@@ -27,7 +27,8 @@
     "db:generate": "prisma generate",
     "db:migrate:dev": "prisma migrate dev",
     "db:migrate:prod": "prisma migrate deploy",
-    "db:release": "npm run db:generate && npm run db:migrate:prod"
+    "db:release": "npm run db:generate && npm run db:migrate:prod",
+    "spotify:refresh": "node -r dotenv/config ./fetch-spotify-access-code.js"
   },
   "dependencies": {
     "@fontsource-variable/recursive": "^5.0.8",

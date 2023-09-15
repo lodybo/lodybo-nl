@@ -37,7 +37,7 @@ async function fetchAccessToken(code: string) {
 
   if (!response.ok) {
     const body = await response.text();
-    console.error(body);
+    throw new Error(body);
   }
 
   const body = (await response.json()) as AccessTokenResponse;
@@ -107,9 +107,6 @@ async function getPlaybackState(): Promise<Track | undefined> {
 
   if (!result) {
     const token = await refreshAccessToken();
-    if (!token) {
-      console.error('No Spotify access token');
-    }
 
     accessToken = token.accessToken;
   } else {
