@@ -104,21 +104,21 @@ const Navigation = forwardRef<HTMLElement, Props>(
             menuIsExpanded ? 'flex' : 'hidden'
           } lg:h-auto lg:flex-row gap-5 items-center text-3xl lg:text-xl justify-self-end`}
         >
-          <li>
-            <NavigationLink to="/music">Music</NavigationLink>
-          </li>
-          <li>
-            <NavigationLink to="/development">Development</NavigationLink>
-          </li>
+          {/*<li>*/}
+          {/*  <NavigationLink to="/music">Music</NavigationLink>*/}
+          {/*</li>*/}
+          {/*<li>*/}
+          {/*  <NavigationLink to="/development">Development</NavigationLink>*/}
+          {/*</li>*/}
           <li>
             <NavigationLink to="/posts">Blog</NavigationLink>
           </li>
-          <li>
-            <NavigationLink to="/resume">Resume</NavigationLink>
-          </li>
-          <li>
-            <NavigationLink to="/uses">Uses</NavigationLink>
-          </li>
+          {/*<li>*/}
+          {/*  <NavigationLink to="/resume">Resume</NavigationLink>*/}
+          {/*</li>*/}
+          {/*<li>*/}
+          {/*  <NavigationLink to="/uses">Uses</NavigationLink>*/}
+          {/*</li>*/}
           <li>
             <NavigationLink to="/contact">Contact</NavigationLink>
           </li>
