@@ -23,7 +23,11 @@
     "generate:css": "tailwindcss -m -i ./app/styles/app.css -o ./app/styles/tailwind.css",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "typecheck": "tsc --noEmit",
-    "validate": "run-p lint typecheck"
+    "validate": "run-p lint typecheck",
+    "db:generate": "prisma generate",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:migrate:prod": "prisma migrate deploy",
+    "db:release": "npm run db:generate && npm run db:migrate:prod"
   },
   "dependencies": {
     "@fontsource-variable/recursive": "^5.0.8",
