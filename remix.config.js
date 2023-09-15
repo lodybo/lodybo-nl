@@ -1,10 +1,12 @@
 /** @type {import('@remix-run/dev').AppConfig} */
-module.exports = {
+export default {
   ignoredRouteFiles: ['**/.*'],
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "build/index.js",
   // publicPath: "/build/",
+
+  serverModuleFormat: 'esm', // This is because of the custom server
 
   future: {
     v2_routeConvention: true,
