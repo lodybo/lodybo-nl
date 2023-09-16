@@ -7,6 +7,7 @@ import { createRequestHandler } from '@remix-run/express';
 import { broadcastDevReady, installGlobals } from '@remix-run/node';
 import sourceMapSupport from 'source-map-support';
 import chokidar from 'chokidar';
+import { networkInterfaces } from 'os';
 
 sourceMapSupport.install();
 installGlobals();
@@ -42,9 +43,15 @@ app.all(
 );
 
 const port = process.env.PORT || 3000;
+const localIPAddress = Object.values(networkInterfaces())
+  .flat()
+  .find((x) => !!x && !x.internal && x.family === 'IPv4')?.address;
 
 app.listen(port, async () => {
   console.log(`✅ Express server listening on port ${port}`);
+  if (localIPAddress) {
+    console.log(`💻 app reachable at: http://${localIPAddress}:${port}`);
+  }
 
   if (process.env.NODE_ENV === 'development') {
     broadcastDevReady(await import(BUILD_DIR));
