@@ -84,7 +84,7 @@
     "typescript": "^5.2.2"
   },
   "engines": {
-    "node": ">=14"
+    "node": "18.x"
   },
   "eslintIgnore": [
     "/node_modules",
