@@ -96,6 +96,13 @@ export default function ContactForm({ action, errors, values }: Props) {
         ) : null}
       </Label>
 
+      <Label className="hidden">
+        <span>
+          4 + 4 = ? <span className="text-nord-11">*</span>
+        </span>
+        <Input type="text" id="anti-spam" name="anti-spam" />
+      </Label>
+
       <Label>
         <span>
           Message <span className="text-nord-11">*</span>

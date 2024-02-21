@@ -23,71 +23,79 @@ export async function action({ request }: ActionArgs) {
   const data = await request.formData();
   const form = Object.fromEntries(data);
 
-  const { name, email, message } = form;
-  const errors: ContactFormErrors = {};
+  if (form['anti-spam'] === '') {
+    const { name, email, message } = form;
+    const errors: ContactFormErrors = {};
 
-  if (!hasValue(name)) {
-    errors.name = 'Please provide your name.';
-  }
+    if (!hasValue(name)) {
+      errors.name = 'Please provide your name.';
+    }
 
-  if (!hasValue(email)) {
-    errors.email = 'Please provide your email address.';
-  } else if (!isEmail(email)) {
-    errors.email = 'Please provide a valid email address.';
-  }
+    if (!hasValue(email)) {
+      errors.email = 'Please provide your email address.';
+    } else if (!isEmail(email)) {
+      errors.email = 'Please provide a valid email address.';
+    }
 
-  if (!hasValue(message)) {
-    errors.message = 'Please provide a message.';
-  }
+    if (!hasValue(message)) {
+      errors.message = 'Please provide a message.';
+    }
 
-  invariant(typeof name === 'string', 'name should be a string');
-  invariant(typeof email === 'string', 'email should be a string');
-  invariant(typeof message === 'string', 'message should be a string');
+    invariant(typeof name === 'string', 'name should be a string');
+    invariant(typeof email === 'string', 'email should be a string');
+    invariant(typeof message === 'string', 'message should be a string');
 
-  const values: ContactFormFields = {
-    name,
-    email,
-    message,
-  };
+    const values: ContactFormFields = {
+      name,
+      email,
+      message,
+    };
 
-  if (Object.keys(errors).length > 0) {
-    return json<ContactFormValidationMessages>(
-      { success: false, errors, values },
-      { status: 400 },
-    );
-  }
+    if (Object.keys(errors).length > 0) {
+      return json<ContactFormValidationMessages>(
+        { success: false, errors, values },
+        { status: 400 },
+      );
+    }
 
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-  const body = `
+    const body = `
     Name: ${name}
     Email: ${email}
     Message: ${message}
   `;
 
-  try {
-    const result = await sgMail.send({
-      to: 'hi@lodybo.nl',
-      from: 'contactform@lodyborgers.nl',
-      replyTo: email,
-      subject: 'Contact form submission',
-      text: body,
-    });
+    try {
+      const result = await sgMail.send({
+        to: 'hi@lodybo.nl',
+        from: 'contactform@lodyborgers.nl',
+        replyTo: email,
+        subject: 'Contact form submission',
+        text: body,
+      });
 
-    const { statusCode } = result[0];
+      const { statusCode } = result[0];
 
-    return json<ContactFormValidationMessages>(
-      { success: true },
-      { status: statusCode },
-    );
-  } catch (error: any) {
-    console.error(`Error ${error.code}`, error.response.body.errors);
+      return json<ContactFormValidationMessages>(
+        { success: true },
+        { status: statusCode },
+      );
+    } catch (error: any) {
+      console.error(`Error ${error.code}`, error.response.body.errors);
 
-    const messages = error.response.body.errors
-      .map((err: any) => err.message)
-      .join(', ');
-    throw new Error(messages);
+      const messages = error.response.body.errors
+        .map((err: any) => err.message)
+        .join(', ');
+      throw new Error(messages);
+    }
   }
+
+  console.warn(`Spam detected from ${form.email}!`);
+  return json<ContactFormValidationMessages>(
+    { success: true },
+    { status: 200 },
+  );
 }
 
 export default function ContactPage() {
