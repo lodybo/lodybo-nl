@@ -10,9 +10,14 @@ type Props = {
    * The content to be "prosed".
    */
   children: ReactNode;
+
+  /**
+   * Whether the content should be centered.
+   */
+  centered?: boolean;
 };
 
-export default function Prose({ isPost, children }: Props) {
+export default function Prose({ isPost, children, centered }: Props) {
   return (
     <div
       className={`
@@ -29,9 +34,8 @@ export default function Prose({ isPost, children }: Props) {
         prose-a:border-b-nord-frost-1-400
         prose-a:transition-all
         hover:prose-a:border-b-nord-frost-1-600
-        ${
-          isPost ? 'leading-loose max-w-5xl w-full mx-auto px-4 sm:px-10' : ''
-        }`}
+        ${isPost ? 'leading-loose max-w-5xl w-full mx-auto px-4 sm:px-10' : ''}
+        ${centered ? 'mx-auto' : ''}`}
     >
       {children}
     </div>

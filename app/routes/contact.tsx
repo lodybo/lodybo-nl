@@ -18,8 +18,6 @@ import type {
 import ContactForm from '~/components/ContactForm';
 import { hasValue, isEmail } from '~/validations';
 import AnchorLink from '~/components/AnchorLink';
-import { useEffect, useState } from 'react';
-import Icon from '~/components/Icon';
 
 export async function action({ request }: ActionArgs) {
   const data = await request.formData();
@@ -93,7 +91,6 @@ export async function action({ request }: ActionArgs) {
 }
 
 export default function ContactPage() {
-  const [calendlyIsLoaded, setCalendlyIsLoaded] = useState(false);
   const data = useActionData() as ContactFormValidationMessages | undefined;
   let errors: ContactFormErrors = {};
   let values: ContactFormFields = {
@@ -107,32 +104,12 @@ export default function ContactPage() {
     values = data.values;
   }
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://assets.calendly.com/assets/external/widget.js';
-    script.async = true;
-    script.onload = () => {
-      setCalendlyIsLoaded(true);
-      window.Calendly.initInlineWidget({
-        url: 'https://calendly.com/lodybo/30min',
-        parentElement: document.getElementById('calendly-lodybo'),
-        prefill: {},
-        utm: {},
-      });
-    };
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
   return (
     <>
       <Navigation />
 
       <MainSection className="mt-10">
-        <Prose>
+        <Prose centered>
           <h1>Let's keep in touch!</h1>
           <p>
             I'm always happy to hear from you, and you can reach out to me (or
@@ -193,29 +170,6 @@ export default function ContactPage() {
               </div>
             </div>
           </div>
-
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a id="book">
-            <h2>Book 30 minutes with me</h2>
-          </a>
-          <p>
-            Do you think I can help you with something or want to discuss
-            something, I'm also available for 30 minute calls. Book a date in my
-            calender and let's meet!
-          </p>
-          <p
-            className={`w-full text-7xl text-center ${
-              calendlyIsLoaded ? 'hidden' : 'block'
-            }`}
-          >
-            <Icon prefix="far" name="calendar-plus" iconClasses="fa-fade" />
-          </p>
-          <div
-            id="calendly-lodybo"
-            className={`w-full h-[64rem] ${
-              calendlyIsLoaded ? 'visible' : 'invisible'
-            }`}
-          />
 
           {data && data.success ? (
             <>
