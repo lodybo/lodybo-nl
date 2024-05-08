@@ -1,6 +1,14 @@
 import { prisma } from './db.server';
 
-// const scope = 'user-read-playback-state';
+const scope = 'user-read-playback-state';
+
+enum SpotifySettings {
+  refreshToken = 'refreshToken',
+  accessToken = 'accessToken',
+  authorizationToken = 'authorizationToken',
+  track = 'track',
+  state = 'state',
+}
 
 /**
  * Constructs the Basic Auth token for inclusion in the 'Authorization' header
@@ -10,6 +18,24 @@ function constructBasicAuthToken() {
     `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`,
   ).toString('base64');
   return `Basic ${encodedAuth}`;
+}
+
+/**
+ * Send authorization request to Spotify
+ */
+export async function sendAuthorizationRequest() {
+  const state = Math.random().toString(36);
+  await updateSpotifyCSRFState(state);
+
+  const params = new URLSearchParams({
+    response_type: 'code',
+    client_id: process.env.SPOTIFY_CLIENT_ID ?? '',
+    scope,
+    redirect_uri: process.env.SPOTIFY_REDIRECT_URI ?? '',
+    state,
+  });
+
+  return `https://accounts.spotify.com/authorize?${params.toString()}`;
 }
 
 /**
@@ -37,16 +63,17 @@ async function fetchAccessToken(code: string) {
 
   if (!response.ok) {
     const body = await response.text();
-    console.error(body);
+    const err = JSON.parse(body);
+    throw new Error(err.error_description);
+  } else {
+    const body = (await response.json()) as AccessTokenResponse;
+
+    return {
+      accessToken: body.access_token,
+      refreshToken: body.refresh_token,
+      timeout: body.expires_in,
+    };
   }
-
-  const body = (await response.json()) as AccessTokenResponse;
-
-  return {
-    accessToken: body.access_token,
-    refreshToken: body.refresh_token,
-    timeout: body.expires_in,
-  };
 }
 
 /**
@@ -54,13 +81,17 @@ async function fetchAccessToken(code: string) {
  */
 async function refreshAccessToken() {
   let refreshToken: string;
-  const result = await getRefreshToken();
+  const storedToken = await getRefreshToken();
 
-  if (!result) {
+  if (!storedToken) {
     const fetchResult = await fetchAccessToken(process.env.SPOTIFY_CODE);
     refreshToken = fetchResult.refreshToken;
   } else {
-    refreshToken = result.refreshToken;
+    if (!storedToken) {
+      throw new Error('No Spotify refresh token');
+    }
+
+    refreshToken = storedToken;
   }
 
   const options: RequestInit = {
@@ -103,9 +134,9 @@ async function refreshAccessToken() {
  */
 async function getPlaybackState(): Promise<Track | undefined> {
   let accessToken: string | undefined;
-  const result = await getAccessToken();
+  const storedToken = await getAccessToken();
 
-  if (!result) {
+  if (!storedToken) {
     const token = await refreshAccessToken();
     if (!token) {
       console.error('No Spotify access token');
@@ -113,7 +144,11 @@ async function getPlaybackState(): Promise<Track | undefined> {
 
     accessToken = token.accessToken;
   } else {
-    accessToken = result.accessToken;
+    if (!storedToken) {
+      throw new Error('No Spotify access token');
+    }
+
+    accessToken = storedToken;
   }
 
   const options: RequestInit = {
@@ -149,19 +184,32 @@ async function savePlaybackState() {
 }
 
 async function createSpotifySession(accessToken: string, refreshToken: string) {
-  return prisma.spotify.upsert({
-    where: {
-      id: 1,
-    },
-    create: {
-      accessToken,
-      refreshToken,
-    },
-    update: {
-      accessToken,
-      refreshToken,
-    },
-  });
+  return Promise.all([
+    prisma.spotifySettings.upsert({
+      where: {
+        key: SpotifySettings.accessToken,
+      },
+      create: {
+        key: SpotifySettings.accessToken,
+        value: accessToken,
+      },
+      update: {
+        value: accessToken,
+      },
+    }),
+    prisma.spotifySettings.upsert({
+      where: {
+        key: SpotifySettings.refreshToken,
+      },
+      create: {
+        key: SpotifySettings.refreshToken,
+        value: refreshToken,
+      },
+      update: {
+        value: refreshToken,
+      },
+    }),
+  ]);
 }
 
 export async function startSpotifyFlow() {
@@ -169,9 +217,14 @@ export async function startSpotifyFlow() {
   const result = await getAccessToken();
 
   if (!result) {
-    const { timeout, refreshToken, accessToken } = await fetchAccessToken(
-      process.env.SPOTIFY_CODE,
-    );
+    const authorizationCode = await getAuthorizationCode();
+    console.log('Authorization code:', authorizationCode);
+    if (!authorizationCode) {
+      throw new Error('No Spotify authorization code');
+    }
+
+    const { timeout, refreshToken, accessToken } =
+      await fetchAccessToken(authorizationCode);
     accessTokenTimeout = timeout * 1000;
     await createSpotifySession(accessToken, refreshToken);
   }
@@ -182,76 +235,179 @@ export async function startSpotifyFlow() {
   return savePlaybackState();
 }
 
-async function getAccessToken() {
-  return prisma.spotify.findUnique({
+export async function getAuthorizationCode() {
+  return prisma.spotifySettings
+    .findFirst({
+      where: {
+        key: SpotifySettings.authorizationToken,
+      },
+      select: {
+        value: true,
+      },
+    })
+    .then((result) => {
+      if (!result || !result.value) {
+        throw new Error('No Spotify authorization code');
+      }
+
+      return result.value;
+    });
+}
+
+export async function updateAuthorizationCode(authorizationToken: string) {
+  return prisma.spotifySettings.upsert({
     where: {
-      id: 1,
+      key: SpotifySettings.authorizationToken,
     },
-    select: {
-      accessToken: true,
+    create: {
+      key: SpotifySettings.authorizationToken,
+      value: authorizationToken,
+    },
+    update: {
+      value: authorizationToken,
     },
   });
 }
 
-async function updateAccessToken(accessToken: string) {
-  return prisma.spotify.update({
+async function getAccessToken() {
+  return prisma.spotifySettings
+    .findUnique({
+      where: {
+        key: SpotifySettings.accessToken,
+      },
+      select: {
+        value: true,
+      },
+    })
+    .then((result) => {
+      if (!result || !result.value) {
+        return undefined;
+      }
+
+      return result.value;
+    });
+}
+
+export async function updateAccessToken(accessToken: string) {
+  return prisma.spotifySettings.upsert({
     where: {
-      id: 1,
+      key: SpotifySettings.accessToken,
     },
-    data: {
-      accessToken,
+    create: {
+      key: SpotifySettings.accessToken,
+      value: accessToken,
+    },
+    update: {
+      value: accessToken,
     },
   });
 }
 
 async function getRefreshToken() {
-  return prisma.spotify.findUnique({
-    where: {
-      id: 1,
-    },
-    select: {
-      refreshToken: true,
-    },
-  });
+  return prisma.spotifySettings
+    .findUnique({
+      where: {
+        key: SpotifySettings.refreshToken,
+      },
+      select: {
+        value: true,
+      },
+    })
+    .then((result) => {
+      if (!result || !result.value) {
+        return undefined;
+      }
+
+      return result.value;
+    });
 }
 
 async function updateRefreshToken(refreshToken: string) {
-  return prisma.spotify.update({
+  return prisma.spotifySettings.upsert({
     where: {
-      id: 1,
+      key: SpotifySettings.refreshToken,
     },
-    data: {
-      refreshToken,
+    create: {
+      key: SpotifySettings.refreshToken,
+      value: refreshToken,
+    },
+    update: {
+      value: refreshToken,
     },
   });
 }
 
 export async function getTrack(): Promise<Track> {
-  const stringifiedTrack = await prisma.spotify.findUnique({
+  const stringifiedTrack = await prisma.spotifySettings.findUnique({
     where: {
-      id: 1,
+      key: SpotifySettings.track,
     },
     select: {
-      track: true,
+      value: true,
     },
   });
-
-  return JSON.parse(stringifiedTrack?.track ?? '{}');
+  return JSON.parse(stringifiedTrack?.value ?? '{}');
 }
 
 export async function updateTrack(track: Track | undefined) {
-  let stringifiedTrack: string | null = null;
+  let stringifiedTrack: string = '{}';
 
   if (track) {
     stringifiedTrack = JSON.stringify(track);
   }
 
-  return prisma.spotify.update({
+  return prisma.spotifySettings.upsert({
     where: {
-      id: 1,
+      key: SpotifySettings.track,
     },
-    data: {
-      track: stringifiedTrack,
+    create: {
+      key: SpotifySettings.track,
+      value: stringifiedTrack,
+    },
+    update: {
+      value: stringifiedTrack,
+    },
+  });
+}
+
+export async function getSpotifyCSRFState() {
+  return prisma.spotifySettings
+    .findUnique({
+      where: {
+        key: SpotifySettings.state,
+      },
+      select: {
+        value: true,
+      },
+    })
+    .then((result) => {
+      if (!result || !result.value) {
+        throw new Error('No Spotify CSRF state');
+      }
+
+      return result.value;
+    });
+}
+
+export async function updateSpotifyCSRFState(state: string) {
+  return prisma.spotifySettings.upsert({
+    where: {
+      key: SpotifySettings.state,
+    },
+    create: {
+      key: SpotifySettings.state,
+      value: state,
+    },
+    update: {
+      value: state,
+    },
+  });
+}
+
+export async function clearSpotifyCSRFState() {
+  return prisma.spotifySettings.delete({
+    where: {
+      key: SpotifySettings.state,
     },
   });
 }

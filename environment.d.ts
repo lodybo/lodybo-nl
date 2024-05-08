@@ -9,6 +9,7 @@ declare global {
       SPOTIFY_CLIENT_ID: string;
       SPOTIFY_CLIENT_SECRET: string;
       SPOTIFY_REDIRECT_URI: string;
+      SPOTIFY_AUTH_SECRET: string;
       SPOTIFY_CODE: string;
       SENDGRID_API_KEY: string;
     }
