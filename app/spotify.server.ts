@@ -11,6 +11,16 @@ enum SpotifySettings {
 }
 
 /**
+ * A list of "denied" songs from Spotify, songs I'd rather not see show up on my website.
+ * To get the ID of a track, right-click it in Spotify and select "Share" -> "Copy Song Link".
+ * The ID is the last part of the URL, before the query string.
+ *
+ * Example: 3T6R0ppqCnUW6iJhtUYhO3 is the ID of Supertramp - The Logical Song
+ * The song link is: https://open.spotify.com/track/3T6R0ppqCnUW6iJhtUYhO3
+ */
+const deniedSongs = ['2DbDvdYbb6kLf7VFd4Mkcc'];
+
+/**
  * Constructs the Basic Auth token for inclusion in the 'Authorization' header
  */
 function constructBasicAuthToken() {
@@ -233,6 +243,10 @@ export async function startSpotifyFlow() {
   setInterval(savePlaybackState, 120000);
 
   return savePlaybackState();
+}
+
+export function songIsDenied(track: Track) {
+  return deniedSongs.includes(track.item.id);
 }
 
 export async function getAuthorizationCode() {
