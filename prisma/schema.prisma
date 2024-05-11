@@ -10,9 +10,7 @@ datasource db {
   url      = "file:./site.db"
 }
 
-model Spotify {
-  id           Int     @id @default(autoincrement())
-  refreshToken String
-  accessToken  String
-  track        String?
+model SpotifySettings {
+  key    String @unique
+  value  String
 }

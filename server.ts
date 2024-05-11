@@ -8,8 +8,8 @@ import { broadcastDevReady, installGlobals } from '@remix-run/node';
 import sourceMapSupport from 'source-map-support';
 import chokidar from 'chokidar';
 import { networkInterfaces } from 'os';
-import { startSpotifyFlow } from '~/spotify.server';
-import { isResponseError } from '~/utils/errors';
+import { startSpotifyFlow } from './app/spotify.server';
+import { isResponseError } from './app/utils/errors';
 
 sourceMapSupport.install();
 installGlobals();
