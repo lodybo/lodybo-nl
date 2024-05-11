@@ -37,37 +37,38 @@ export default function NowPlaying() {
   }
 
   return (
-    <div className="grid grid-rows-1 grid-cols-1 sm:grid-cols-[auto_1fr] min-h-20 justify-end items-center gap-2 sm:gap-5">
-      <div className="w-full sm:w-24">
-        <SpotifyAnchor href={track.item.album.external_urls.spotify}>
-          <img className="mx-auto" src={cover} alt={title} />
-        </SpotifyAnchor>
-      </div>
+    <div className="flex flex-col gap-2">
+      <h3 className="text-lg text-center sm:text-left font-light">{label}</h3>
 
-      <div className="flex flex-col gap-1.5 items-center lg:items-start justify-between">
-        <h3 className="text-xl sm:text-base text-center sm:text-left font-light">
-          {label}
-        </h3>
-        <h2 className="text-2xl">
-          <SpotifyAnchor href={track.item.external_urls.spotify}>
-            {title}
+      <div className="grid grid-rows-1 grid-cols-1 sm:grid-cols-[auto_1fr] min-h-20 justify-end items-center gap-2 sm:gap-5">
+        <div className="w-full sm:w-16">
+          <SpotifyAnchor href={track.item.album.external_urls.spotify}>
+            <img className="mx-auto" src={cover} alt={title} />
           </SpotifyAnchor>
-        </h2>
-        <p>
-          {artists.map((artist, index) => (
-            <span key={artist.url}>
-              <SpotifyAnchor href={artist.url}>{artist.name}</SpotifyAnchor>
-              {index < artists.length - 1 ? ', ' : ''}
-            </span>
-          ))}{' '}
-          <span className="text-small">
-            (from{' '}
-            <SpotifyAnchor href={track.item.album.external_urls.spotify}>
-              "{album}"
+        </div>
+
+        <div className="flex flex-col gap-1 items-center lg:items-start justify-between">
+          <h2 className="text-xl">
+            <SpotifyAnchor href={track.item.external_urls.spotify}>
+              {title}
             </SpotifyAnchor>
-            )
-          </span>
-        </p>
+          </h2>
+          <p>
+            {artists.map((artist, index) => (
+              <span key={artist.url}>
+                <SpotifyAnchor href={artist.url}>{artist.name}</SpotifyAnchor>
+                {index < artists.length - 1 ? ', ' : ''}
+              </span>
+            ))}{' '}
+            <span className="text-small">
+              (from{' '}
+              <SpotifyAnchor href={track.item.album.external_urls.spotify}>
+                "{album}"
+              </SpotifyAnchor>
+              )
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   );
