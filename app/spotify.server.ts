@@ -1,6 +1,6 @@
 import { prisma } from './db.server';
 
-const scope = 'user-read-playback-state';
+const scope = 'user-read-playback-state user-read-currently-playing';
 
 enum SpotifySettings {
   refreshToken = 'refreshToken',
@@ -168,7 +168,10 @@ async function getPlaybackState(): Promise<Track | undefined> {
     },
   };
 
-  const response = await fetch('https://api.spotify.com/v1/me/player', options);
+  const response = await fetch(
+    'https://api.spotify.com/v1/me/player/currently-playing',
+    options,
+  );
 
   if (!response.ok) {
     if (response.status === 401) {
@@ -245,7 +248,10 @@ export async function startSpotifyFlow() {
   return savePlaybackState();
 }
 
-export function songIsDenied(track: Track) {
+export function songIsDenied(track?: Track) {
+  if (!track || !track.item) {
+    return false;
+  }
   return deniedSongs.includes(track.item.id);
 }
 

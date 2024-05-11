@@ -13,11 +13,11 @@
     "docker:stop": "docker stop lodybo-ghost",
     "docker:remove": "docker rm lodybo-ghost && docker rmi ghost:latest",
     "dev": "run-p dev:*",
-    "dev:remix": "remix dev -c 'ts-node-esm server.ts'",
+    "dev:remix": "remix dev -c 'tsx server.ts'",
     "dev:css": "npm run generate:css -- --watch",
     "prebuild": "npm run generate:css",
     "build": "remix build",
-    "start": "cross-env NODE_ENV=production ts-node-esm server.ts",
+    "start": "cross-env NODE_ENV=production tsx server.ts",
     "start:remix": "remix-serve build",
     "start:local": "env-cmd remix-serve build",
     "generate:css": "tailwindcss -m -i ./app/styles/app.css -o ./app/styles/tailwind.css",
@@ -82,6 +82,7 @@
     "tailwindcss": "^3.3.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.9.4",
     "typescript": "^5.2.2"
   },
   "engines": {
