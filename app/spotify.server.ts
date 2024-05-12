@@ -18,7 +18,21 @@ enum SpotifySettings {
  * Example: 3T6R0ppqCnUW6iJhtUYhO3 is the ID of Supertramp - The Logical Song
  * The song link is: https://open.spotify.com/track/3T6R0ppqCnUW6iJhtUYhO3
  */
-const deniedSongs = ['2DbDvdYbb6kLf7VFd4Mkcc'];
+const deniedSongs = [
+  '2DbDvdYbb6kLf7VFd4Mkcc',
+  '33JVkLsrCXHByPWQLQhMsU',
+  '28Tr02JcJSJCgz1z6dUN9b',
+  '3dRlULMNy2IGnQ1at2MSZO',
+  '5kAX0tsmzwwRSRVAhDXxQr',
+  '67biuNJA03k1cU0XpciTNJ',
+  '4PzHxygSGOjo9NMhTc4UqC',
+  '5yezNuvNC1dgw90zxdtSRg',
+  '6xtBw3iVzSLSdLot4QRFYh',
+  '4FZoFK86X6Wd1csU9afTIA',
+  '1ZuBwqM4NeUz8ucJyuJuxV',
+  '7kPZ2v5kmx0PTI5zV6mvDz',
+  '14Mi9T3sZrDZZy0686Yf31',
+];
 
 /**
  * Constructs the Basic Auth token for inclusion in the 'Authorization' header
