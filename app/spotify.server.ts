@@ -88,6 +88,7 @@ async function fetchAccessToken(code: string) {
   if (!response.ok) {
     const body = await response.text();
     const err = JSON.parse(body);
+    console.error(err);
     throw new Error(err.error_description);
   } else {
     const body = (await response.json()) as AccessTokenResponse;
@@ -244,16 +245,21 @@ export async function startSpotifyFlow() {
   const result = await getAccessToken();
 
   if (!result) {
+    console.log('No Spotify access token, fetching...');
     const authorizationCode = await getAuthorizationCode();
-    console.log('Authorization code:', authorizationCode);
+
     if (!authorizationCode) {
       throw new Error('No Spotify authorization code');
+    } else {
+      console.log('Spotify authorization code found.');
     }
 
     const { timeout, refreshToken, accessToken } =
       await fetchAccessToken(authorizationCode);
     accessTokenTimeout = timeout * 1000;
     await createSpotifySession(accessToken, refreshToken);
+  } else {
+    console.log('Spotify access token found.');
   }
 
   setInterval(refreshAccessToken, accessTokenTimeout ?? 3600000);
